@@ -193,10 +193,20 @@
 
   /* ── Sidebar mobile collapse ── */
   @media (max-width: 768px) {
-    #sidebar { display: none; }
+    #sidebar {
+      display: none;
+      position: fixed; left: 0; top: 0; bottom: 0; z-index: 100;
+    }
+    #sidebar.mobile-open { display: flex; }
+    #sidebar-overlay { display: block !important; }
     #mobile-nav-btn { display: flex !important; }
   }
   #mobile-nav-btn { display: none; }
+  #sidebar-overlay {
+    display: none;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    z-index: 90; backdrop-filter: blur(2px);
+  }
 
 
   /* ── Component nesting fixes ── */
@@ -251,7 +261,7 @@
     50%       { opacity: 0.45; transform: scale(1.35); }
   }
   .rps-track {
-    height: 2px; border-radius: 99px;
+    height: 3px; border-radius: 99px;
     background: rgba(255,255,255,0.06); overflow: hidden;
     flex: 1;
   }
@@ -270,190 +280,9 @@
     background: linear-gradient(90deg, #3730a3, #6366f1 55%, #818cf8);
     transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
-</style>
-</head>
-<body class="bg-surface-900 text-gray-100 font-sans antialiased">
-<div id="scroll-progress"></div>
-<div id="float-toc">§ OVERVIEW</div>
 
-<!-- ──────────────────────────────────────────── -->
-<!--  LAYOUT WRAPPER                              -->
-<!-- ──────────────────────────────────────────── -->
-<div class="flex min-h-screen">
 
-  <!-- ═══════════ SIDEBAR ═══════════ -->
-  <aside id="sidebar" class="w-60 shrink-0 glass border-r border-white/[0.05] flex flex-col z-20">
-
-    <!-- Logo -->
-    <div class="px-5 py-5 border-b border-white/[0.05]">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center shrink-0">
-          <svg viewBox="0 0 20 20" fill="none" class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2L3 7v6l7 5 7-5V7L10 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M10 7v6M7 8.5l3 1.5 3-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div>
-          <p class="text-[13px] font-600 text-white leading-tight">Research Workspace</p>
-          <p class="text-[10.5px] text-gray-500 leading-tight">DJP · Coretax · 2026</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Nav -->
-    <nav class="flex-1 px-3 py-4 space-y-0.5">
-
-      <!-- Group: Kerangka Penelitian -->
-      <p class="px-3 mb-1.5 mt-1 text-[9.5px] uppercase tracking-widest text-gray-600 font-500">Kerangka Penelitian</p>
-      <a href="#overview"        class="nav-link active" onclick="setActive(this)">
-        <span class="icon">🏠</span> Research Overview
-      </a>
-      <a href="#positioning"     class="nav-link" onclick="setActive(this)">
-        <span class="icon">📌</span> Research Positioning
-      </a>
-      <a href="#journey"         class="nav-link" onclick="setActive(this)">
-        <span class="icon">📐</span> Scope & Limitation
-      </a>
-
-      <!-- Group: Analisis & Temuan -->
-      <p class="px-3 mb-1.5 mt-3 text-[9.5px] uppercase tracking-widest text-gray-600 font-500">Analisis & Temuan</p>
-      <a href="#regmap"          class="nav-link" onclick="setActive(this)">
-        <span class="icon">⚖️</span> Regulatory Mapping
-      </a>
-      <a href="#literature"      class="nav-link" onclick="setActive(this)">
-        <span class="icon">📚</span> Literature Review
-      </a>
-      <a href="#process"         class="nav-link" onclick="setActive(this)">
-        <span class="icon">🔄</span> Existing Process Analysis
-      </a>
-      <a href="#problem"         class="nav-link" onclick="setActive(this)">
-        <span class="icon">🔍</span> Problem & Gap Analysis
-      </a>
-      <a href="#feasibility"     class="nav-link" onclick="setActive(this)">
-        <span class="icon">📊</span> Feasibility Analysis
-      </a>
-      <a href="#findings"        class="nav-link" onclick="setActive(this)">
-        <span class="icon">💡</span> Preliminary Findings
-      </a>
-      <a href="#recommendation"  class="nav-link" onclick="setActive(this)">
-        <span class="icon">🎯</span> Conceptual Recommendation
-      </a>
-
-      <!-- Group: Progress -->
-      <p class="px-3 mb-1.5 mt-3 text-[9.5px] uppercase tracking-widest text-gray-600 font-500">Progress</p>
-      <a href="#tracker"         class="nav-link" onclick="setActive(this)">
-        <span class="icon">📋</span> Research Progress Tracker
-      </a>
-      <a href="#nextsteps"       class="nav-link" onclick="setActive(this)">
-        <span class="icon">🗓</span> Next Steps
-      </a>
-    </nav>
-
-    <!-- ── Research Progress Status ── -->
-    <div class="px-4 pt-4 pb-3 border-t border-white/[0.05]">
-
-      <!-- Header row -->
-      <div class="flex items-center justify-between mb-2.5">
-        <p style="font-size:9.5px;text-transform:uppercase;letter-spacing:1.8px;color:#4b5563;font-family:'JetBrains Mono',monospace;font-weight:500;">Research Status</p>
-        <span style="font-size:9.5px;color:#374151;font-family:'JetBrains Mono',monospace;" id="rps-total-label">10 tasks</span>
-      </div>
-
-      <!-- Overall progress bar -->
-      <div class="rps-overall-track">
-        <div class="rps-overall-fill" id="rps-overall"></div>
-      </div>
-
-      <!-- Status rows -->
-      <div style="display:flex;flex-direction:column;gap:7px;">
-
-        <!-- Completed -->
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="width:6px;height:6px;border-radius:50%;background:#34d399;flex-shrink:0;"></div>
-          <span style="font-size:11px;color:#6b7280;flex:1;letter-spacing:0.1px;">Completed</span>
-          <div class="rps-track">
-            <div class="rps-fill" id="rps-fill-done" style="background:#34d399;"></div>
-          </div>
-          <span style="font-size:10px;color:#34d399;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-done">5</span>
-        </div>
-
-        <!-- In Progress -->
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="rps-dot-pulse" style="width:6px;height:6px;border-radius:50%;background:#818cf8;flex-shrink:0;"></div>
-          <span style="font-size:11px;color:#6b7280;flex:1;letter-spacing:0.1px;">In Progress</span>
-          <div class="rps-track">
-            <div class="rps-fill" id="rps-fill-wip" style="background:#818cf8;"></div>
-          </div>
-          <span style="font-size:10px;color:#818cf8;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-wip">2</span>
-        </div>
-
-        <!-- Under Review -->
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="width:6px;height:6px;border-radius:50%;background:#fbbf24;flex-shrink:0;"></div>
-          <span style="font-size:11px;color:#6b7280;flex:1;letter-spacing:0.1px;">Under Review</span>
-          <div class="rps-track">
-            <div class="rps-fill" id="rps-fill-rev" style="background:#fbbf24;"></div>
-          </div>
-          <span style="font-size:10px;color:#fbbf24;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-rev">1</span>
-        </div>
-
-        <!-- Planned -->
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="width:6px;height:6px;border-radius:50%;border:1.5px solid #374151;flex-shrink:0;box-sizing:border-box;"></div>
-          <span style="font-size:11px;color:#4b5563;flex:1;letter-spacing:0.1px;">Planned</span>
-          <div class="rps-track">
-            <div class="rps-fill" id="rps-fill-plan" style="background:#374151;"></div>
-          </div>
-          <span style="font-size:10px;color:#4b5563;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-plan">2</span>
-        </div>
-
-      </div>
-
-      <!-- Footer line: overall % -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);">
-        <span style="font-size:9.5px;color:#374151;">Overall completion</span>
-        <span style="font-size:10px;color:#6366f1;font-family:'JetBrains Mono',monospace;" id="rps-pct-label">50%</span>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="px-5 py-4 border-t border-white/[0.05]">
-      <div class="flex items-center gap-2">
-        <div class="dot-live"></div>
-        <span class="text-[11.5px] text-gray-500">Aktif · Penelitian Magang DJP 2026</span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ═══════════ MAIN AREA ═══════════ -->
-  <div class="flex-1 flex flex-col min-w-0">
-
-    <!-- ── TOP NAVBAR ── -->
-    <header class="sticky top-0 z-10 glass border-b border-white/[0.05] px-8 py-3.5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <h1 class="text-[14px] font-500 text-gray-200 tracking-tight">
-          Smart Auto Tax Collection
-        </h1>
-        <span class="badge badge-indigo">Kajian Formal</span>
-      </div>
-      <div class="flex items-center gap-4">
-        <span class="badge badge-amber">
-          <span>📋</span> Analisis Konseptual
-        </span>
-        <span class="text-[12px] text-gray-500">Mei 2026</span>
-        <span style="display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:4px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);font-size:10px;color:#4b5563;font-family:'JetBrains Mono',monospace;letter-spacing:0.3px;">
-          ◈ Research Workspace · Dark Mode
-        </span>
-      </div>
-    </header>
-
-    <!-- ── CONTENT ── -->
-    <main class="flex-1 overflow-y-auto px-8 py-8 space-y-16">
-
-      <!-- ════════════════════════════════ -->
-      <!-- 1. HERO SECTION                  -->
-      <!-- ════════════════════════════════ -->
-      <!-- ═══ HERO STYLES (scoped) ═══ -->
-      <style>
+  /* ═══ Styles moved from body to head ═══ */
         /* Animated grid background */
         .hero-bg {
           position: absolute; inset: 0; overflow: hidden;
@@ -583,7 +412,438 @@
 
         /* Pulse ring on logo — removed for cleaner enterprise look */
         .ring-pulse { display: none; }
-      </style>
+
+        /* ── Journey section styles ── */
+        .jrn-wrap {
+          position: relative;
+          padding-left: 52px;
+        }
+
+        /* Vertical spine */
+        .jrn-spine {
+          position: absolute;
+          left: 17px; top: 0; bottom: 0;
+          width: 2px;
+          background: rgba(99,102,241,0.12);
+          border-radius: 99px;
+          overflow: hidden;
+        }
+        .jrn-spine-fill {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 0%;
+          background: linear-gradient(180deg, #4338ca, #818cf8, #5eead4);
+          border-radius: 99px;
+          transition: height 1.8s cubic-bezier(0.22,1,0.36,1);
+        }
+
+        /* Node dot */
+        .jrn-node {
+          position: absolute;
+          left: -42px;
+          top: 2px;
+          width: 34px; height: 34px;
+          border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 14px;
+          border: 1.5px solid rgba(99,102,241,0.25);
+          background: rgba(17,24,39,0.9);
+          cursor: pointer;
+          transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+          z-index: 2;
+          flex-shrink: 0;
+        }
+        .jrn-node.done {
+          border-color: rgba(99,102,241,0.55);
+          background: rgba(67,56,202,0.18);
+        }
+        .jrn-node.active-node {
+          border-color: #818cf8;
+          box-shadow: 0 0 0 4px rgba(99,102,241,0.15), 0 0 16px rgba(129,140,248,0.3);
+        }
+
+        /* Timeline card */
+        .jrn-card {
+          position: relative;
+          background: rgba(26,34,55,0.65);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 14px;
+          padding: 16px 18px;
+          margin-bottom: 14px;
+          cursor: pointer;
+          transition: border-color 0.25s, background 0.25s, transform 0.22s;
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+        }
+        .jrn-card:hover {
+          border-color: rgba(99,102,241,0.3);
+          background: rgba(30,40,68,0.8);
+          transform: translateX(3px);
+        }
+        .jrn-card.expanded {
+          border-color: rgba(99,102,241,0.4);
+          background: rgba(30,40,70,0.85);
+        }
+        .jrn-card.done-card {
+          border-left: 2px solid rgba(99,102,241,0.5);
+        }
+        .jrn-card.active-card {
+          border-left: 2px solid #818cf8;
+          box-shadow: -3px 0 20px rgba(129,140,248,0.12);
+        }
+
+        /* Card header row */
+        .jrn-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
+
+        /* Expand body */
+        .jrn-body {
+          overflow: hidden;
+          max-height: 0;
+          transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease;
+          opacity: 0;
+        }
+        .jrn-body.open {
+          max-height: 320px;
+          opacity: 1;
+        }
+
+        /* Step number badge */
+        .jrn-step {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 10px;
+          color: #6366f1;
+          letter-spacing: 1px;
+          flex-shrink: 0;
+        }
+
+        /* Chevron icon */
+        .jrn-chevron {
+          width: 16px; height: 16px;
+          color: #4b5563;
+          transition: transform 0.3s ease, color 0.25s;
+          flex-shrink: 0;
+        }
+        .jrn-card.expanded .jrn-chevron {
+          transform: rotate(180deg);
+          color: #818cf8;
+        }
+
+        /* Tag pill inside card */
+        .jrn-tag {
+          display: inline-flex;
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-size: 10.5px;
+          font-weight: 500;
+          letter-spacing: 0.3px;
+        }
+
+        /* Output chip row */
+        .jrn-chip {
+          display: inline-flex; align-items: center; gap: 5px;
+          padding: 3px 9px; border-radius: 6px;
+          font-size: 11px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.09);
+          color: #94a3b8;
+        }
+
+        /* Progress bar inside card */
+        .jrn-prog-track {
+          height: 3px; border-radius: 99px;
+          background: rgba(255,255,255,0.07);
+          overflow: hidden;
+          flex: 1;
+        }
+        .jrn-prog-fill {
+          height: 100%; border-radius: 99px;
+          background: linear-gradient(90deg, #4338ca, #818cf8);
+          transition: width 1s ease 0.3s;
+        }
+
+        /* Summary stat row */
+        .jrn-stat {
+          text-align: center;
+          padding: 12px 10px;
+          border-radius: 10px;
+          background: rgba(15,20,35,0.6);
+          border: 1px solid rgba(255,255,255,0.06);
+        }
+
+.lr-card{background:rgba(26,34,55,0.7);border:1px solid rgba(255,255,255,0.07);border-radius:12px;transition:border-color .2s,transform .2s;overflow:hidden;}
+.lr-card:hover{border-color:rgba(99,102,241,0.35);transform:translateY(-1px);}
+.lr-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none;gap:10px;}
+.lr-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.lr-title-wrap{flex:1;min-width:0;}
+.lr-title{font-size:13px;font-weight:600;color:#e5e7eb;line-height:1.2;}
+.lr-meta{font-size:11px;color:#6b7280;margin-top:2px;}
+.lr-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.lr-count{font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;}
+.lr-chevron{font-size:12px;color:#6b7280;transition:transform .25s;}
+.lr-chevron.open{transform:rotate(180deg);}
+.lr-body{padding:0 16px 14px;display:none;}
+.lr-body.open{display:block;}
+.lr-progress{height:4px;border-radius:99px;background:rgba(255,255,255,0.08);overflow:hidden;margin:0 0 12px;}
+.lr-fill{height:100%;border-radius:99px;transition:width 1s ease;}
+.lr-refs{display:flex;flex-direction:column;gap:6px;}
+.lr-ref{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:9px 12px;}
+.lr-ref-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
+.lr-ref-name{font-size:12px;font-weight:500;color:#d1d5db;flex:1;}
+.lr-badge{font-size:10.5px;font-weight:500;padding:2px 8px;border-radius:99px;flex-shrink:0;}
+.badge-done{background:rgba(34,197,94,0.12);color:#86efac;}
+.badge-reading{background:rgba(245,158,11,0.12);color:#fcd34d;}
+.badge-queued{background:rgba(99,102,241,0.12);color:#a5b4fc;}
+.lr-insight{font-size:11px;color:#9ca3af;line-height:1.5;}
+.lr-summary-bar{display:flex;gap:10px;padding:12px 16px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.05);}
+.lr-stat{display:flex;flex-direction:column;align-items:center;flex:1;}
+.lr-stat-num{font-size:18px;font-weight:700;color:#a5b4fc;}
+.lr-stat-lbl{font-size:10px;color:#6b7280;text-align:center;line-height:1.3;}
+
+.pgm-section{margin-bottom:20px;}
+.pgm-section-label{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.pgm-section-bar{width:3px;height:20px;border-radius:3px;}
+.pgm-section-title{font-size:14px;font-weight:600;color:#e5e7eb;}
+.pgm-section-sub{font-size:11px;color:#6b7280;margin-left:auto;}
+.pgm-card{border-radius:10px;overflow:hidden;margin-bottom:7px;transition:transform .2s;}
+.pgm-card:hover{transform:translateY(-1px);}
+.pgm-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;}
+.pgm-heat{width:4px;flex-shrink:0;border-radius:2px;align-self:stretch;}
+.pgm-title{font-size:13px;font-weight:600;flex:1;line-height:1.3;}
+.pgm-scores{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.pgm-score-dot{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.pgm-chevron{font-size:10px;color:#6b7280;transition:transform .25s;flex-shrink:0;}
+.pgm-chevron.open{transform:rotate(180deg);}
+.pgm-body{display:none;padding:0 14px 12px 28px;}
+.pgm-body.open{display:block;}
+.pgm-row{display:flex;gap:12px;margin-bottom:10px;}
+.pgm-col{flex:1;}
+.pgm-col-label{font-size:10.5px;color:#6b7280;margin-bottom:4px;font-weight:500;letter-spacing:.3px;}
+.pgm-meter{height:5px;border-radius:99px;background:rgba(255,255,255,0.07);overflow:hidden;margin-bottom:3px;}
+.pgm-meter-fill{height:100%;border-radius:99px;transition:width .8s ease;}
+.pgm-col-val{font-size:11px;font-weight:600;}
+.pgm-reason{font-size:11.5px;color:#9ca3af;line-height:1.55;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:7px;padding:8px 10px;margin-bottom:8px;}
+.pgm-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.pgm-tag{font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:500;}
+.pgm-legend{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
+.pgm-leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af;}
+.pgm-leg-dot{width:10px;height:10px;border-radius:3px;}
+.divider{height:1px;background:rgba(255,255,255,0.05);margin:16px 0;}
+
+.fa-wrap{font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;}
+.fa-section-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.fa-pill{font-size:10.5px;font-weight:600;padding:2px 9px;border-radius:99px;}
+.fa-card{background:rgba(26,34,55,0.75);border:1px solid rgba(255,255,255,0.07);border-radius:12px;}
+.fa-sel-btn{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#9ca3af;transition:all .18s;}
+.fa-sel-btn.active{background:rgba(99,102,241,0.18);border-color:rgba(99,102,241,0.4);color:#a5b4fc;}
+.fa-sel-btn:hover:not(.active){background:rgba(255,255,255,0.07);color:#d1d5db;}
+.fa-dim-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.fa-dim-row:last-child{border-bottom:none;}
+.fa-dim-label{font-size:11.5px;color:#9ca3af;width:160px;flex-shrink:0;}
+.fa-bar-track{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,0.07);overflow:hidden;}
+.fa-bar-fill{height:100%;border-radius:99px;transition:width .9s cubic-bezier(.4,0,.2,1);}
+.fa-dim-val{font-size:11px;font-weight:700;width:32px;text-align:right;flex-shrink:0;}
+.fa-score-big{font-size:36px;font-weight:700;line-height:1;}
+.fa-verdict{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-top:6px;display:inline-block;}
+.fa-compare-row{display:grid;grid-template-columns:120px 1fr 36px;align-items:center;gap:8px;padding:5px 0;}
+.fa-compare-row:not(:last-child){border-bottom:1px solid rgba(255,255,255,0.04);}
+.fa-cmp-label{font-size:11.5px;color:#d1d5db;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fa-cmp-track{height:8px;border-radius:99px;background:rgba(255,255,255,0.06);overflow:hidden;position:relative;}
+.fa-cmp-fill{height:100%;border-radius:99px;transition:width .9s cubic-bezier(.4,0,.2,1);}
+.fa-cmp-val{font-size:11px;font-weight:700;text-align:right;}
+.fa-insight-box{background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);border-radius:9px;padding:10px 12px;font-size:11.5px;color:#a5b4fc;line-height:1.55;}
+</style>
+</head>
+<body class="bg-surface-900 text-gray-100 font-sans antialiased">
+<div id="scroll-progress"></div>
+<div id="float-toc">§ OVERVIEW</div>
+
+<!-- ──────────────────────────────────────────── -->
+<!--  LAYOUT WRAPPER                              -->
+<!-- ──────────────────────────────────────────── -->
+<div id="sidebar-overlay" onclick="toggleMobileNav()"></div>
+<div class="flex min-h-screen">
+
+  <!-- ═══════════ SIDEBAR ═══════════ -->
+  <aside id="sidebar" class="w-60 shrink-0 glass border-r border-white/[0.05] flex flex-col z-20">
+
+    <!-- Logo -->
+    <div class="px-5 py-5 border-b border-white/[0.05]">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 20 20" fill="none" class="w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2L3 7v6l7 5 7-5V7L10 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M10 7v6M7 8.5l3 1.5 3-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-[13px] font-semibold text-white leading-tight">Research Workspace</p>
+          <p class="text-[10.5px] text-gray-500 leading-tight">DJP · Coretax · 2026</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 px-3 py-4 space-y-0.5">
+
+      <!-- Group: Kerangka Penelitian -->
+      <p class="px-3 mb-1.5 mt-1 text-[11px] uppercase tracking-widest text-gray-600 font-medium">Kerangka Penelitian</p>
+      <a href="#overview"        class="nav-link active" onclick="setActive(this)">
+        <span class="icon">🏠</span> Research Overview
+      </a>
+      <a href="#positioning"     class="nav-link" onclick="setActive(this)">
+        <span class="icon">📌</span> Research Positioning
+      </a>
+      <a href="#journey"         class="nav-link" onclick="setActive(this)">
+        <span class="icon">📐</span> Scope & Limitation
+      </a>
+
+      <!-- Group: Analisis & Temuan -->
+      <p class="px-3 mb-1.5 mt-3 text-[11px] uppercase tracking-widest text-gray-600 font-medium">Analisis & Temuan</p>
+      <a href="#regmap"          class="nav-link" onclick="setActive(this)">
+        <span class="icon">⚖️</span> Regulatory Mapping
+      </a>
+      <a href="#literature"      class="nav-link" onclick="setActive(this)">
+        <span class="icon">📚</span> Literature Review
+      </a>
+      <a href="#process"         class="nav-link" onclick="setActive(this)">
+        <span class="icon">🔄</span> Existing Process Analysis
+      </a>
+      <a href="#problem"         class="nav-link" onclick="setActive(this)">
+        <span class="icon">🔍</span> Problem & Gap Analysis
+      </a>
+      <a href="#feasibility"     class="nav-link" onclick="setActive(this)">
+        <span class="icon">📊</span> Feasibility Analysis
+      </a>
+      <a href="#findings"        class="nav-link" onclick="setActive(this)">
+        <span class="icon">💡</span> Preliminary Findings
+      </a>
+      <a href="#recommendation"  class="nav-link" onclick="setActive(this)">
+        <span class="icon">🎯</span> Conceptual Recommendation
+      </a>
+
+      <!-- Group: Progress -->
+      <p class="px-3 mb-1.5 mt-3 text-[11px] uppercase tracking-widest text-gray-600 font-medium">Progres</p>
+      <a href="#tracker"         class="nav-link" onclick="setActive(this)">
+        <span class="icon">📋</span> Research Progress Tracker
+      </a>
+      <a href="#nextsteps"       class="nav-link" onclick="setActive(this)">
+        <span class="icon">🗓</span> Next Steps
+      </a>
+    </nav>
+
+    <!-- ── Research Progress Status ── -->
+    <div class="px-4 pt-4 pb-3 border-t border-white/[0.05]">
+
+      <!-- Header row -->
+      <div class="flex items-center justify-between mb-2.5">
+        <p style="font-size:11px;text-transform:uppercase;letter-spacing:1.8px;color:#4b5563;font-family:'JetBrains Mono',monospace;font-weight:500;">Research Status</p>
+        <span style="font-size:11px;color:#6b7280;font-family:'JetBrains Mono',monospace;" id="rps-total-label">10 tasks</span>
+      </div>
+
+      <!-- Overall progress bar -->
+      <div class="rps-overall-track">
+        <div class="rps-overall-fill" id="rps-overall"></div>
+      </div>
+
+      <!-- Status rows -->
+      <div style="display:flex;flex-direction:column;gap:7px;">
+
+        <!-- Completed -->
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#34d399;flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#6b7280;flex:1;letter-spacing:0.1px;">Completed</span>
+          <div class="rps-track">
+            <div class="rps-fill" id="rps-fill-done" style="background:#34d399;"></div>
+          </div>
+          <span style="font-size:10px;color:#34d399;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-done">5</span>
+        </div>
+
+        <!-- In Progress -->
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="rps-dot-pulse" style="width:6px;height:6px;border-radius:50%;background:#818cf8;flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#6b7280;flex:1;letter-spacing:0.1px;">In Progress</span>
+          <div class="rps-track">
+            <div class="rps-fill" id="rps-fill-wip" style="background:#818cf8;"></div>
+          </div>
+          <span style="font-size:10px;color:#818cf8;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-wip">2</span>
+        </div>
+
+        <!-- Under Review -->
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#fbbf24;flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#6b7280;flex:1;letter-spacing:0.1px;">Under Review</span>
+          <div class="rps-track">
+            <div class="rps-fill" id="rps-fill-rev" style="background:#fbbf24;"></div>
+          </div>
+          <span style="font-size:10px;color:#fbbf24;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-rev">1</span>
+        </div>
+
+        <!-- Planned -->
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:6px;height:6px;border-radius:50%;border:1.5px solid #374151;flex-shrink:0;box-sizing:border-box;"></div>
+          <span style="font-size:11px;color:#4b5563;flex:1;letter-spacing:0.1px;">Planned</span>
+          <div class="rps-track">
+            <div class="rps-fill" id="rps-fill-plan" style="background:#374151;"></div>
+          </div>
+          <span style="font-size:10px;color:#4b5563;font-family:'JetBrains Mono',monospace;width:12px;text-align:right;flex-shrink:0;" id="rps-n-plan">2</span>
+        </div>
+
+      </div>
+
+      <!-- Footer line: overall % -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);">
+        <span style="font-size:11px;color:#6b7280;">Overall completion</span>
+        <span style="font-size:10px;color:#6366f1;font-family:'JetBrains Mono',monospace;" id="rps-pct-label">50%</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="px-5 py-4 border-t border-white/[0.05]">
+      <div class="flex items-center gap-2">
+        <div class="dot-live"></div>
+        <span class="text-[11.5px] text-gray-500">Aktif · Penelitian Magang DJP 2026</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════ MAIN AREA ═══════════ -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- ── TOP NAVBAR ── -->
+    <header class="sticky top-0 z-10 glass border-b border-white/[0.05] px-8 py-3.5 flex items-center justify-between">
+      <!-- Mobile hamburger button -->
+      <button id="mobile-nav-btn" onclick="toggleMobileNav()"
+        style="align-items:center;justify-content:center;gap:5px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);border-radius:8px;padding:7px 10px;cursor:pointer;color:#a5b4fc;font-size:18px;line-height:1;"
+        aria-label="Buka navigasi">☰</button>
+      <div class="flex items-center gap-3">
+        <h1 class="text-[14px] font-medium text-gray-200 tracking-tight">
+          Smart Auto Tax Collection
+        </h1>
+        <span class="badge badge-indigo">Kajian Formal</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="badge badge-amber">
+          <span>📋</span> Analisis Konseptual
+        </span>
+        <span class="text-[12px] text-gray-500">Mei 2026</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:4px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);font-size:10px;color:#4b5563;font-family:'JetBrains Mono',monospace;letter-spacing:0.3px;">
+          ◈ Research Workspace · Dark Mode
+        </span>
+      </div>
+    </header>
+
+    <!-- ── CONTENT ── -->
+    <main class="flex-1 overflow-y-auto px-8 py-8 space-y-16">
+
+      <!-- ════════════════════════════════ -->
+      <!-- 1. HERO SECTION                  -->
+      <!-- ════════════════════════════════ -->
+      <!-- ═══ HERO STYLES (scoped) ═══ -->
 
       <section id="overview" class="reveal">
 
@@ -829,26 +1089,26 @@
       <!-- 2. RESEARCH POSITIONING          -->
       <!-- ════════════════════════════════ -->
       <section id="positioning" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Research Positioning</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Research Positioning</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div class="glass-card rounded-xl p-5">
             <span class="badge badge-indigo mb-3">Jenis Kajian</span>
-            <h3 class="text-[14px] font-500 text-white mb-2">Studi Analisis Konseptual</h3>
+            <h3 class="text-[14px] font-medium text-white mb-2">Studi Analisis Konseptual</h3>
             <p class="text-[12.5px] text-gray-400 leading-relaxed">
               Kajian deskriptif-analitis berbasis studi dokumen, benchmark komparatif, dan analisis regulasi. Bukan kajian empiris berbasis survei primer.
             </p>
           </div>
           <div class="glass-card rounded-xl p-5">
             <span class="badge badge-teal mb-3">Cakupan</span>
-            <h3 class="text-[14px] font-500 text-white mb-2">Modul Deposit ↔ Penagihan</h3>
+            <h3 class="text-[14px] font-medium text-white mb-2">Modul Deposit ↔ Penagihan</h3>
             <p class="text-[12.5px] text-gray-400 leading-relaxed">
               Fokus pada gap proses bisnis antara modul deposit (kelebihan bayar) dan modul penagihan (tunggakan) dalam sistem Coretax DJP.
             </p>
           </div>
           <div class="glass-card rounded-xl p-5">
             <span class="badge badge-amber mb-3">Kontribusi</span>
-            <h3 class="text-[14px] font-500 text-white mb-2">Preliminary Process Improvement</h3>
+            <h3 class="text-[14px] font-medium text-white mb-2">Preliminary Process Improvement</h3>
             <p class="text-[12.5px] text-gray-400 leading-relaxed">
               Memetakan peluang perbaikan proses berbasis data publik dan benchmark internasional — sebagai landasan kajian lanjutan, bukan rancangan sistem final.
             </p>
@@ -856,9 +1116,9 @@
         </div>
 
         <div class="glass-card rounded-xl p-5">
-          <p class="text-[12px] text-gray-500 uppercase tracking-wider font-500 mb-3">Pertanyaan Penelitian</p>
-          <p class="text-[14px] font-500 text-brand-300 italic">
-            "Bagaimana mekanisme  dalam sistem Coretax dapat dioptimalkan untuk mendukung
+          <p class="text-[12px] text-gray-500 uppercase tracking-wider font-medium mb-3">Pertanyaan Penelitian</p>
+          <p class="text-[14px] font-medium text-brand-300 italic">
+            "Bagaimana mekanisme dalam sistem Coretax dapat dioptimalkan untuk mendukung
             proses penagihan yang lebih efisien secara prosedural dan regulatif?"
           </p>
           <div class="flex gap-2 mt-3 flex-wrap">
@@ -873,7 +1133,7 @@
           <div class="flex items-start gap-3">
             <span style="font-size:16px;flex-shrink:0;">📎</span>
             <div>
-              <p class="text-[12px] font-500 text-amber-300 mb-1">Batasan Kajian</p>
+              <p class="text-[12px] font-medium text-amber-300 mb-1">Batasan Kajian</p>
               <p class="text-[12px] text-gray-400 leading-relaxed">
                 Kajian ini bersifat <em>exploratory</em> dan berbasis data publik. Angka-angka yang disajikan merupakan
                 <strong style="color:#e2e8f0;">estimasi ilustratif</strong> untuk mendukung argumentasi konseptual,
@@ -888,175 +1148,12 @@
       <!-- 3. RESEARCH JOURNEY              -->
       <!-- ════════════════════════════════ -->
 
-      <style>
-        /* ── Journey section styles ── */
-        .jrn-wrap {
-          position: relative;
-          padding-left: 52px;
-        }
-
-        /* Vertical spine */
-        .jrn-spine {
-          position: absolute;
-          left: 17px; top: 0; bottom: 0;
-          width: 2px;
-          background: rgba(99,102,241,0.12);
-          border-radius: 99px;
-          overflow: hidden;
-        }
-        .jrn-spine-fill {
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 0%;
-          background: linear-gradient(180deg, #4338ca, #818cf8, #5eead4);
-          border-radius: 99px;
-          transition: height 1.8s cubic-bezier(0.22,1,0.36,1);
-        }
-
-        /* Node dot */
-        .jrn-node {
-          position: absolute;
-          left: -42px;
-          top: 2px;
-          width: 34px; height: 34px;
-          border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
-          font-size: 14px;
-          border: 1.5px solid rgba(99,102,241,0.25);
-          background: rgba(17,24,39,0.9);
-          cursor: pointer;
-          transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
-          z-index: 2;
-          flex-shrink: 0;
-        }
-        .jrn-node.done {
-          border-color: rgba(99,102,241,0.55);
-          background: rgba(67,56,202,0.18);
-        }
-        .jrn-node.active-node {
-          border-color: #818cf8;
-          box-shadow: 0 0 0 4px rgba(99,102,241,0.15), 0 0 16px rgba(129,140,248,0.3);
-        }
-
-        /* Timeline card */
-        .jrn-card {
-          position: relative;
-          background: rgba(26,34,55,0.65);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px;
-          padding: 16px 18px;
-          margin-bottom: 14px;
-          cursor: pointer;
-          transition: border-color 0.25s, background 0.25s, transform 0.22s;
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-        }
-        .jrn-card:hover {
-          border-color: rgba(99,102,241,0.3);
-          background: rgba(30,40,68,0.8);
-          transform: translateX(3px);
-        }
-        .jrn-card.expanded {
-          border-color: rgba(99,102,241,0.4);
-          background: rgba(30,40,70,0.85);
-        }
-        .jrn-card.done-card {
-          border-left: 2px solid rgba(99,102,241,0.5);
-        }
-        .jrn-card.active-card {
-          border-left: 2px solid #818cf8;
-          box-shadow: -3px 0 20px rgba(129,140,248,0.12);
-        }
-
-        /* Card header row */
-        .jrn-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-        }
-
-        /* Expand body */
-        .jrn-body {
-          overflow: hidden;
-          max-height: 0;
-          transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease;
-          opacity: 0;
-        }
-        .jrn-body.open {
-          max-height: 320px;
-          opacity: 1;
-        }
-
-        /* Step number badge */
-        .jrn-step {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 10px;
-          color: #6366f1;
-          letter-spacing: 1px;
-          flex-shrink: 0;
-        }
-
-        /* Chevron icon */
-        .jrn-chevron {
-          width: 16px; height: 16px;
-          color: #4b5563;
-          transition: transform 0.3s ease, color 0.25s;
-          flex-shrink: 0;
-        }
-        .jrn-card.expanded .jrn-chevron {
-          transform: rotate(180deg);
-          color: #818cf8;
-        }
-
-        /* Tag pill inside card */
-        .jrn-tag {
-          display: inline-flex;
-          padding: 2px 8px;
-          border-radius: 4px;
-          font-size: 10.5px;
-          font-weight: 500;
-          letter-spacing: 0.3px;
-        }
-
-        /* Output chip row */
-        .jrn-chip {
-          display: inline-flex; align-items: center; gap: 5px;
-          padding: 3px 9px; border-radius: 6px;
-          font-size: 11px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.09);
-          color: #94a3b8;
-        }
-
-        /* Progress bar inside card */
-        .jrn-prog-track {
-          height: 3px; border-radius: 99px;
-          background: rgba(255,255,255,0.07);
-          overflow: hidden;
-          flex: 1;
-        }
-        .jrn-prog-fill {
-          height: 100%; border-radius: 99px;
-          background: linear-gradient(90deg, #4338ca, #818cf8);
-          transition: width 1s ease 0.3s;
-        }
-
-        /* Summary stat row */
-        .jrn-stat {
-          text-align: center;
-          padding: 12px 10px;
-          border-radius: 10px;
-          background: rgba(15,20,35,0.6);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-      </style>
 
       <section id="journey" class="reveal">
 
         <!-- Section header -->
         <div class="flex items-center justify-between mb-6">
-          <h2 class="section-title text-[18px] font-600 text-white">Research Scope & Limitation</h2>
+          <h2 class="section-title text-[18px] font-semibold text-white">Scope & Limitation</h2>
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="font-size:11px;color:#6b7280;font-family:'JetBrains Mono',monospace;">7 TAHAPAN</span>
             <div style="width:1px;height:12px;background:rgba(255,255,255,0.1);"></div>
@@ -1099,7 +1196,7 @@
           <div class="flex items-start gap-3">
             <span style="font-size:15px;flex-shrink:0;">📐</span>
             <div>
-              <p class="text-[13px] font-500 text-white mb-1">Pendekatan Penelitian</p>
+              <p class="text-[13px] font-medium text-white mb-1">Pendekatan Penelitian</p>
               <p class="text-[12.5px] text-gray-400 leading-relaxed">
                 Kajian ini menggunakan pendekatan <em class="text-brand-300">deskriptif-analitis</em> berbasis
                 studi dokumen regulasi, studi komparatif internasional, dan analisis konseptual proses bisnis.
@@ -1456,13 +1553,13 @@
       <!-- 4. REGULATORY MAPPING            -->
       <!-- ════════════════════════════════ -->
       <section id="regmap" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Regulatory Mapping</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Regulatory Mapping</h2>
 
         <!-- Regulatory Gap Summary -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div class="glass-card rounded-xl p-5">
             <span class="badge badge-red mb-3">Gap Kritis</span>
-            <h3 class="text-[14px] font-500 text-white mb-2">Tidak Ada Klausul Auto-Offset</h3>
+            <h3 class="text-[14px] font-medium text-white mb-2">Tidak Ada Klausul Auto-Offset</h3>
             <p class="text-[12.5px] text-gray-400 leading-relaxed">
               PMK 61/2023 dan PMK 81/2024 membuka ruang digitalisasi penagihan, namun tidak
               secara eksplisit mengotorisasi mekanisme <em style="color:#a5b4fc;">auto-offset dari saldo deposit</em>.
@@ -1476,7 +1573,7 @@
           </div>
           <div class="glass-card rounded-xl p-5">
             <span class="badge badge-teal mb-3">Landasan Hukum Tersedia</span>
-            <h3 class="text-[14px] font-500 text-white mb-2">UU KUP & Peraturan Turunan</h3>
+            <h3 class="text-[14px] font-medium text-white mb-2">UU KUP & Peraturan Turunan</h3>
             <p class="text-[12.5px] text-gray-400 leading-relaxed">
               UU KUP memberikan kewenangan dasar DJP dalam pengelolaan piutang dan penerimaan
               negara. Kerangka hukum yang ada cukup mendukung <em style="color:#5eead4;">consent-based integration</em>
@@ -1491,15 +1588,15 @@
 
         <!-- Data Sources Table -->
         <div class="glass-card rounded-xl p-4 mb-4">
-          <p class="text-[11px] text-gray-500 uppercase tracking-wider font-500 mb-3">Peta Ketersediaan Data & Regulasi</p>
+          <p class="text-[11px] text-gray-500 uppercase tracking-wider font-medium mb-3">Peta Ketersediaan Data & Regulasi</p>
           <div class="glass-card rounded-xl overflow-hidden">
             <table class="w-full text-[12.5px]">
               <thead>
                 <tr class="border-b border-white/[0.06]">
-                  <th class="text-left px-5 py-3 text-gray-400 font-500">Sumber Data / Regulasi</th>
-                  <th class="text-left px-4 py-3 text-gray-400 font-500">Tipe</th>
-                  <th class="text-left px-4 py-3 text-gray-400 font-500">Akses</th>
-                  <th class="text-left px-4 py-3 text-gray-400 font-500">Status</th>
+                  <th class="text-left px-5 py-3 text-gray-400 font-medium">Sumber Data / Regulasi</th>
+                  <th class="text-left px-4 py-3 text-gray-400 font-medium">Tipe</th>
+                  <th class="text-left px-4 py-3 text-gray-400 font-medium">Akses</th>
+                  <th class="text-left px-4 py-3 text-gray-400 font-medium">Status</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-white/[0.04]">
@@ -1553,39 +1650,9 @@
       <!-- 3. LITERATURE REVIEW HUB         -->
       <!-- ════════════════════════════════ -->
       <section id="literature" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Literature Review</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Literature Review</h2>
         <div class="glass-card rounded-xl p-5">
 
-<style>
-.lr-card{background:rgba(26,34,55,0.7);border:1px solid rgba(255,255,255,0.07);border-radius:12px;transition:border-color .2s,transform .2s;overflow:hidden;}
-.lr-card:hover{border-color:rgba(99,102,241,0.35);transform:translateY(-1px);}
-.lr-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none;gap:10px;}
-.lr-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
-.lr-title-wrap{flex:1;min-width:0;}
-.lr-title{font-size:13px;font-weight:600;color:#e5e7eb;line-height:1.2;}
-.lr-meta{font-size:11px;color:#6b7280;margin-top:2px;}
-.lr-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.lr-count{font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;}
-.lr-chevron{font-size:12px;color:#6b7280;transition:transform .25s;}
-.lr-chevron.open{transform:rotate(180deg);}
-.lr-body{padding:0 16px 14px;display:none;}
-.lr-body.open{display:block;}
-.lr-progress{height:4px;border-radius:99px;background:rgba(255,255,255,0.08);overflow:hidden;margin:0 0 12px;}
-.lr-fill{height:100%;border-radius:99px;transition:width 1s ease;}
-.lr-refs{display:flex;flex-direction:column;gap:6px;}
-.lr-ref{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:9px 12px;}
-.lr-ref-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
-.lr-ref-name{font-size:12px;font-weight:500;color:#d1d5db;flex:1;}
-.lr-badge{font-size:10.5px;font-weight:500;padding:2px 8px;border-radius:99px;flex-shrink:0;}
-.badge-done{background:rgba(34,197,94,0.12);color:#86efac;}
-.badge-reading{background:rgba(245,158,11,0.12);color:#fcd34d;}
-.badge-queued{background:rgba(99,102,241,0.12);color:#a5b4fc;}
-.lr-insight{font-size:11px;color:#9ca3af;line-height:1.5;}
-.lr-summary-bar{display:flex;gap:10px;padding:12px 16px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.05);}
-.lr-stat{display:flex;flex-direction:column;align-items:center;flex:1;}
-.lr-stat-num{font-size:18px;font-weight:700;color:#a5b4fc;}
-.lr-stat-lbl{font-size:10px;color:#6b7280;text-align:center;line-height:1.3;}
-</style>
 
 <h2 class="sr-only">Literature Review Hub — Klasifikasi referensi penelitian  &amp; Auto-Offset Mechanism berdasarkan kategori, status baca, dan key insight.</h2>
 
@@ -1789,7 +1856,7 @@ function toggle(id){
       <!-- 6. EXISTING PROCESS ANALYSIS     -->
       <!-- ════════════════════════════════ -->
       <section id="process" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Existing Process Analysis</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Existing Process Analysis</h2>
 
         <div class="glass-card rounded-xl p-5 mb-4">
           <div class="flex items-center gap-2 mb-4">
@@ -1799,7 +1866,7 @@ function toggle(id){
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Deposit flow -->
             <div class="glass-card rounded-xl p-4">
-              <p class="text-[12px] font-600 text-gray-300 mb-3 uppercase tracking-wider">Alur Modul Deposit</p>
+              <p class="text-[12px] font-semibold text-gray-300 mb-3 uppercase tracking-wider">Alur Modul Deposit</p>
               <div class="space-y-2.5">
                 <div style="display:flex;align-items:center;gap:10px;">
                   <div style="width:22px;height:22px;border-radius:50%;background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;color:#a5b4fc;flex-shrink:0;">1</div>
@@ -1817,7 +1884,7 @@ function toggle(id){
             </div>
             <!-- Collection flow -->
             <div class="glass-card rounded-xl p-4">
-              <p class="text-[12px] font-600 text-gray-300 mb-3 uppercase tracking-wider">Alur Modul Penagihan</p>
+              <p class="text-[12px] font-semibold text-gray-300 mb-3 uppercase tracking-wider">Alur Modul Penagihan</p>
               <div class="space-y-2.5">
                 <div style="display:flex;align-items:center;gap:10px;">
                   <div style="width:22px;height:22px;border-radius:50%;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fca5a5;flex-shrink:0;">1</div>
@@ -1841,7 +1908,7 @@ function toggle(id){
           <div class="flex items-start gap-3">
             <span style="font-size:18px;flex-shrink:0;">⚠️</span>
             <div>
-              <p class="text-[13px] font-600 text-white mb-1">Gap Proses Teridentifikasi</p>
+              <p class="text-[13px] font-semibold text-white mb-1">Gap Proses Teridentifikasi</p>
               <p class="text-[12.5px] text-gray-400 leading-relaxed">
                 Kedua modul beroperasi secara <strong style="color:#fca5a5;">independen tanpa mekanisme sinkronisasi</strong>.
                 Akibatnya, WP dengan saldo deposit yang mencukupi tetap menerima dokumen penagihan formal —
@@ -1863,40 +1930,9 @@ function toggle(id){
       <!-- 7. PROBLEM & GAP ANALYSIS        -->
       <!-- ════════════════════════════════ -->
       <section id="problem" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Problem & Gap Analysis</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Problem & Gap Analysis</h2>
         <div class="glass-card rounded-xl p-5">
 
-<style>
-.pgm-section{margin-bottom:20px;}
-.pgm-section-label{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.pgm-section-bar{width:3px;height:20px;border-radius:3px;}
-.pgm-section-title{font-size:14px;font-weight:600;color:#e5e7eb;}
-.pgm-section-sub{font-size:11px;color:#6b7280;margin-left:auto;}
-.pgm-card{border-radius:10px;overflow:hidden;margin-bottom:7px;transition:transform .2s;}
-.pgm-card:hover{transform:translateY(-1px);}
-.pgm-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;}
-.pgm-heat{width:4px;flex-shrink:0;border-radius:2px;align-self:stretch;}
-.pgm-title{font-size:13px;font-weight:600;flex:1;line-height:1.3;}
-.pgm-scores{display:flex;gap:6px;align-items:center;flex-shrink:0;}
-.pgm-score-dot{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
-.pgm-chevron{font-size:10px;color:#6b7280;transition:transform .25s;flex-shrink:0;}
-.pgm-chevron.open{transform:rotate(180deg);}
-.pgm-body{display:none;padding:0 14px 12px 28px;}
-.pgm-body.open{display:block;}
-.pgm-row{display:flex;gap:12px;margin-bottom:10px;}
-.pgm-col{flex:1;}
-.pgm-col-label{font-size:10.5px;color:#6b7280;margin-bottom:4px;font-weight:500;letter-spacing:.3px;}
-.pgm-meter{height:5px;border-radius:99px;background:rgba(255,255,255,0.07);overflow:hidden;margin-bottom:3px;}
-.pgm-meter-fill{height:100%;border-radius:99px;transition:width .8s ease;}
-.pgm-col-val{font-size:11px;font-weight:600;}
-.pgm-reason{font-size:11.5px;color:#9ca3af;line-height:1.55;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:7px;padding:8px 10px;margin-bottom:8px;}
-.pgm-tags{display:flex;flex-wrap:wrap;gap:5px;}
-.pgm-tag{font-size:10.5px;padding:2px 8px;border-radius:99px;font-weight:500;}
-.pgm-legend{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap;}
-.pgm-leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af;}
-.pgm-leg-dot{width:10px;height:10px;border-radius:3px;}
-.divider{height:1px;background:rgba(255,255,255,0.05);margin:16px 0;}
-</style>
 
 <h2 class="sr-only">Problem dan Gap Mapping — peta prioritas insight strategis dan gap proses bisnis dalam kajian  &amp; Auto-Offset Mechanism.</h2>
 
@@ -2150,33 +2186,9 @@ function pgmToggle(id){
       <!-- 8. FEASIBILITY ANALYSIS          -->
       <!-- ════════════════════════════════ -->
       <section id="feasibility" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Feasibility Analysis</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Feasibility Analysis</h2>
         <div class="glass-card rounded-xl p-5">
 
-<style>
-.fa-wrap{font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;}
-.fa-section-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.fa-pill{font-size:10.5px;font-weight:600;padding:2px 9px;border-radius:99px;}
-.fa-card{background:rgba(26,34,55,0.75);border:1px solid rgba(255,255,255,0.07);border-radius:12px;}
-.fa-sel-btn{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#9ca3af;transition:all .18s;}
-.fa-sel-btn.active{background:rgba(99,102,241,0.18);border-color:rgba(99,102,241,0.4);color:#a5b4fc;}
-.fa-sel-btn:hover:not(.active){background:rgba(255,255,255,0.07);color:#d1d5db;}
-.fa-dim-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-.fa-dim-row:last-child{border-bottom:none;}
-.fa-dim-label{font-size:11.5px;color:#9ca3af;width:160px;flex-shrink:0;}
-.fa-bar-track{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,0.07);overflow:hidden;}
-.fa-bar-fill{height:100%;border-radius:99px;transition:width .9s cubic-bezier(.4,0,.2,1);}
-.fa-dim-val{font-size:11px;font-weight:700;width:32px;text-align:right;flex-shrink:0;}
-.fa-score-big{font-size:36px;font-weight:700;line-height:1;}
-.fa-verdict{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-top:6px;display:inline-block;}
-.fa-compare-row{display:grid;grid-template-columns:120px 1fr 36px;align-items:center;gap:8px;padding:5px 0;}
-.fa-compare-row:not(:last-child){border-bottom:1px solid rgba(255,255,255,0.04);}
-.fa-cmp-label{font-size:11.5px;color:#d1d5db;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.fa-cmp-track{height:8px;border-radius:99px;background:rgba(255,255,255,0.06);overflow:hidden;position:relative;}
-.fa-cmp-fill{height:100%;border-radius:99px;transition:width .9s cubic-bezier(.4,0,.2,1);}
-.fa-cmp-val{font-size:11px;font-weight:700;text-align:right;}
-.fa-insight-box{background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);border-radius:9px;padding:10px 12px;font-size:11.5px;color:#a5b4fc;line-height:1.55;}
-</style>
 
 <div class="fa-wrap">
 <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Feasibility Analysis Dashboard — penilaian multi-dimensi terhadap ide-ide utama kajian Deposit Pajak &amp; Auto-Offset Mechanism.</h2>
@@ -2433,16 +2445,16 @@ window.addEventListener('load',()=>{
       <!-- 9. PRELIMINARY FINDINGS          -->
       <!-- ════════════════════════════════ -->
       <section id="findings" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Preliminary Findings</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Preliminary Findings</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <!-- Finding 1 -->
           <div class="glass-card rounded-xl p-5" style="border-left:3px solid rgba(239,68,68,0.5);">
             <div class="flex items-center gap-2 mb-3">
               <span class="badge badge-red">F-01</span>
-              <span class="text-[12px] text-gray-500 font-500">Regulatory Gap</span>
+              <span class="text-[12px] text-gray-500 font-medium">Regulatory Gap</span>
             </div>
-            <p class="text-[13px] font-500 text-white mb-2">Tidak Ada Klausul Offset Eksplisit</p>
+            <p class="text-[13px] font-medium text-white mb-2">Tidak Ada Klausul Offset Eksplisit</p>
             <p class="text-[12px] text-gray-400 leading-relaxed">
               Analisis PMK 61/2023 dan PMK 81/2024 mengindikasikan tidak adanya klausul yang
               secara eksplisit mengotorisasi pemotongan saldo deposit untuk melunasi tunggakan,
@@ -2453,9 +2465,9 @@ window.addEventListener('load',()=>{
           <div class="glass-card rounded-xl p-5" style="border-left:3px solid rgba(245,158,11,0.5);">
             <div class="flex items-center gap-2 mb-3">
               <span class="badge badge-amber">F-02</span>
-              <span class="text-[12px] text-gray-500 font-500">Process Gap</span>
+              <span class="text-[12px] text-gray-500 font-medium">Process Gap</span>
             </div>
-            <p class="text-[13px] font-500 text-white mb-2">Silo Modul Deposit ↔ Penagihan</p>
+            <p class="text-[13px] font-medium text-white mb-2">Silo Modul Deposit ↔ Penagihan</p>
             <p class="text-[12px] text-gray-400 leading-relaxed">
               Observasi proses bisnis mengindikasikan tidak adanya mekanisme sinkronisasi
               antar modul. WP dengan saldo mencukupi tetap menerima dokumen penagihan formal —
@@ -2466,9 +2478,9 @@ window.addEventListener('load',()=>{
           <div class="glass-card rounded-xl p-5" style="border-left:3px solid rgba(99,102,241,0.5);">
             <div class="flex items-center gap-2 mb-3">
               <span class="badge badge-indigo">F-03</span>
-              <span class="text-[12px] text-gray-500 font-500">Benchmark Finding</span>
+              <span class="text-[12px] text-gray-500 font-medium">Benchmark Finding</span>
             </div>
-            <p class="text-[13px] font-500 text-white mb-2">Integrasi Serupa Diterapkan di Negara Lain</p>
+            <p class="text-[13px] font-medium text-white mb-2">Integrasi Serupa Diterapkan di Negara Lain</p>
             <p class="text-[12px] text-gray-400 leading-relaxed">
               ATO, IRAS, dan HMRC telah menerapkan mekanisme serupa dengan hasil terukur:
               penurunan volume surat tagihan dan peningkatan efisiensi administrasi.
@@ -2479,9 +2491,9 @@ window.addEventListener('load',()=>{
           <div class="glass-card rounded-xl p-5" style="border-left:3px solid rgba(34,197,94,0.5);">
             <div class="flex items-center gap-2 mb-3">
               <span class="badge badge-green">F-04</span>
-              <span class="text-[12px] text-gray-500 font-500">Feasibility Indication</span>
+              <span class="text-[12px] text-gray-500 font-medium">Feasibility Indication</span>
             </div>
-            <p class="text-[13px] font-500 text-white mb-2">Dashboard Monitoring Paling Feasible</p>
+            <p class="text-[13px] font-medium text-white mb-2">Dashboard Monitoring Paling Feasible</p>
             <p class="text-[12px] text-gray-400 leading-relaxed">
               Dari semua opsi yang dikaji, dashboard monitoring saldo vs. tunggakan
               merupakan deliverable paling feasible jangka pendek — tidak memerlukan
@@ -2491,7 +2503,7 @@ window.addEventListener('load',()=>{
         </div>
 
         <div class="glass-card rounded-xl p-4" style="border:1px solid rgba(99,102,241,0.12);">
-          <p class="text-[11px] text-gray-500 uppercase tracking-wider font-500 mb-2">Catatan Metodologis</p>
+          <p class="text-[11px] text-gray-500 uppercase tracking-wider font-medium mb-2">Catatan Metodologis</p>
           <p class="text-[12.5px] text-gray-400 leading-relaxed">
             Temuan-temuan di atas bersifat <em>preliminary</em> dan merupakan hasil analisis konseptual
             berbasis data publik. Diperlukan validasi lebih lanjut dengan data internal DJP dan
@@ -2504,16 +2516,16 @@ window.addEventListener('load',()=>{
       <!-- 11. RESEARCH PROGRESS TRACKER    -->
       <!-- ════════════════════════════════ -->
       <section id="tracker" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Research Progress Tracker</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Research Progress Tracker</h2>
 
         <div class="glass-card rounded-xl overflow-hidden mb-4">
           <table class="w-full text-[12.5px]">
             <thead>
               <tr class="border-b border-white/[0.06]">
-                <th class="text-left px-5 py-3 text-gray-400 font-500">Research Task</th>
-                <th class="text-left px-4 py-3 text-gray-400 font-500">Section</th>
-                <th class="text-left px-4 py-3 text-gray-400 font-500">Status</th>
-                <th class="text-left px-4 py-3 text-gray-400 font-500">Catatan</th>
+                <th class="text-left px-5 py-3 text-gray-400 font-medium">Research Task</th>
+                <th class="text-left px-4 py-3 text-gray-400 font-medium">Section</th>
+                <th class="text-left px-4 py-3 text-gray-400 font-medium">Status</th>
+                <th class="text-left px-4 py-3 text-gray-400 font-medium">Catatan</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-white/[0.04]">
@@ -2584,19 +2596,19 @@ window.addEventListener('load',()=>{
         <!-- Summary stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div class="glass-card rounded-xl p-4 text-center">
-            <p class="text-[22px] font-700 text-green-400">5</p>
+            <p class="text-[22px] font-bold text-green-400">5</p>
             <p class="text-[11px] text-gray-500 mt-1">Completed</p>
           </div>
           <div class="glass-card rounded-xl p-4 text-center">
-            <p class="text-[22px] font-700 text-brand-400">2</p>
+            <p class="text-[22px] font-bold text-brand-400">2</p>
             <p class="text-[11px] text-gray-500 mt-1">In Progress</p>
           </div>
           <div class="glass-card rounded-xl p-4 text-center">
-            <p class="text-[22px] font-700 text-amber-400">1</p>
+            <p class="text-[22px] font-bold text-amber-400">1</p>
             <p class="text-[11px] text-gray-500 mt-1">Under Review</p>
           </div>
           <div class="glass-card rounded-xl p-4 text-center">
-            <p class="text-[22px] font-700 text-gray-500">2</p>
+            <p class="text-[22px] font-bold text-gray-500">2</p>
             <p class="text-[11px] text-gray-500 mt-1">Planned</p>
           </div>
         </div>
@@ -2606,12 +2618,12 @@ window.addEventListener('load',()=>{
       <!-- 10. CONCEPTUAL RECOMMENDATION    -->
       <!-- ════════════════════════════════ -->
       <section id="recommendation" class="reveal">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Conceptual Recommendation</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Conceptual Recommendation</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div class="glass-card rounded-xl p-5 border border-brand-500/30">
             <span class="badge badge-indigo mb-3">Output Rekomendasi</span>
-            <h3 class="text-[14.5px] font-500 text-white mb-2">Analytical Study + Process Improvement Note</h3>
+            <h3 class="text-[14.5px] font-medium text-white mb-2">Analytical Study + Process Improvement Note</h3>
             <p class="text-[12.5px] text-gray-400 leading-relaxed">
               Kombinasi analisis akademik (<em>regulatory gap</em>, benchmark
               internasional) dengan catatan <em>Business Process Improvement</em>
@@ -2620,7 +2632,7 @@ window.addEventListener('load',()=>{
           </div>
           <div class="glass-card rounded-xl p-5">
             <span class="badge badge-teal mb-3">Fokus Riset</span>
-            <h3 class="text-[14.5px] font-500 text-white mb-2">6 Dimensi Analisis Utama</h3>
+            <h3 class="text-[14.5px] font-medium text-white mb-2">6 Dimensi Analisis Utama</h3>
             <ul class="space-y-1.5 text-[12.5px] text-gray-400">
               <li>① One-for-all unified tax deposit account</li>
               <li>② Kedudukan hukum saldo deposit</li>
@@ -2633,8 +2645,8 @@ window.addEventListener('load',()=>{
         </div>
 
         <div class="glass-card rounded-xl p-5">
-          <p class="text-[12px] text-gray-400 mb-3 font-500 uppercase tracking-wider">Judul Kajian Terpilih</p>
-          <p class="text-[14px] font-500 text-brand-300 italic">
+          <p class="text-[12px] text-gray-400 mb-3 font-medium uppercase tracking-wider">Judul Kajian Terpilih</p>
+          <p class="text-[14px] font-medium text-brand-300 italic">
             "Deposit Pajak sebagai Instrumen Preemptive Collection: Kajian Regulasi, Proses Bisnis,
             dan Potensi Optimalisasi dalam Ekosistem Coretax"
           </p>
@@ -2650,15 +2662,15 @@ window.addEventListener('load',()=>{
       <!-- 12. NEXT STEPS                   -->
       <!-- ════════════════════════════════ -->
       <section id="nextsteps" class="reveal pb-16">
-        <h2 class="section-title text-[18px] font-600 text-white mb-6">Next Steps</h2>
+        <h2 class="section-title text-[18px] font-semibold text-white mb-6">Next Steps</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Fase 1 -->
           <div class="glass-card rounded-xl p-5">
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center text-[11px] font-600 text-white shrink-0">1</div>
+              <div class="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center text-[11px] font-semibold text-white shrink-0">1</div>
               <div>
-                <p class="text-[13px] font-500 text-white">Quick Wins</p>
+                <p class="text-[13px] font-medium text-white">Quick Wins</p>
                 <p class="text-[11px] text-gray-500">0 – 6 Bulan</p>
               </div>
             </div>
@@ -2685,9 +2697,9 @@ window.addEventListener('load',()=>{
           <!-- Fase 2 -->
           <div class="glass-card rounded-xl p-5">
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-6 h-6 rounded-full bg-amber-700 flex items-center justify-center text-[11px] font-600 text-white shrink-0">2</div>
+              <div class="w-6 h-6 rounded-full bg-amber-700 flex items-center justify-center text-[11px] font-semibold text-white shrink-0">2</div>
               <div>
-                <p class="text-[13px] font-500 text-white">Mid-Term</p>
+                <p class="text-[13px] font-medium text-white">Mid-Term</p>
                 <p class="text-[11px] text-gray-500">6 – 24 Bulan</p>
               </div>
             </div>
@@ -2714,9 +2726,9 @@ window.addEventListener('load',()=>{
           <!-- Fase 3 -->
           <div class="glass-card rounded-xl p-5">
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-6 h-6 rounded-full bg-teal-700 flex items-center justify-center text-[11px] font-600 text-white shrink-0">3</div>
+              <div class="w-6 h-6 rounded-full bg-teal-700 flex items-center justify-center text-[11px] font-semibold text-white shrink-0">3</div>
               <div>
-                <p class="text-[13px] font-500 text-white">Jangka Panjang</p>
+                <p class="text-[13px] font-medium text-white">Jangka Panjang</p>
                 <p class="text-[11px] text-gray-500">2 – 5 Tahun</p>
               </div>
             </div>
@@ -2748,7 +2760,7 @@ window.addEventListener('load',()=>{
               💡
             </div>
             <div>
-              <h3 class="text-[14px] font-500 text-white mb-1">Catatan Penelitian</h3>
+              <h3 class="text-[14px] font-medium text-white mb-1">Catatan Penelitian</h3>
               <p class="text-[12.5px] text-gray-400 leading-relaxed">
                 Fokus presentasi pada <em>quick win</em> yang tidak memerlukan perubahan regulasi:
                 dashboard monitoring saldo vs. tunggakan berbasis data Coretax yang sudah tersedia.
@@ -2767,63 +2779,35 @@ window.addEventListener('load',()=>{
 </div><!-- end layout -->
 
 <script>
-  /* ── Scroll progress bar ── */
+  /* ── Mobile nav toggle ── */
+  function toggleMobileNav() {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebar-overlay');
+    sidebar.classList.toggle('mobile-open');
+    overlay.style.display = sidebar.classList.contains('mobile-open') ? 'block' : 'none';
+  }
+
+  /* ── Scroll progress bar + float TOC + active nav — single DOMContentLoaded ── */
   var progBar = document.getElementById('scroll-progress');
   var floatToc = document.getElementById('float-toc');
-  var mainEl;
-  window.addEventListener('DOMContentLoaded', function(){
-    mainEl = document.querySelector('main');
-  });
-  window.addEventListener('scroll', function() {
-    var mainArea = document.querySelector('main') || document.body;
-    var scrollTop = mainArea.scrollTop || document.documentElement.scrollTop;
-    var scrollHeight = mainArea.scrollHeight - mainArea.clientHeight;
-    if (scrollHeight > 0) {
-      var pct = scrollTop / scrollHeight;
-      if (progBar) progBar.style.transform = 'scaleX(' + pct + ')';
-    }
-    if (floatToc) {
-      floatToc.classList.toggle('visible', scrollTop > 200);
-    }
-  }, { passive: true });
 
-  // Scroll inside main area
-  var mainContent = null;
-  window.addEventListener('DOMContentLoaded', function(){
-    mainContent = document.querySelector('main');
+  window.addEventListener('DOMContentLoaded', function() {
+    var mainContent = document.querySelector('main');
     if (!mainContent) return;
+
+    /* Scroll progress bar */
     mainContent.addEventListener('scroll', function() {
       var scrollTop = mainContent.scrollTop;
       var scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
       if (scrollHeight > 0 && progBar) {
-        progBar.style.transform = 'scaleX(' + (scrollTop/scrollHeight) + ')';
+        progBar.style.transform = 'scaleX(' + (scrollTop / scrollHeight) + ')';
       }
-      floatToc && floatToc.classList.toggle('visible', scrollTop > 200);
+      if (floatToc) floatToc.classList.toggle('visible', scrollTop > 200);
     }, { passive: true });
-  });
 
-  /* ── Active nav link ── */
-  function setActive(el) {
-    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
-    el.classList.add('active');
-  }
-
-  /* ── Reveal on scroll ── */
-  const reveals = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.08 });
-  reveals.forEach(r => io.observe(r));
-
-  /* ── Sync active nav with scroll ── */
-  const sections = ['overview','positioning','journey','regmap','literature','process','problem','feasibility','findings','recommendation','tracker','nextsteps'];
-  const navLinks  = document.querySelectorAll('.nav-link');
-  var mainArea2 = null;
-  window.addEventListener('DOMContentLoaded', function(){
-    mainArea2 = document.querySelector('main');
-    if (!mainArea2) return;
+    /* ── Sync active nav with scroll ── */
+    var sections = ['overview','positioning','journey','regmap','literature','process','problem','feasibility','findings','recommendation','tracker','nextsteps'];
+    var navLinks  = document.querySelectorAll('.nav-link');
     var sectionLabels = {
       'overview':       'OVERVIEW',
       'positioning':    'POSITIONING',
@@ -2838,13 +2822,13 @@ window.addEventListener('load',()=>{
       'tracker':        'PROGRESS',
       'nextsteps':      'NEXT STEPS'
     };
-    mainArea2.addEventListener('scroll', function() {
-      let cur = sections[0];
+    mainContent.addEventListener('scroll', function() {
+      var cur = sections[0];
       sections.forEach(function(id) {
-        const el = document.getElementById(id);
+        var el = document.getElementById(id);
         if (el) {
           var rect = el.getBoundingClientRect();
-          var mainRect = mainArea2.getBoundingClientRect();
+          var mainRect = mainContent.getBoundingClientRect();
           if (rect.top - mainRect.top < 160) cur = id;
         }
       });
@@ -2856,9 +2840,23 @@ window.addEventListener('load',()=>{
     }, { passive: true });
   });
 
+  /* ── Active nav link (click) ── */
+  function setActive(el) {
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  /* ── Reveal on scroll ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => io.observe(r));
+
   /* ── Research Progress Status — animate bars on load ── */
   (function() {
-    // Data: { count, total, fillId, pct }
     var RPS = {
       total: 10,
       done:  { n: 5, id: 'rps-fill-done',  pct: 100 },
@@ -2866,10 +2864,9 @@ window.addEventListener('load',()=>{
       rev:   { n: 1, id: 'rps-fill-rev',   pct:  50 },
       plan:  { n: 2, id: 'rps-fill-plan',  pct:  20 },
     };
-    var overallPct = Math.round((RPS.done.n / RPS.total) * 100); // 50
+    var overallPct = Math.round((RPS.done.n / RPS.total) * 100);
 
     function rpsInit() {
-      // Stagger each bar for a subtle cascade feel
       var delays = [120, 220, 320, 420];
       var keys = ['done','wip','rev','plan'];
       keys.forEach(function(k, i) {
@@ -2878,14 +2875,12 @@ window.addEventListener('load',()=>{
           if (el) el.style.width = RPS[k].pct + '%';
         }, delays[i]);
       });
-      // Overall bar slightly delayed
       setTimeout(function() {
         var bar = document.getElementById('rps-overall');
         if (bar) bar.style.width = overallPct + '%';
       }, 80);
     }
 
-    // Fire after DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', rpsInit);
     } else {
