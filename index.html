@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Dashboard — Deposit Pajak & Coretax</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --ink: #1a1f2e;
+    --ink-2: #3a4160;
+    --ink-3: #7a85a0;
+    --ink-4: #b0b8cc;
+    --paper: #f5f4f0;
+    --paper-2: #eceae4;
+    --paper-3: #e0ddd5;
+    --white: #ffffff;
+    --accent: #1e3a5f;
+    --accent-2: #2d5a8e;
+    --accent-light: #e8f0fa;
+    --green: #1a6b4a;
+    --green-light: #e8f5ee;
+    --amber: #b45309;
+    --amber-light: #fef3e0;
+    --red: #9b2335;
+    --red-light: #fce8eb;
+    --purple: #5b3fa6;
+    --purple-light: #ede9f8;
+    --teal: #0d6e6e;
+    --teal-light: #e6f4f4;
+    --shadow-sm: 0 1px 3px rgba(26,31,46,0.08), 0 1px 2px rgba(26,31,46,0.06);
+    --shadow-md: 0 4px 12px rgba(26,31,46,0.10), 0 2px 4px rgba(26,31,46,0.07);
+    --shadow-lg: 0 10px 30px rgba(26,31,46,0.12), 0 4px 8px rgba(26,31,46,0.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-xs: 5px;
+    --transition: 0.2s ease;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 15px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── LAYOUT ── */
+  .shell {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--ink);
+    color: var(--paper);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+
+  .sidebar-header {
+    padding: 28px 22px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .sidebar-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.85rem;
+    color: var(--ink-4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .sidebar-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .sidebar-status {
+    padding: 14px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--ink-4);
+  }
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #f5a623;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(245,166,35,0.2);
+  }
+
+  .nav-section {
+    padding: 18px 14px 8px;
+  }
+  .nav-section-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 0 8px;
+    margin-bottom: 6px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+  .nav-item.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: 500; }
+  .nav-icon {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+    opacity: 0.7;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+  }
+  .nav-item.active .nav-icon { opacity: 1; }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 16px 22px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.73rem;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    overflow-x: hidden;
+    padding: 0;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--paper-3);
+    padding: 14px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: var(--shadow-sm);
+  }
+  .topbar-left {
+    font-size: 0.82rem;
+    color: var(--ink-3);
+  }
+  .topbar-left strong { color: var(--ink-2); }
+  .topbar-badges {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* ── CONTENT AREA ── */
+  .content {
+    padding: 36px 36px 60px;
+    max-width: 1100px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 48px;
+    scroll-margin-top: 70px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-4);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--paper-3);
+    box-shadow: var(--shadow-sm);
+    padding: 22px 24px;
+    transition: box-shadow var(--transition);
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+
+  .card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+  .card-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .card-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-blue { background: var(--accent-light); color: var(--accent); }
+  .badge-purple { background: var(--purple-light); color: var(--purple); }
+  .badge-teal { background: var(--teal-light); color: var(--teal); }
+  .badge-gray { background: var(--paper-2); color: var(--ink-2); }
+
+  /* ── EXECUTIVE SUMMARY ── */
+  .exec-hero {
+    background: var(--ink);
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    color: white;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .exec-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    pointer-events: none;
+  }
+  .exec-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 200px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.025);
+    pointer-events: none;
+  }
+  .exec-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 10px;
+  }
+  .exec-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.7rem;
+    line-height: 1.25;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+  .exec-body {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 700px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+  }
+  .exec-verdict {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.65;
+    max-width: 700px;
+  }
+  .exec-verdict strong { color: #fff; }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 0;
+  }
+  .stat-box {
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--ink-3);
+    line-height: 1.4;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--paper-3));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -24px; top: 4px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+  }
+  .timeline-dot.done { background: var(--accent); }
+  .timeline-dot.current {
+    background: var(--amber);
+    border-color: var(--amber);
+    box-shadow: 0 0 0 4px rgba(180,83,9,0.15);
+  }
+  .timeline-dot.pending { border-color: var(--paper-3); }
+  .timeline-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+  .timeline-stage {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--ink);
+  }
+  .timeline-body {
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+
+  /* ── COLLAPSIBLE ── */
+  .collapsible { margin-bottom: 10px; }
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition);
+    box-shadow: var(--shadow-sm);
+  }
+  .collapsible-header:hover { background: var(--paper); }
+  .collapsible-header.open { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom-color: transparent; }
+  .collapsible-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .collapsible-arrow {
+    color: var(--ink-3);
+    transition: transform var(--transition);
+    font-size: 0.8rem;
+  }
+  .collapsible-header.open .collapsible-arrow { transform: rotate(180deg); }
+  .collapsible-body {
+    display: none;
+    padding: 18px;
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-top: none;
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .collapsible-body.open { display: block; }
+
+  /* ── GAP ITEMS ── */
+  .gap-item {
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--accent);
+    box-shadow: var(--shadow-sm);
+  }
+  .gap-item.gap-legal { border-left-color: var(--red); }
+  .gap-item.gap-operational { border-left-color: var(--amber); }
+  .gap-item.gap-governance { border-left-color: var(--purple); }
+
+  .gap-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .gap-title {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--ink);
+  }
+  .gap-body {
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  /* ── COMPATIBILITY TRAFFIC LIGHT ── */
+  .compat-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+  .compat-row {
+    display: grid;
+    grid-template-columns: 32px 1fr 160px 120px;
+    align-items: center;
+    gap: 14px;
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .compat-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-4);
+    font-weight: 500;
+  }
+  .compat-name { font-weight: 500; font-size: 0.85rem; color: var(--ink); }
+  .compat-desc { font-size: 0.76rem; color: var(--ink-3); }
+  .compat-traffic {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .traffic-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .traffic-green { background: var(--green); }
+  .traffic-amber { background: var(--amber); }
+  .traffic-red { background: var(--red); }
+  .compat-req { font-size: 0.76rem; color: var(--ink-3); font-style: italic; }
+
+  /* ── SCENARIO MATRIX ── */
+  .scenario-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .scenario-card {
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+  }
+  .scenario-card.recommended {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(30,58,95,0.08), var(--shadow-sm);
+  }
+  .scenario-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .scenario-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .scenario-body {
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 14px;
+  }
+  .scenario-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .scenario-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.76rem;
+  }
+  .scenario-meta-key { color: var(--ink-3); }
+  .scenario-recommended-tag {
+    background: var(--accent);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 99px;
+    display: inline-block;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+
+  /* ── RECOMMENDATIONS ── */
+  .rec-card {
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-sm);
+    padding: 20px 22px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+  }
+  .rec-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+  .rec-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    background: var(--paper-2);
+    color: var(--ink-2);
+    padding: 3px 8px;
+    border-radius: var(--radius-xs);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .rec-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ink);
+    line-height: 1.35;
+    flex: 1;
+  }
+  .rec-body {
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    line-height: 1.7;
+    padding-left: 48px;
+  }
+
+  /* ── EVIDENCE / OPEN ISSUES ── */
+  .issue-card {
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .issue-icon {
+    width: 32px; height: 32px;
+    border-radius: var(--radius-xs);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .issue-icon.data { background: var(--amber-light); }
+  .issue-icon.confirm { background: var(--purple-light); }
+  .issue-icon.citation { background: var(--teal-light); }
+  .issue-body { flex: 1; }
+  .issue-title {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .issue-desc {
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* ── ROOT CAUSE ── */
+  .root-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .root-card {
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .root-icon {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .root-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .root-body {
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .root-horizon {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+    display: inline-block;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    background: var(--paper-2);
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(to right, var(--accent), var(--accent-2));
+    transition: width 0.6s ease;
+  }
+
+  /* ── DISCUSSION PANEL ── */
+  .discussion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .discussion-card {
+    background: var(--white);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .discussion-card-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--ink);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .discussion-item {
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--paper-2);
+    display: flex;
+    gap: 8px;
+  }
+  .discussion-item:last-child { border-bottom: none; }
+  .discussion-q { color: var(--accent); flex-shrink: 0; font-weight: 700; }
+
+  /* ── TABS ── */
+  .tabs { margin-bottom: 0; }
+  .tab-header {
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid var(--paper-3);
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    padding: 9px 18px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink-3);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color var(--transition), border-color var(--transition);
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--paper-3);
+    margin: 28px 0;
+  }
+
+  /* ── HORIZON LABEL ── */
+  .horizon-group { margin-bottom: 32px; }
+  .horizon-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .horizon-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .horizon-bar {
+    flex: 1;
+    height: 1px;
+    background: var(--paper-3);
+  }
+
+  /* ── METHODOLOGY ── */
+  .method-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--paper-2);
+    font-size: 0.83rem;
+  }
+  .method-row:last-child { border-bottom: none; }
+  .method-key {
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .method-val { color: var(--ink-2); line-height: 1.6; }
+
+  /* ── FOOTNOTE ── */
+  .fn {
+    font-size: 0.75rem;
+    color: var(--ink-4);
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* ── SCROLLSPY HIGHLIGHT ── */
+  .nav-item.spy-active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { position: relative; height: auto; }
+    .content { padding: 24px 20px 48px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .card-grid-2, .card-grid-3, .root-grid, .scenario-cards { grid-template-columns: 1fr; }
+    .compat-row { grid-template-columns: 1fr; gap: 6px; }
+    .discussion-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ──────────────────── SIDEBAR ──────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">Research Dashboard</div>
+      <div class="sidebar-title">Deposit Pajak &amp; Coretax</div>
+    </div>
+    <div class="sidebar-status">
+      <div class="status-dot"></div>
+      Draft Final Candidate — Siap Data Insertion
+    </div>
+
+    <nav class="nav-section">
+      <div class="nav-section-label">Overview</div>
+      <a href="#exec" class="nav-item active">
+        <span class="nav-icon">◆</span> Executive Summary
+      </a>
+      <a href="#journey" class="nav-item">
+        <span class="nav-icon">↗</span> Research Journey
+      </a>
+      <a href="#rq" class="nav-item">
+        <span class="nav-icon">?</span> Research Questions
+      </a>
+    </nav>
+
+    <nav class="nav-section">
+      <div class="nav-section-label">Temuan Utama</div>
+      <a href="#findings" class="nav-item">
+        <span class="nav-icon">✦</span> Key Findings
+      </a>
+      <a href="#gaps" class="nav-item">
+        <span class="nav-icon">⬡</span> Gap Analysis
+      </a>
+      <a href="#rootcause" class="nav-item">
+        <span class="nav-icon">⬢</span> Root Cause Analysis
+      </a>
+    </nav>
+
+    <nav class="nav-section">
+      <div class="nav-section-label">Analisis</div>
+      <a href="#compat" class="nav-item">
+        <span class="nav-icon">◉</span> Compatibility Assessment
+      </a>
+      <a href="#scenario" class="nav-item">
+        <span class="nav-icon">▦</span> Scenario Analysis
+      </a>
+      <a href="#recs" class="nav-item">
+        <span class="nav-icon">→</span> Recommendations
+      </a>
+    </nav>
+
+    <nav class="nav-section">
+      <div class="nav-section-label">Status &amp; Diskusi</div>
+      <a href="#evidence" class="nav-item">
+        <span class="nav-icon">⊡</span> Evidence Status
+      </a>
+      <a href="#issues" class="nav-item">
+        <span class="nav-icon">!</span> Open Issues
+      </a>
+      <a href="#mentor" class="nav-item">
+        <span class="nav-icon">⟐</span> Discussion w/ Mentor
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      Status: <strong style="color:rgba(255,255,255,0.7)">Draft Final Candidate</strong><br>
+      Versi: Integrasi Draft 1 + Academic Review<br>
+      <br>Dashboard ini dibuat untuk keperluan bimbingan &amp; konsultasi progres.
+    </div>
+  </aside>
+
+  <!-- ──────────────────── MAIN ──────────────────── -->
+  <main class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <strong>Evaluasi Konseptual: Deposit Pajak sebagai Instrumen Pendukung Penagihan Pajak</strong>
+        &nbsp;·&nbsp; Modernisasi Administrasi Perpajakan
+      </div>
+      <div class="topbar-badges">
+        <span class="badge badge-amber">⏳ Data Insertion Pending</span>
+        <span class="badge badge-blue">Coretax 2025</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ══════════ 1. EXECUTIVE SUMMARY ══════════ -->
+      <div class="section" id="exec">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h2 class="section-title">Executive Summary</h2>
+        </div>
+
+        <div class="exec-hero">
+          <div class="exec-eyebrow">Inti Penelitian</div>
+          <div class="exec-heading">Ada jarak antara apa yang secara teknis dapat dilakukan sistem Coretax terhadap saldo Deposit Pajak — dan apa yang secara hukum diperbolehkan dalam konteks penagihan aktif.</div>
+          <div class="exec-body">
+            Seorang Wajib Pajak memiliki tunggakan Rp10 juta dan saldo Deposit Pajak Rp12 juta — keduanya terlihat dalam satu platform Coretax. Secara teknis, kompensasi dapat terjadi dalam hitungan detik. Namun secara hukum, DJP masih harus menempuh prosedur minimal <strong style="color:#fff">30 hari kerja</strong> sebelum dapat melaksanakan penyitaan. Kesenjangan inilah yang menjadi objek evaluasi konseptual penelitian ini.
+          </div>
+          <div class="exec-verdict">
+            <strong>Kesimpulan Utama:</strong> Kompatibilitas deposit pajak sebagai instrumen pendukung penagihan bersifat <em>parsial dan kondisional</em> — bergantung pada skenario yang dimaksud dan prasyarat yang terpenuhi. Dua skenario sudah <strong>compatible</strong> saat ini, dua <strong>conditionally compatible</strong> dengan prasyarat yang dapat diidentifikasi, dan satu <strong>not yet compatible</strong> karena konflik norma langsung dengan UU PPSP yang memerlukan perubahan di level undang-undang.
+          </div>
+        </div>
+
+        <div class="stats-strip">
+          <div class="stat-box">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Gap Prioritas teridentifikasi dalam tiga lapisan</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Akar masalah fundamental: legislative, design, governance lag</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Skenario dievaluasi dengan penilaian kompatibilitas</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">6</div>
+            <div class="stat-label">Rekomendasi konseptual dalam tiga horizon waktu</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 2. RESEARCH JOURNEY ══════════ -->
+      <div class="section" id="journey">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h2 class="section-title">Research Journey</h2>
+        </div>
+
+        <div class="card-grid-2">
+          <div class="card">
+            <div class="card-label">Progress Penulisan</div>
+            <div style="margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--ink-3);margin-bottom:5px;">
+                <span>Draft Selesai</span><span style="font-weight:600;color:var(--ink)">~92%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:92%"></div></div>
+            </div>
+            <div style="margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--ink-3);margin-bottom:5px;">
+                <span>Data Insertion</span><span style="font-weight:600;color:var(--amber)">Pending</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:15%;background:linear-gradient(to right, var(--amber), #f5a623)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--ink-3);margin-bottom:5px;">
+                <span>Proofreading</span><span style="font-weight:600;color:var(--amber)">Belum Dimulai</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Tahapan Penelitian</div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-head">
+                  <span class="timeline-stage">Penyusunan Kerangka Konseptual</span>
+                  <span class="badge badge-green">Selesai</span>
+                </div>
+                <div class="timeline-body">Tinjauan regulasi, literatur, referensi internasional</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-head">
+                  <span class="timeline-stage">Analisis Gap &amp; Root Cause</span>
+                  <span class="badge badge-green">Selesai</span>
+                </div>
+                <div class="timeline-body">5 gap, 3 lapisan akar masalah teridentifikasi</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-head">
+                  <span class="timeline-stage">Evaluasi Kompatibilitas &amp; Skenario</span>
+                  <span class="badge badge-green">Selesai</span>
+                </div>
+                <div class="timeline-body">5 skenario dinilai dari 4 perspektif</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot done"></div>
+                <div class="timeline-head">
+                  <span class="timeline-stage">Kerangka Rekomendasi</span>
+                  <span class="badge badge-green">Selesai</span>
+                </div>
+                <div class="timeline-body">6 rekomendasi dalam 3 horizon waktu</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot current"></div>
+                <div class="timeline-head">
+                  <span class="timeline-stage">Data Insertion &amp; Proofreading</span>
+                  <span class="badge badge-amber">Saat Ini</span>
+                </div>
+                <div class="timeline-body">Mengisi data LKPP, LAKIN DJP, konfirmasi referensi</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot pending"></div>
+                <div class="timeline-head">
+                  <span class="timeline-stage">Finalisasi &amp; Submission</span>
+                  <span class="badge badge-gray">Menunggu</span>
+                </div>
+                <div class="timeline-body">Setelah proofreading &amp; validasi data selesai</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="card">
+            <div class="card-label">Metodologi</div>
+            <div class="method-row">
+              <div class="method-key">Jenis Penelitian</div>
+              <div class="method-val">Evaluasi konseptual berbasis studi kepustakaan (bukan studi empiris)</div>
+            </div>
+            <div class="method-row">
+              <div class="method-key">Metode Analisis</div>
+              <div class="method-val">Komparasi regulasi · Evaluasi proses bisnis · Benchmark internasional (Singapura, Australia, OECD)</div>
+            </div>
+            <div class="method-row">
+              <div class="method-key">Sumber Data</div>
+              <div class="method-val">Regulasi primer (UU KUP, UU PPSP, PMK 61/2023, PMK 81/2024, PER-10/PJ/2024) + literatur akademik + dokumen resmi lembaga internasional</div>
+            </div>
+            <div class="method-row">
+              <div class="method-key">Batasan Eksplisit</div>
+              <div class="method-val">Tidak ada survei/wawancara · Tidak merancang ulang Coretax · Tidak merekomendasikan revisi UU sebagai agenda utama</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 3. RESEARCH QUESTIONS ══════════ -->
+      <div class="section" id="rq">
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <h2 class="section-title">Research Questions &amp; Tujuan</h2>
+        </div>
+
+        <div class="card" style="border-left: 4px solid var(--accent); margin-bottom: 16px;">
+          <div class="card-label">Pertanyaan Utama Penelitian</div>
+          <p style="font-size:0.95rem;color:var(--ink);line-height:1.7;font-style:italic;">
+            "Sejauh mana deposit pajak dalam sistem Coretax dapat secara konseptual dimanfaatkan sebagai instrumen pendukung penyelesaian kewajiban dalam proses penagihan pajak, <strong>dan apa saja prasyarat hukum serta prosedural yang harus dipenuhi</strong> agar pemanfaatan tersebut tidak menimbulkan risiko cacat formil?"
+          </p>
+        </div>
+
+        <div class="card-grid-3">
+          <div class="card" style="border-top: 3px solid var(--accent);">
+            <div class="card-label">Tujuan 1</div>
+            <div style="font-size:0.85rem;color:var(--ink-2);line-height:1.65;">
+              Mengidentifikasi secara sistematis <strong>inefisiensi dan tantangan</strong> dalam penagihan pajak konvensional yang mendorong kebutuhan evaluasi instrumen baru.
+            </div>
+          </div>
+          <div class="card" style="border-top: 3px solid var(--accent);">
+            <div class="card-label">Tujuan 2</div>
+            <div style="font-size:0.85rem;color:var(--ink-2);line-height:1.65;">
+              Mengevaluasi <strong>kompatibilitas konseptual</strong> deposit pajak dari 4 perspektif: legal, administratif, kepatuhan, dan tata kelola.
+            </div>
+          </div>
+          <div class="card" style="border-top: 3px solid var(--accent);">
+            <div class="card-label">Tujuan 3</div>
+            <div style="font-size:0.85rem;color:var(--ink-2);line-height:1.65;">
+              Mengidentifikasi <strong>prasyarat hukum &amp; prosedural</strong> beserta skenario pemanfaatan paling realistis untuk dipertimbangkan.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 4. KEY FINDINGS ══════════ -->
+      <div class="section" id="findings">
+        <div class="section-header">
+          <span class="section-number">04</span>
+          <h2 class="section-title">Key Findings</h2>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header open" onclick="toggleCollapsible(this)">
+            <div class="collapsible-title"><span style="color:var(--red)">⬤</span> Temuan 1: Kesenjangan Konseptual yang Genuine</div>
+            <span class="collapsible-arrow">▼</span>
+          </div>
+          <div class="collapsible-body open">
+            Deposit pajak beroperasi terutama di ranah <em>voluntary compliance</em>, sementara penagihan pajak beroperasi di ranah <em>enforced compliance</em>. Evaluasi pemanfaatan deposit untuk penagihan adalah, pada dasarnya, evaluasi apakah instrumen yang dirancang untuk mendukung kepatuhan sukarela dapat diperluas ke ranah paksa — tanpa kehilangan validitas hukum. Kesenjangan ini bukan anomali teknis, melainkan refleksi dari instrumen baru yang bergerak lebih cepat dari kerangka hukum yang mengaturnya.
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header" onclick="toggleCollapsible(this)">
+            <div class="collapsible-title"><span style="color:var(--amber)">⬤</span> Temuan 2: Tiga Inefisiensi Struktural Penagihan Konvensional</div>
+            <span class="collapsible-arrow">▼</span>
+          </div>
+          <div class="collapsible-body">
+            <strong>(1) Tidak ada mekanisme pencegahan dini</strong> — proses penagihan sepenuhnya reaktif, tanpa memeriksa ketersediaan aset internal sebelum Surat Teguran diterbitkan.<br><br>
+            <strong>(2) Ketergantungan fisik pada Jurusita Pajak</strong> sebagai bottleneck prosedural — Pasal 10 UU PPSP mewajibkan Surat Paksa dibacakan secara fisik, tanpa pengecualian, meskipun ekosistem digital sudah jauh berkembang.<br><br>
+            <strong>(3) Risiko daluwarsa hak tagih 5 tahun</strong> (Pasal 22 UU PPSP) yang meningkatkan tekanan waktu, terutama untuk tunggakan kecil yang tidak ekonomis dieksekusi via jalur sita-lelang penuh.
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header" onclick="toggleCollapsible(this)">
+            <div class="collapsible-title"><span style="color:var(--green)">⬤</span> Temuan 3: Dua Skenario Sudah Compatible Tanpa Revisi Regulasi</div>
+            <span class="collapsible-arrow">▼</span>
+          </div>
+          <div class="collapsible-body">
+            <strong>Auto-offset restitusi ke utang pajak</strong> (Pasal 11(1a) UU KUP jo. Pasal 154 PMK 81/2024) — harmonis penuh, sudah beroperasi, tanpa risiko gugatan.<br><br>
+            <strong>Pemindahbukuan atas permohonan Wajib Pajak</strong> (Pasal 108-109 PMK 81/2024) — sepenuhnya di luar rezim paksa UU PPSP, efektif untuk WP kooperatif.
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header" onclick="toggleCollapsible(this)">
+            <div class="collapsible-title"><span style="color:var(--purple)">⬤</span> Temuan 4: Paradoks Struktural dalam Perilaku Wajib Pajak</div>
+            <span class="collapsible-arrow">▼</span>
+          </div>
+          <div class="collapsible-body">
+            Pengguna deposit pajak cenderung didominasi oleh korporasi besar dan WP dengan profil kepatuhan baik — mereka yang <em>tidak</em> menjadi target penagihan aktif. Sebaliknya, WP yang paling sering menjadi objek penagihan aktif justru cenderung menghindari deposit karena pertimbangan <em>opportunity cost</em>: dana idle di DJP dianggap lebih produktif jika diputar untuk operasional bisnis. (Setyastrini et al., 2025 — dengan catatan: generalisabilitas memerlukan konfirmasi penelitian lebih luas.)
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header" onclick="toggleCollapsible(this)">
+            <div class="collapsible-title"><span style="color:var(--teal)">⬤</span> Temuan 5: Gap Tata Kelola Merugikan DJP Sendiri</div>
+            <span class="collapsible-arrow">▼</span>
+          </div>
+          <div class="collapsible-body">
+            Tanpa standar audit trail yang jelas untuk pemotongan deposit dalam konteks penagihan, DJP tidak memiliki dokumentasi standar yang dapat dijadikan pembuktian jika terjadi sengketa. Tanpa governance layer yang mendefinisikan kapan sistem boleh bertindak otomatis, kesalahan teknis (kegagalan sinkronisasi saldo, pembacaan data tidak akurat) dapat menghasilkan pemotongan tidak sah tanpa titik kontrol manusia.
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 5. GAP ANALYSIS ══════════ -->
+      <div class="section" id="gaps">
+        <div class="section-header">
+          <span class="section-number">05</span>
+          <h2 class="section-title">Gap Analysis — 5 Gap Prioritas</h2>
+        </div>
+
+        <p style="font-size:0.83rem;color:var(--ink-3);margin-bottom:18px;line-height:1.6;">Lima gap ini membentuk rantai kausal — gap hilir tidak dapat diselesaikan tanpa menyelesaikan gap hulu terlebih dahulu.</p>
+
+        <div class="gap-item gap-legal">
+          <div class="gap-header">
+            <div class="gap-title">Gap 1 — Disharmoni Pemindahbukuan Jabatan ↔ Prosedur UU PPSP</div>
+            <span class="badge badge-red">Legal</span>
+          </div>
+          <div class="gap-body">
+            Pasal 110 PMK 81/2024 jo. Pasal 110(f) PER-10/PJ/2024 mengatur Pemindahbukuan Secara Jabatan sebagai "tindak lanjut pelaksanaan penyitaan." Namun penyitaan yang sah mensyaratkan Surat Paksa yang sah, yang mensyaratkan pembacaan fisik Jurusita (Pasal 10 UU PPSP). Konflik norma langsung: PMK berkedudukan di bawah UU → asas <em>lex superior derogat legi inferiori</em> berlaku. Jika sistem memotong tanpa prosedur lengkap → cacat formil, dapat digugat ke Pengadilan Pajak (Pasal 23(2) UU KUP).
+          </div>
+        </div>
+
+        <div class="gap-item gap-legal">
+          <div class="gap-header">
+            <div class="gap-title">Gap 2 — Kekosongan Konsep "Sita Aset Internal" dalam Kerangka Hukum</div>
+            <span class="badge badge-red">Legal</span>
+          </div>
+          <div class="gap-body">
+            UU PPSP dan PMK 61/2023 hanya mengenal penyitaan aset di Lembaga Jasa Keuangan (aset eksternal). Tidak ada satu pun ketentuan yang mengatur tata cara pemotongan/penyitaan saldo di dalam sistem DJP sendiri. Ini bukan konflik norma — ini adalah <em>ketiadaan norma</em> untuk situasi yang belum pernah diantisipasi pembuat UU.
+          </div>
+        </div>
+
+        <div class="gap-item gap-legal">
+          <div class="gap-header">
+            <div class="gap-title">Gap 3 — Kekosongan Mekanisme Consent untuk Konteks Penagihan Aktif</div>
+            <span class="badge badge-amber">Legal + Operasional</span>
+          </div>
+          <div class="gap-body">
+            PMK 81/2024 mengatur consent aktivasi akun (Pasal 12(7)) dan consent restitusi ke deposit (Pasal 155(3)(4)), namun tidak ada klausul yang secara eksplisit mengatur persetujuan WP atas pendebetan saldo deposit ketika terdapat tunggakan di kemudian hari. Tanpa ini, setiap pemotongan non-permohonan = Pemindahbukuan Jabatan → kembali ke Gap 1.
+          </div>
+        </div>
+
+        <div class="gap-item gap-operational">
+          <div class="gap-header">
+            <div class="gap-title">Gap 4 — Ketiadaan Mekanisme Pencegahan Dini Berbasis Saldo Deposit</div>
+            <span class="badge badge-amber">Operasional</span>
+          </div>
+          <div class="gap-body">
+            Modul penagihan dan modul deposit belum memiliki alur integrasi real-time. Sistem tidak memeriksa ketersediaan saldo deposit sebelum menerbitkan Surat Teguran. Tambahan: sistem tidak mendukung pemotongan parsial — jika saldo lebih kecil dari tunggakan, sistem menolak dan memaksa WP membuat kode billing baru.
+          </div>
+        </div>
+
+        <div class="gap-item gap-governance">
+          <div class="gap-header">
+            <div class="gap-title">Gap 5 — Ketiadaan Procedural Safeguard untuk Pemotongan Deposit</div>
+            <span class="badge badge-purple">Tata Kelola</span>
+          </div>
+          <div class="gap-body">
+            Tidak ada kewajiban notifikasi pra-pemotongan, tidak ada mekanisme keberatan internal yang proporsional (WP harus langsung ke Pengadilan Pajak untuk kasus mungkin bersifat teknis), dan tidak ada standar audit trail untuk pemotongan dalam konteks penagihan. Menciptakan asimetri: DJP secara teknis mampu memotong, namun tanpa akuntabilitas memadai jika pemotongan keliru.
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 6. ROOT CAUSE ANALYSIS ══════════ -->
+      <div class="section" id="rootcause">
+        <div class="section-header">
+          <span class="section-number">06</span>
+          <h2 class="section-title">Root Cause Analysis</h2>
+        </div>
+
+        <p style="font-size:0.83rem;color:var(--ink-3);margin-bottom:20px;">Tiga lapisan akar masalah yang berbeda secara fundamental — masing-masing memerlukan respons di level dan horizon waktu yang berbeda.</p>
+
+        <div class="root-grid">
+          <div class="root-card">
+            <span class="root-icon">⚖️</span>
+            <div class="root-title">Legislative Lag</div>
+            <div class="root-body">
+              UU PPSP dirancang 1997, diubah terakhir 2000 — dalam ekosistem yang sepenuhnya berbeda. Tidak ada konsep "WP menyimpan saldo di sistem DJP." Seluruh konstruksi hukum penagihan diasumsikan aset yang dapat dieksekusi selalu berada di luar DJP. PMK 81/2024 bergerak melampaui batas yang dapat diakomodasi UU PPSP tanpa modifikasi.
+            </div>
+            <span class="root-horizon badge badge-red">→ Perlu revisi UU (jangka panjang)</span>
+          </div>
+          <div class="root-card">
+            <span class="root-icon">🔧</span>
+            <div class="root-title">Design Gap</div>
+            <div class="root-body">
+              PMK 81/2024 dirancang sebagai regulasi modernisasi pembayaran — bukan regulasi penagihan. Implikasi deposit terhadap penagihan aktif tampaknya bukan agenda desain utama: mekanisme consent hanya mencakup pembayaran sukarela &amp; restitusi, integrasi lintas modul tidak diprioritaskan.
+            </div>
+            <span class="root-horizon badge badge-amber">→ Pengembangan PMK/Perdirjen (jangka menengah)</span>
+          </div>
+          <div class="root-card">
+            <span class="root-icon">🏛️</span>
+            <div class="root-title">Governance Lag</div>
+            <div class="root-body">
+              Fitur-fitur Coretax diaktifkan dengan kecepatan yang melampaui pembangunan standar audit trail, mekanisme notifikasi, dan governance layer. Batas antara "kapan sistem boleh bertindak otomatis" vs "kapan memerlukan validasi pejabat" belum terdefinisi secara eksplisit untuk konteks penagihan.
+            </div>
+            <span class="root-horizon badge badge-purple">→ SOP &amp; kebijakan teknis (jangka pendek)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 7. COMPATIBILITY ASSESSMENT ══════════ -->
+      <div class="section" id="compat">
+        <div class="section-header">
+          <span class="section-number">07</span>
+          <h2 class="section-title">Compatibility Assessment</h2>
+        </div>
+
+        <div class="tabs">
+          <div class="tab-header">
+            <button class="tab-btn active" onclick="switchTab(this, 'tab-traffic')">Traffic Light per Skenario</button>
+            <button class="tab-btn" onclick="switchTab(this, 'tab-legal')">Perspektif Legal</button>
+            <button class="tab-btn" onclick="switchTab(this, 'tab-admin')">Perspektif Administratif</button>
+            <button class="tab-btn" onclick="switchTab(this, 'tab-governance')">Kepatuhan &amp; Tata Kelola</button>
+          </div>
+
+          <div id="tab-traffic" class="tab-panel active">
+            <div class="compat-grid">
+              <div class="compat-row">
+                <div class="compat-num">S1</div>
+                <div>
+                  <div class="compat-name">Auto-offset restitusi → utang pajak</div>
+                  <div class="compat-desc">Pasal 11(1a) UU KUP jo. Pasal 154 PMK 81/2024</div>
+                </div>
+                <div class="compat-traffic">
+                  <div class="traffic-dot traffic-green"></div>
+                  <span style="color:var(--green)">Compatible</span>
+                </div>
+                <div class="compat-req">Tidak ada prasyarat tambahan</div>
+              </div>
+              <div class="compat-row">
+                <div class="compat-num">S2</div>
+                <div>
+                  <div class="compat-name">Pemindahbukuan atas permohonan WP</div>
+                  <div class="compat-desc">Pasal 108-109 PMK 81/2024 — di luar rezim paksa UU PPSP</div>
+                </div>
+                <div class="compat-traffic">
+                  <div class="traffic-dot traffic-green"></div>
+                  <span style="color:var(--green)">Compatible</span>
+                </div>
+                <div class="compat-req">Terbatas untuk WP kooperatif</div>
+              </div>
+              <div class="compat-row">
+                <div class="compat-num">S3</div>
+                <div>
+                  <div class="compat-name">Deposit sebagai checkpoint preventif sebelum Surat Teguran</div>
+                  <div class="compat-desc">Mekanisme penawaran berbasis informasi, bukan pemaksaan</div>
+                </div>
+                <div class="compat-traffic">
+                  <div class="traffic-dot traffic-amber"></div>
+                  <span style="color:var(--amber)">Cond. Compatible</span>
+                </div>
+                <div class="compat-req">Perlu: integrasi real-time + protokol berbasis consent</div>
+              </div>
+              <div class="compat-row">
+                <div class="compat-num">S4</div>
+                <div>
+                  <div class="compat-name">Pemindahbukuan Jabatan tanpa consent sebagai tindak penagihan aktif</div>
+                  <div class="compat-desc">Pemotongan sepihak tanpa prosedur Surat Paksa yang sah</div>
+                </div>
+                <div class="compat-traffic">
+                  <div class="traffic-dot traffic-red"></div>
+                  <span style="color:var(--red)">Not Yet Compatible</span>
+                </div>
+                <div class="compat-req">Konflik norma langsung dengan Pasal 10 UU PPSP</div>
+              </div>
+              <div class="compat-row">
+                <div class="compat-num">S5</div>
+                <div>
+                  <div class="compat-name">Pemindahbukuan Jabatan dengan consent (standing instruction)</div>
+                  <div class="compat-desc">WP memberi kuasa di muka untuk pendebetan otomatis</div>
+                </div>
+                <div class="compat-traffic">
+                  <div class="traffic-dot traffic-amber"></div>
+                  <span style="color:var(--amber)">Cond. Compatible</span>
+                </div>
+                <div class="compat-req">Perlu klausul consent eksplisit baru + kajian hukum lanjutan</div>
+              </div>
+            </div>
+            <p class="fn" style="margin-top:12px;">Catatan: Konstruksi hukum Skenario 5 bersifat konseptual dan belum diuji dalam praktik maupun yurisprudensi perpajakan Indonesia.</p>
+          </div>
+
+          <div id="tab-legal" class="tab-panel">
+            <div class="card-grid-3" style="margin-bottom:14px;">
+              <div class="card" style="border-top:3px solid var(--green)">
+                <div class="card-label" style="color:var(--green)">Sudah Harmonis</div>
+                <div style="font-size:0.82rem;color:var(--ink-2);line-height:1.65;">
+                  Kompensasi restitusi ↔ utang pajak (UU KUP Pasal 11(1a))<br><br>
+                  Pemindahbukuan atas permohonan WP (PMK 81/2024 Pasal 108-109)
+                </div>
+              </div>
+              <div class="card" style="border-top:3px solid var(--amber)">
+                <div class="card-label" style="color:var(--amber)">Masih Ambigu</div>
+                <div style="font-size:0.82rem;color:var(--ink-2);line-height:1.65;">
+                  Status kepemilikan saldo deposit: "harta milik WP" vs "pembayaran dikuasakan ke DJP"?<br><br>
+                  Apakah algoritma sistem otomatis = pelaksanaan kewenangan "jabatan" dalam hukum administrasi?
+                </div>
+              </div>
+              <div class="card" style="border-top:3px solid var(--red)">
+                <div class="card-label" style="color:var(--red)">Konflik Norma</div>
+                <div style="font-size:0.82rem;color:var(--ink-2);line-height:1.65;">
+                  Pemindahbukuan Jabatan (PMK/Perdirjen) vs pembacaan fisik Surat Paksa (UU PPSP Pasal 10)<br><br>
+                  PMK tidak dapat mengenyampingkan UU → lex superior berlaku
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-label">Risiko Gugatan yang Teridentifikasi</div>
+              <div style="font-size:0.82rem;color:var(--ink-2);line-height:1.7;">
+                Jika pemotongan dilakukan tanpa prosedur sah → dapat digugat berdasarkan: <strong>Pasal 23(2) UU KUP</strong> jo. <strong>Pasal 37(1) UU PPSP</strong> jo. <strong>Pasal 23 UU Pengadilan Pajak No. 14/2002</strong>. Terbuka pula kemungkinan uji materi PMK 81/2024 ke Mahkamah Agung.
+              </div>
+            </div>
+          </div>
+
+          <div id="tab-admin" class="tab-panel">
+            <div class="card-grid-2">
+              <div class="card" style="border-top:3px solid var(--green)">
+                <div class="card-label" style="color:var(--green)">Fondasi yang Sudah Ada</div>
+                <div style="font-size:0.82rem;color:var(--ink-2);line-height:1.65;">
+                  ✓ Infrastruktur teknis dasar Coretax tersedia<br>
+                  ✓ Konsep Pemindahbukuan sudah dikenal dan dipraktikkan<br>
+                  ✓ Sistem notifikasi akun dapat dikembangkan
+                </div>
+              </div>
+              <div class="card" style="border-top:3px solid var(--red)">
+                <div class="card-label" style="color:var(--red)">Gap Operasional yang Membatasi</div>
+                <div style="font-size:0.82rem;color:var(--ink-2);line-height:1.65;">
+                  ✗ Tidak ada integrasi real-time modul penagihan ↔ modul deposit<br>
+                  ✗ Sistem tidak mendukung pemotongan parsial<br>
+                  ✗ Masa berlaku kode billing deposit hanya 7 hari (lebih singkat dari standar lama 1 bulan)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="tab-governance" class="tab-panel">
+            <div class="card" style="margin-bottom:14px;">
+              <div class="card-label">Paradoks Kepatuhan WP (Setyastrini et al., 2025)</div>
+              <div style="font-size:0.83rem;color:var(--ink-2);line-height:1.7;">
+                WP yang menggunakan deposit = WP patuh (tidak butuh penagihan aktif) ↔ WP yang butuh penagihan aktif = WP yang justru menghindari deposit karena opportunity cost. Deposit lebih efektif sebagai instrumen untuk <em>memperlancar kepatuhan yang sudah ada</em> daripada untuk <em>mendorong kepatuhan segmen bermasalah</em>.
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-label">Perspektif AUPB (UU 30/2014 Pasal 10)</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+                <div style="background:var(--amber-light);border-radius:var(--radius-xs);padding:12px;font-size:0.8rem;color:var(--amber);line-height:1.6;">
+                  <strong>Asas Kepastian Hukum:</strong><br>WP harus dapat memprediksi konsekuensi pengisian deposit, termasuk kemungkinan pemotongannya. Belum terpenuhi — tidak ada notifikasi pra-pemotongan.
+                </div>
+                <div style="background:var(--amber-light);border-radius:var(--radius-xs);padding:12px;font-size:0.8rem;color:var(--amber);line-height:1.6;">
+                  <strong>Asas Kecermatan:</strong><br>Sebelum tindakan diambil, otoritas wajib memastikan kebenaran data. Belum terpenuhi — tidak ada verifikasi kondisi sebelum sistem mengeksekusi pemotongan.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 8. SCENARIO ANALYSIS ══════════ -->
+      <div class="section" id="scenario">
+        <div class="section-header">
+          <span class="section-number">08</span>
+          <h2 class="section-title">Scenario Analysis — 3 Posisi Deposit</h2>
+        </div>
+
+        <div class="scenario-cards">
+          <div class="scenario-card">
+            <div class="scenario-label">Skenario A</div>
+            <div class="scenario-name">Deposit sebagai Fasilitas Administrasi Biasa</div>
+            <div class="scenario-body">
+              Deposit dipertahankan semata-mata sebagai instrumen pembayaran sukarela. Sistem penagihan berjalan sepenuhnya terpisah, tidak mempertimbangkan ketersediaan saldo deposit. <em>Kondisi yang sudah ada saat ini.</em>
+            </div>
+            <div class="scenario-meta">
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Kepastian Hukum</span>
+                <span class="badge badge-green">Penuh</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Efisiensi Penagihan</span>
+                <span class="badge badge-gray">Tidak Ada</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Perubahan Regulasi</span>
+                <span class="badge badge-green">Tidak Perlu</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Peran</span>
+                <span class="badge badge-gray">Baseline</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card recommended">
+            <div class="scenario-recommended-tag">★ Rekomendasi Jangka Menengah</div>
+            <div class="scenario-label">Skenario B</div>
+            <div class="scenario-name">Deposit sebagai Instrumen Pendukung Terbatas</div>
+            <div class="scenario-body">
+              Pengembangan bertahap: (1) mekanisme consent eksplisit dalam onboarding Coretax, (2) titik cek saldo deposit sebelum Surat Teguran sebagai <em>penawaran</em> kepada WP, bukan pemaksaan. Seluruh eksekusi tetap berbasis permohonan WP.
+            </div>
+            <div class="scenario-meta">
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Risiko Legal</span>
+                <span class="badge badge-green">Rendah</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Feasibility</span>
+                <span class="badge badge-green">PMK / Perdirjen</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Efisiensi</span>
+                <span class="badge badge-amber">Terukur</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Revisi UU</span>
+                <span class="badge badge-green">Tidak Perlu</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="scenario-label">Skenario C</div>
+            <div class="scenario-name">Deposit sebagai Instrumen Terintegrasi dalam Penagihan</div>
+            <div class="scenario-body">
+              Sistem memotong deposit otomatis saat tunggakan jatuh tempo berdasarkan <em>standing instruction</em> dari WP, sehingga Surat Teguran dapat dicegah. Potensi manfaat terbesar, namun kompleksitas hukum dan tata kelola tertinggi.
+            </div>
+            <div class="scenario-meta">
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Risiko Legal</span>
+                <span class="badge badge-red">Tinggi</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Feasibility</span>
+                <span class="badge badge-red">Perlu Kajian UU</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Efisiensi</span>
+                <span class="badge badge-green">Signifikan</span>
+              </div>
+              <div class="scenario-meta-row">
+                <span class="scenario-meta-key">Horizon</span>
+                <span class="badge badge-gray">Orientasi Jangka Panjang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 9. RECOMMENDATIONS ══════════ -->
+      <div class="section" id="recs">
+        <div class="section-header">
+          <span class="section-number">09</span>
+          <h2 class="section-title">Rekomendasi Konseptual</h2>
+        </div>
+
+        <p style="font-size:0.83rem;color:var(--ink-3);margin-bottom:22px;">6 rekomendasi dalam 3 horizon waktu — mencerminkan 3 lapisan akar masalah. Framing: <em>potential policy consideration / conceptual improvement / indicative recommendation / possible future evaluation</em> — bukan instruksi implementasi.</p>
+
+        <!-- JANGKA PENDEK -->
+        <div class="horizon-group">
+          <div class="horizon-label">
+            <div class="horizon-title">Jangka Pendek — Klarifikasi &amp; Penguatan Fondasi</div>
+            <div class="horizon-bar"></div>
+            <span class="badge badge-purple">Governance Lag</span>
+          </div>
+
+          <div class="rec-card">
+            <div class="rec-header">
+              <span class="rec-code">RC-1</span>
+              <div>
+                <div style="margin-bottom:3px;"><span class="badge badge-amber">Potential Policy Consideration</span></div>
+                <div class="rec-title">Pengembangan Mekanisme Consent Eksplisit untuk Konteks Penagihan</div>
+              </div>
+            </div>
+            <div class="rec-body">
+              Klausul persetujuan elektronik yang mencakup skenario penagihan aktif dalam proses onboarding Coretax — perluasan dari Pasal 12(7) PMK 81/2024. Substansi minimal: (1) kondisi pemicu, (2) hak notifikasi sebelum eksekusi, (3) mekanisme pencabutan consent, (4) jalur keberatan. <strong>Catatan:</strong> Kekuatan hukum bergantung sebagian pada klarifikasi status hukum deposit (Gap L2-B). RC-1 dan LP-1 sebaiknya dipertimbangkan bersamaan.
+            </div>
+          </div>
+
+          <div class="rec-card">
+            <div class="rec-header">
+              <span class="rec-code">RC-2</span>
+              <div>
+                <div style="margin-bottom:3px;"><span class="badge badge-teal">Conceptual Improvement</span></div>
+                <div class="rec-title">Standarisasi Audit Trail untuk Transaksi Deposit Terkait Penagihan</div>
+              </div>
+            </div>
+            <div class="rec-body">
+              Standar pencatatan minimum via SOP/kebijakan teknis internal — tanpa perubahan regulasi. Mencakup: dasar penagihan yang memicu transaksi, jumlah dipotong, waktu eksekusi, otorisasi berlaku, format pembuktian, durasi retensi. Bukan hanya akuntabilitas eksternal — ini juga perlindungan institusional DJP sendiri dalam sengketa.
+            </div>
+          </div>
+        </div>
+
+        <!-- JANGKA MENENGAH -->
+        <div class="horizon-group">
+          <div class="horizon-label">
+            <div class="horizon-title">Jangka Menengah — Pengembangan Integrasi Operasional Terbatas</div>
+            <div class="horizon-bar"></div>
+            <span class="badge badge-amber">Design Gap</span>
+          </div>
+
+          <div class="rec-card">
+            <div class="rec-header">
+              <span class="rec-code">RC-3</span>
+              <div>
+                <div style="margin-bottom:3px;"><span class="badge badge-blue">Indicative Recommendation</span></div>
+                <div class="rec-title">Titik Cek Saldo Deposit sebagai Mekanisme Preventif Sukarela</div>
+              </div>
+            </div>
+            <div class="rec-body">
+              Titik verifikasi saldo deposit dalam alur penagihan — <em>sebelum</em> Surat Teguran diterbitkan — beroperasi sebagai <strong>penawaran berbasis informasi</strong>, bukan pemaksaan. Jika WP merespons dan melakukan PB → Surat Teguran tidak perlu diterbitkan; jika tidak merespons → alur UU PPSP berjalan normal. Tidak mengubah prosedur UU PPSP — hanya menambah fase konsultatif sebelum fase represif. Prasyarat teknis: integrasi real-time modul penagihan ↔ deposit.
+            </div>
+          </div>
+
+          <div class="rec-card">
+            <div class="rec-header">
+              <span class="rec-code">RC-4</span>
+              <div>
+                <div style="margin-bottom:3px;"><span class="badge badge-teal">Conceptual Improvement</span></div>
+                <div class="rec-title">Evaluasi Kapabilitas Pemotongan Parsial</div>
+              </div>
+            </div>
+            <div class="rec-body">
+              Penyesuaian arsitektur teknis sistem untuk mendukung pemotongan parsial — tanpa perubahan regulasi. Saldo yang ada dapat mengurangi tunggakan meskipun tidak melunasinya sepenuhnya, sebelum proses penagihan untuk sisanya dimulai. Meningkatkan efektivitas deposit secara signifikan.
+            </div>
+          </div>
+
+          <div class="rec-card">
+            <div class="rec-header">
+              <span class="rec-code">RC-5</span>
+              <div>
+                <div style="margin-bottom:3px;"><span class="badge badge-amber">Potential Policy Consideration</span></div>
+                <div class="rec-title">Pengembangan Compliance Framework Peralihan Fungsi Deposit</div>
+              </div>
+            </div>
+            <div class="rec-body">
+              Kerangka kepatuhan yang mendefinisikan secara eksplisit kondisi-kondisi di mana deposit berperan sebagai instrumen pendukung penagihan — berbeda dari penggunaan sehari-hari. Menjawab: produk hukum apa yang memicu pertimbangan pemanfaatan deposit, apakah berlaku untuk semua WP atau segmen tertentu, dan siapa yang memiliki kewenangan mengaktifkan mekanisme ini.
+            </div>
+          </div>
+        </div>
+
+        <!-- JANGKA PANJANG -->
+        <div class="horizon-group">
+          <div class="horizon-label">
+            <div class="horizon-title">Jangka Panjang — Orientasi Harmonisasi Kerangka Hukum</div>
+            <div class="horizon-bar"></div>
+            <span class="badge badge-red">Legislative Lag</span>
+          </div>
+
+          <div class="rec-card" style="border-left: 4px solid var(--ink-4);">
+            <div class="rec-header">
+              <span class="rec-code">RC-6</span>
+              <div>
+                <div style="margin-bottom:3px;"><span class="badge badge-gray">Possible Future Evaluation</span></div>
+                <div class="rec-title">Kajian Harmonisasi UU PPSP dengan Ekosistem Penagihan Digital</div>
+              </div>
+            </div>
+            <div class="rec-body">
+              <strong>Ini bukan rekomendasi yang perlu atau dapat dilaksanakan dalam jangka dekat.</strong> Sebagai agenda jangka panjang, evaluasi menyeluruh perlu mencakup: (1) apakah pemberitahuan elektronik via Coretax dapat setara dengan pembacaan fisik Surat Paksa Jurusita (Pasal 10 UU PPSP); (2) bagaimana merumuskan di level UU tata cara penanganan "saldo internal DJP" dalam konteks penagihan. RC-1 s.d. RC-5 dirancang untuk memberikan ruang gerak produktif selama proses harmonisasi jangka panjang ini belum dicapai.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 10. EVIDENCE STATUS ══════════ -->
+      <div class="section" id="evidence">
+        <div class="section-header">
+          <span class="section-number">10</span>
+          <h2 class="section-title">Evidence Status</h2>
+        </div>
+
+        <div class="card-grid-2" style="margin-bottom:16px;">
+          <div class="card" style="border-top:3px solid var(--green)">
+            <div class="card-label" style="color:var(--green)">Regulasi — Terkonfirmasi &amp; Dapat Diandalkan</div>
+            <div style="font-size:0.8rem;color:var(--ink-2);line-height:1.8;">
+              ✓ UU KUP (UU 6/1983 jo. UU 7/2021)<br>
+              ✓ UU PPSP (UU 19/1997 jo. UU 19/2000)<br>
+              ✓ UU Pengadilan Pajak (UU 14/2002)<br>
+              ✓ UU Administrasi Pemerintahan (UU 30/2014)<br>
+              ✓ PMK 61/PMK.03/2023<br>
+              ✓ PMK 81 Tahun 2024<br>
+              ✓ PER-10/PJ/2024<br>
+              ✓ UU 12/2011 jo. UU 13/2022 (Hierarki Peraturan)
+            </div>
+          </div>
+          <div class="card" style="border-top:3px solid var(--amber)">
+            <div class="card-label" style="color:var(--amber)">Literatur — Perlu Konfirmasi Detail</div>
+            <div style="font-size:0.8rem;color:var(--ink-2);line-height:1.8;">
+              ⚠ Herianto (2024) — detail jurnal belum dikonfirmasi<br>
+              ⚠ Maisyura et al. (2025) — detail jurnal belum dikonfirmasi<br>
+              ⚠ Setyastrini et al. (2025) — detail jurnal belum dikonfirmasi<br>
+              ⚠ ADB (2024) Singapore — aksesibilitas publik perlu verifikasi<br>
+              ⚠ Ortax (2023) PMK 81/2024 — detail sumber perlu dikonfirmasi<br>
+              ✓ OECD (2020) Tax Administration 3.0<br>
+              ✓ Kirchler (2007) Economic Psychology of Tax<br>
+              ✓ Allingham &amp; Sandmo (1972)
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Data Statistik — Pending Insertion</div>
+          <div style="font-size:0.82rem;color:var(--ink-2);line-height:1.8;">
+            ⏳ <strong>Piutang pajak yang belum tertagih (LKPP terbaru)</strong> — nilai aktual belum dimasukkan, disebutkan sebagai "signifikan" dalam draft<br>
+            ⏳ <strong>Rasio pencairan piutang pajak (LAKIN DJP terbaru)</strong> — nilai aktual belum dimasukkan, disebutkan sebagai "belum optimal"<br>
+            ⏳ <strong>KT-02/2025 DJP</strong> — aksesibilitas publik untuk sitasi formal perlu dikonfirmasi<br>
+            ⏳ <strong>PER-10/PJ/2024 Lampiran B Angka 29</strong> — detail teknis perlu dikonfirmasi<br>
+            ⏳ <strong>Referensi buku teks hukum administrasi Indonesia</strong> (Hadjon 2011, Marbun 2018) — aksesibilitas belum dikonfirmasi (EVIDENCE GAP SL-3)<br>
+            ⏳ <strong>Literatur digital governance</strong> (governance lag sistem otomatis pemerintahan) — belum dapat dikonfirmasi (EVIDENCE GAP SL-4)
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 11. OPEN ISSUES ══════════ -->
+      <div class="section" id="issues">
+        <div class="section-header">
+          <span class="section-number">11</span>
+          <h2 class="section-title">Open Issues — Validation Items</h2>
+        </div>
+
+        <p style="font-size:0.83rem;color:var(--ink-3);margin-bottom:18px;">Item-item berikut perlu diselesaikan sebelum finalisasi. Ditampilkan secara eksplisit sebagai bagian dari integritas akademik penelitian.</p>
+
+        <!-- DATA NEEDED -->
+        <div style="margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span class="badge badge-amber">⏳ Data Needed</span>
+            <span style="font-size:0.78rem;color:var(--ink-3);">3 item</span>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon data">📊</div>
+            <div class="issue-body">
+              <div class="issue-title">Data Piutang Pajak LKPP + Rasio Pencairan LAKIN DJP</div>
+              <div class="issue-desc">
+                Disebutkan 3× dalam draft sebagai "jumlah yang signifikan" dan "belum optimal." Perlu diisi dengan angka aktual dari LKPP terbaru dan Laporan Kinerja DJP terbaru agar argumen tentang skala masalah dapat didukung data konkret. <em>Lokasi: Bagian 1.1, 2.1, 3.1.</em>
+              </div>
+            </div>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon data">📋</div>
+            <div class="issue-body">
+              <div class="issue-title">Aksesibilitas Publik KT-02/2025 (Surat Permohonan Maaf DJP)</div>
+              <div class="issue-desc">
+                Dirujuk sebagai bukti bahwa DJP mengakui kendala implementasi Coretax fase awal. Perlu konfirmasi apakah dokumen ini dapat diakses publik untuk keperluan sitasi formal akademik.
+              </div>
+            </div>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon data">📌</div>
+            <div class="issue-body">
+              <div class="issue-title">Detail Teknis PER-10/PJ/2024 Lampiran B Angka 29</div>
+              <div class="issue-desc">
+                Dirujuk untuk mendukung penjelasan KJS 300 (pelunasan tagihan/ketetapan pajak via deposit). Perlu verifikasi bahwa pasal dan nomor yang dirujuk sudah tepat dan akurat.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIRMATION NEEDED -->
+        <div style="margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span class="badge badge-purple">✓? Confirmation Needed</span>
+            <span style="font-size:0.78rem;color:var(--ink-3);">3 item</span>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon confirm">🔍</div>
+            <div class="issue-body">
+              <div class="issue-title">Detail Jurnal: Herianto (2024), Maisyura et al. (2025), Setyastrini et al. (2025)</div>
+              <div class="issue-desc">
+                Tiga referensi kunci yang mendukung argumen inefisiensi penagihan, transformasi digital, dan perilaku WP. Daftar referensi mencatat <em>"detail lengkap perlu dikonfirmasi"</em> untuk ketiganya. Perlu: nama jurnal, volume, halaman, DOI, dan aksesibilitas.
+              </div>
+            </div>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon confirm">⚖️</div>
+            <div class="issue-body">
+              <div class="issue-title">EVIDENCE GAP SL-3: Referensi Buku Teks Hukum Administrasi Indonesia</div>
+              <div class="issue-desc">
+                Argumen tentang asas <em>due process</em> dibangun dari konstruksi teks regulasi. Penguatan dengan referensi akademis seperti Hadjon (2011) atau Marbun (2018) disarankan namun aksesnya belum dikonfirmasi. Perlu cek ketersediaan dan relevansi untuk dikutip dalam versi final.
+              </div>
+            </div>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon confirm">🏛️</div>
+            <div class="issue-body">
+              <div class="issue-title">EVIDENCE GAP SL-4: Literatur Digital Governance — Governance Lag Sistem Otomatis</div>
+              <div class="issue-desc">
+                Argumen tentang governance lag dalam sistem otomatis pemerintahan belum memiliki referensi spesifik yang dikonfirmasi. Saat ini disandarkan pada Maisyura et al. (2025) dan OECD (2020). Penguatan dengan literatur Government Information Quarterly atau setara disarankan.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CITATION NEEDED -->
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <span class="badge badge-teal">📚 Citation Needed</span>
+            <span style="font-size:0.78rem;color:var(--ink-3);">2 item</span>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon citation">🌏</div>
+            <div class="issue-body">
+              <div class="issue-title">Referensi ADB (2024) — Digital Transformation of Revenue Administration in Singapore</div>
+              <div class="issue-desc">
+                Dirujuk secara spesifik untuk mendukung deskripsi sistem IRAS Singapura (PayNow/eGIRO, real-time settlement, segmentasi WP). Perlu verifikasi judul lengkap, unit penerbitan ADB, URL, dan apakah publikasi ini memang ada dan dapat diakses.
+              </div>
+            </div>
+          </div>
+
+          <div class="issue-card">
+            <div class="issue-icon citation">📰</div>
+            <div class="issue-body">
+              <div class="issue-title">Sumber Ortax (2023) tentang Integrasi 21 Proses Bisnis Coretax</div>
+              <div class="issue-desc">
+                Dirujuk untuk klaim bahwa Coretax mengintegrasikan 21 proses bisnis perpajakan. Daftar referensi mencatat <em>"detail lengkap perlu dikonfirmasi."</em> Perlu verifikasi URL, tanggal akses, dan apakah ini sumber primer atau sekunder yang cukup kuat untuk sitasi akademik.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ 12. DISCUSSION WITH MENTOR ══════════ -->
+      <div class="section" id="mentor">
+        <div class="section-header">
+          <span class="section-number">12</span>
+          <h2 class="section-title">Discussion with Mentor</h2>
+        </div>
+
+        <p style="font-size:0.83rem;color:var(--ink-3);margin-bottom:18px;">Panel ini menyajikan poin-poin yang disarankan untuk didiskusikan dalam sesi bimbingan dan konsultasi progres.</p>
+
+        <div class="discussion-grid">
+          <div class="discussion-card">
+            <div class="discussion-card-title">
+              ⚖️ Pertanyaan Substantif Hukum
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q1</span>
+              <span>Seberapa kuat konstruksi hukum Skenario 5 (standing instruction sebagai substitusi permohonan WP)? Apakah ada preseden di yurisprudensi perpajakan Indonesia atau administrasi publik yang dapat mendukung atau melemahkan argumen ini?</span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q2</span>
+              <span>Apakah ambiguitas status hukum saldo deposit ("harta WP" vs "pembayaran dikuasakan ke DJP") perlu direspon dengan tambahan sub-bagian analisis, atau cukup seperti yang sudah ada?</span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q3</span>
+              <span>Apakah diperlukan kajian lebih dalam tentang AUPB (asas kepastian hukum dan asas kecermatan) dalam konteks sistem otomatis? Ini tampaknya menjadi argumen yang kuat namun saat ini hanya disinggung singkat.</span>
+            </div>
+          </div>
+
+          <div class="discussion-card">
+            <div class="discussion-card-title">
+              📐 Pertanyaan Metodologis
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q4</span>
+              <span>Apakah <em>evidence gap</em> SL-3 dan SL-4 perlu tetap ditampilkan secara eksplisit di dalam naskah, atau lebih tepat dipindahkan seluruhnya ke catatan kaki/endnote?</span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q5</span>
+              <span>Mengingat ketiga literatur kunci (Herianto, Maisyura, Setyastrini) masih perlu konfirmasi detail, apakah perlu disiapkan alternatif referensi jika salah satu tidak dapat dikonfirmasi aksesnya?</span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q6</span>
+              <span>Seberapa penting referensi buku teks hukum administrasi Indonesia (Hadjon, Marbun) untuk kekuatan argumentasi? Apakah argumen yang dibangun dari teks regulasi sudah cukup?</span>
+            </div>
+          </div>
+
+          <div class="discussion-card">
+            <div class="discussion-card-title">
+              📋 Pertanyaan Penulisan &amp; Struktur
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q7</span>
+              <span>Apakah framing rekomendasi (potential policy consideration, indicative recommendation, dll.) sudah cukup hati-hati? Apakah ada rekomendasi yang perlu lebih dikuatkan atau dilemahkan framingnya?</span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q8</span>
+              <span>Visual yang direncanakan (Timeline Dua Jalur, Flowchart Penagihan, Flowchart Deposit, Traffic Light) — apakah akan memperkuat atau justru mengganggu alur bacaan dalam format final? Perlu dibuat atau opsional?</span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">Q9</span>
+              <span>Tabel-tabel yang direncanakan (Lima Gap, Compatibility Assessment, Scenario Matrix, Recommendation Framework) — apakah ada standar format yang perlu diikuti, atau bebas?</span>
+            </div>
+          </div>
+
+          <div class="discussion-card">
+            <div class="discussion-card-title">
+              🎯 Pertanyaan Prioritas untuk Sesi Ini
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">P1</span>
+              <span><strong>Apakah argumen inti penelitian — bahwa kompatibilitas bersifat parsial dan kondisional per skenario — sudah cukup kuat dan terdokumentasi dengan baik untuk layak dipertahankan?</strong></span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">P2</span>
+              <span><strong>Dari 8 item yang masih pending (data, konfirmasi, sitasi) — mana yang paling kritis dan mana yang dapat diterima dengan catatan di teks?</strong></span>
+            </div>
+            <div class="discussion-item">
+              <span class="discussion-q">P3</span>
+              <span><strong>Apakah ada gap analisis atau aspek regulasi yang terlewat yang perlu ditambahkan sebelum proofreading final?</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER NOTE -->
+      <div style="padding:20px 24px;background:var(--paper-2);border-radius:var(--radius-sm);border:1px solid var(--paper-3);font-size:0.78rem;color:var(--ink-3);line-height:1.65;">
+        <strong style="color:var(--ink-2)">Catatan Dashboard:</strong> Dashboard ini merupakan representasi ringkas dari Draft Final Candidate untuk keperluan bimbingan, konsultasi progres, dan executive briefing. Seluruh isi, termasuk open issues dan evidence gaps, ditampilkan secara transparan sebagai bagian dari proses bimbingan yang sehat. Untuk detail lengkap, rujuk dokumen asli.
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+  // ── COLLAPSIBLE ──
+  function toggleCollapsible(header) {
+    const body = header.nextElementSibling;
+    const isOpen = header.classList.contains('open');
+    header.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+
+  // ── TABS ──
+  function switchTab(btn, panelId) {
+    const tabGroup = btn.closest('.tabs');
+    tabGroup.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    tabGroup.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  // ── SCROLLSPY ──
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.remove('spy-active', 'active');
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('spy-active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(sec => observer.observe(sec));
+
+  // ── SMOOTH SCROLL ──
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Open first collapsible on load
+  document.addEventListener('DOMContentLoaded', () => {
+    // already set via class; nothing needed
+  });
+</script>
+
+</body>
+</html>
