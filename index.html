@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OKM 1 — Evaluasi Konseptual Deposit Pajak</title>
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --border: #e2e0da;
+    --border-strong: #c8c5bc;
+    --text: #1a1917;
+    --text-muted: #6b6860;
+    --text-faint: #9b9890;
+    --accent: #1a4a8a;
+    --accent-light: #e8eef8;
+    --accent-mid: #3a6ab0;
+    --green: #1a6b4a;
+    --green-light: #e6f4ee;
+    --amber: #7a4f10;
+    --amber-light: #fdf4e3;
+    --red: #8a1a1a;
+    --red-light: #fdf0f0;
+    --sidebar-w: 260px;
+    --font: 'Georgia', 'Times New Roman', serif;
+    --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1917;
+      --surface: #242320;
+      --border: #38352f;
+      --border-strong: #4a4740;
+      --text: #f0ede8;
+      --text-muted: #a09d98;
+      --text-faint: #6b6860;
+      --accent: #6b9fd4;
+      --accent-light: #1a2a3a;
+      --accent-mid: #8ab4e0;
+      --green: #5ab88a;
+      --green-light: #0f2a1e;
+      --amber: #d4a050;
+      --amber-light: #2a1f08;
+      --red: #d46060;
+      --red-light: #2a0f0f;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-ui);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* SIDEBAR */
+  #sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .sidebar-header {
+    padding: 20px 16px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .sidebar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .sidebar-meta {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+  .sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding: 12px 16px 4px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 16px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background 0.1s, border-color 0.1s;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .nav-item:hover { background: var(--bg); color: var(--text); }
+  .nav-item.active {
+    background: var(--accent-light);
+    border-left-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .nav-num {
+    flex-shrink: 0;
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 1px;
+    min-width: 16px;
+  }
+  .nav-item.active .nav-num { color: var(--accent); }
+
+  /* MAIN CONTENT */
+  #main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+  .content-section {
+    display: none;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+  .content-section.active { display: block; }
+
+  /* COVER PAGE */
+  .cover-page {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+  }
+  .cover-kop {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+  .cover-kop span { color: var(--accent); }
+  .cover-title {
+    font-family: var(--font);
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 1.35;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .cover-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .cover-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: var(--bg);
+  }
+  .badge.frozen {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .meta-item { font-size: 12px; }
+  .meta-label { color: var(--text-faint); margin-bottom: 2px; }
+  .meta-value { color: var(--text); font-weight: 500; }
+
+  /* SECTION HEADER */
+  .sec-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .sec-title {
+    font-family: var(--font);
+    font-size: 26px;
+    font-weight: normal;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .sec-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  /* TYPOGRAPHY */
+  .prose p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--text);
+    margin-bottom: 20px;
+    font-family: var(--font);
+  }
+  .prose h2 {
+    font-family: var(--font-ui);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 36px 0 12px;
+    padding-top: 4px;
+  }
+  .prose h3 {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 28px 0 10px;
+  }
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 12px 20px;
+    margin: 28px 0;
+    background: var(--accent-light);
+    border-radius: 0 6px 6px 0;
+  }
+  .pull-quote p {
+    font-size: 16px !important;
+    margin-bottom: 0 !important;
+    color: var(--accent) !important;
+    font-style: italic;
+  }
+
+  /* RESEARCH QUESTION BOX */
+  .rq-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 0 0 8px 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .rq-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .rq-text {
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* TABLES */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 24px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    background: var(--bg);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    line-height: 1.5;
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--bg); }
+
+  /* COMPATIBILITY BADGES */
+  .compat-compatible {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--green-light);
+    color: var(--green);
+    white-space: nowrap;
+  }
+  .compat-conditional {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--amber-light);
+    color: var(--amber);
+    white-space: nowrap;
+  }
+  .compat-notyet {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--red-light);
+    color: var(--red);
+    white-space: nowrap;
+  }
+
+  /* GAP CARDS */
+  .gap-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+  .gap-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .gap-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gap-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .gap-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-muted);
+    padding-left: 36px;
+  }
+
+  /* ROOT CAUSE */
+  .root-card {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+  .root-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .root-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .root-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  /* SCENARIO CARDS */
+  .scenario-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 14px;
+    background: var(--surface);
+  }
+  .scenario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .scenario-id {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+  }
+  .scenario-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .scenario-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  /* REKOMENDASI */
+  .rec-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+  .rec-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .rec-code {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-ui);
+  }
+  .rec-horizon {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .horizon-pendek { background: var(--green-light); color: var(--green); }
+  .horizon-menengah { background: var(--amber-light); color: var(--amber); }
+  .horizon-panjang { background: var(--red-light); color: var(--red); }
+  .rec-type {
+    font-size: 11px;
+    color: var(--text-faint);
+    font-style: italic;
+  }
+  .rec-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .rec-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  /* FIGURE PLACEHOLDERS */
+  .figure-placeholder {
+    border: 1px dashed var(--border-strong);
+    border-radius: 8px;
+    background: var(--bg);
+    padding: 24px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  .figure-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .figure-title {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* REFERENSI */
+  .ref-group { margin-bottom: 28px; }
+  .ref-group-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .ref-item {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    padding-left: 16px;
+    text-indent: -16px;
+  }
+  .ref-item:last-child { border-bottom: none; }
+
+  /* SCROLLBAR */
+  #main::-webkit-scrollbar { width: 6px; }
+  #main::-webkit-scrollbar-track { background: transparent; }
+  #main::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+  .sidebar-nav::-webkit-scrollbar { width: 4px; }
+  .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* PROGRESS */
+  #progress-bar {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-w);
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.1s;
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">DJP · <span>OKM 1</span></div>
+    <div class="sidebar-title">Evaluasi Konseptual Deposit Pajak</div>
+    <div class="sidebar-meta">Dio Nanda Pratama Hidayat · 2025</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Dokumen</div>
+    <div class="nav-item active" onclick="showSection('cover')">
+      <span class="nav-num">—</span>
+      <span>Halaman Muka</span>
+    </div>
+    <div class="nav-section-label">Isi</div>
+    <div class="nav-item" onclick="showSection('bab1')">
+      <span class="nav-num">1</span>
+      <span>Pendahuluan</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab2')">
+      <span class="nav-num">2</span>
+      <span>Tinjauan Regulasi &amp; Literatur</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab3a')">
+      <span class="nav-num">3.1</span>
+      <span>Kondisi Eksisting Penagihan</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab3b')">
+      <span class="nav-num">3.2</span>
+      <span>Gap Analysis</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab3c')">
+      <span class="nav-num">3.3</span>
+      <span>Root Cause Analysis</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab3d')">
+      <span class="nav-num">3.4</span>
+      <span>Evaluasi Kompatibilitas</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab3e')">
+      <span class="nav-num">3.5</span>
+      <span>Analisis Skenario</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab4')">
+      <span class="nav-num">4</span>
+      <span>Rekomendasi Konseptual</span>
+    </div>
+    <div class="nav-item" onclick="showSection('bab5')">
+      <span class="nav-num">5</span>
+      <span>Penutup</span>
+    </div>
+    <div class="nav-item" onclick="showSection('dafpus')">
+      <span class="nav-num">—</span>
+      <span>Daftar Pustaka</span>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- COVER -->
+  <section class="content-section active" id="cover">
+    <div class="cover-page">
+      <div class="cover-kop">Kementerian Keuangan RI · Direktorat Jenderal Pajak · <span>Direktorat Transformasi Proses Bisnis</span></div>
+      <div style="font-size:11px;color:var(--text-faint);margin-bottom:24px;">Output Kontribusi Magang</div>
+      <div class="cover-title">Evaluasi Konseptual Pemanfaatan Deposit Pajak sebagai Instrumen Pendukung Penagihan Pajak dalam Konteks Modernisasi Administrasi Perpajakan</div>
+      <div class="cover-badges">
+        <span class="badge frozen">Draft Final Frozen v1.0</span>
+        <span class="badge">Evaluasi Konseptual</span>
+        <span class="badge">Studi Kepustakaan</span>
+        <span class="badge">Coretax · PMK 81/2024</span>
+      </div>
+      <div class="cover-meta-grid">
+        <div class="meta-item"><div class="meta-label">Penyusun</div><div class="meta-value">Dio Nanda Pratama Hidayat</div></div>
+        <div class="meta-item"><div class="meta-label">NPM</div><div class="meta-value">4121220161</div></div>
+        <div class="meta-item"><div class="meta-label">Program Studi</div><div class="meta-value">Sarjana Terapan MKN — Penerimaan, PKN STAN</div></div>
+        <div class="meta-item"><div class="meta-label">Unit Magang</div><div class="meta-value">Subdit Pengembangan Penegakan Hukum, DTPB</div></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:32px;">
+      <div style="font-size:12px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">Rumusan Masalah Utama</div>
+      <div class="rq-box">
+        <div class="rq-label">Research Question</div>
+        <div class="rq-text">Sejauh mana deposit pajak dalam sistem Coretax dapat secara konseptual dimanfaatkan sebagai instrumen pendukung penyelesaian kewajiban dalam proses penagihan pajak, dan apa saja prasyarat hukum serta prosedural yang harus dipenuhi agar pemanfaatan tersebut tidak menimbulkan risiko cacat formil?</div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">Positioning Penelitian</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="border:1px solid var(--border);border-radius:8px;padding:16px;background:var(--surface);">
+          <div style="font-size:11px;color:var(--text-faint);margin-bottom:6px;">Fokus Utama</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text);">Tantangan struktural penagihan pajak</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:8px;padding:16px;background:var(--surface);">
+          <div style="font-size:11px;color:var(--text-faint);margin-bottom:6px;">Objek Evaluasi</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text);">Deposit Pajak sebagai opsi konseptual</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAB 1 -->
+  <section class="content-section" id="bab1">
+    <div class="sec-eyebrow">Bagian 1</div>
+    <div class="sec-title">Pendahuluan</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <h2>1.1 Latar Belakang</h2>
+      <p>Bayangkan sebuah situasi yang secara intuitif terasa tidak masuk akal: seorang Wajib Pajak memiliki tunggakan pajak sebesar Rp10 juta. Ia juga memiliki saldo Deposit Pajak sebesar Rp12 juta yang tersimpan dalam sistem yang dikelola langsung oleh DJP. Kedua informasi ini, dalam ekosistem Coretax yang berlaku sejak 1 Januari 2025, tersedia dalam satu platform yang sama dan secara teknis dapat dikompensasikan dalam hitungan detik.</p>
+      <p>Namun berdasarkan kerangka hukum yang berlaku, jika Wajib Pajak tersebut tidak secara proaktif menggunakan saldo depositnya untuk melunasi tunggakan, DJP harus menempuh rangkaian prosedur yang memakan waktu minimal tiga puluh hari kerja hanya untuk sampai pada tahap penyitaan: tujuh hari untuk Surat Teguran, dua puluh satu hari untuk Surat Paksa yang wajib dibacakan secara fisik oleh Jurusita Pajak, dan dua hari untuk Surat Perintah Melaksanakan Penyitaan (PMK 61/2023, Pasal 5). Sementara saldo internal yang sudah ada di dalam sistem DJP sendiri hanya dapat digunakan jika Wajib Pajak memilih untuk menggunakannya.</p>
+      <div class="pull-quote">
+        <p>Ini bukan anomali teknis. Ini adalah gambaran dari sebuah kesenjangan konseptual yang genuine: sebuah instrumen baru bergerak lebih cepat dari kerangka hukum yang mengaturnya.</p>
+      </div>
+
+      <div class="figure-placeholder">
+        <div class="figure-label">Gambar 1</div>
+        <div class="figure-title">Tren Piutang Pajak Nasional Tahun 2020–2024 (Rp Triliun)</div>
+        <div style="font-size:12px;color:var(--text-faint);margin-top:4px;">Sumber: Diolah dari Laporan Keuangan DJP Audited 2020–2024</div>
+      </div>
+
+      <p>Piutang pajak neto konsisten berada di kisaran Rp28–35 triliun dan piutang bruto di kisaran Rp68–75 triliun sepanjang 2020–2024. Penting untuk memahami angka ini dalam konteks yang tepat: tingginya saldo piutang pajak tidak dapat diinterpretasikan secara langsung sebagai cerminan dari satu faktor tunggal. Piutang pajak adalah hasil dari interaksi banyak variabel — termasuk kemampuan bayar Wajib Pajak yang dipengaruhi kondisi ekonomi, karakteristik aset yang dapat dieksekusi, dan dinamika arus kas pelaku usaha.</p>
+
+      <div class="figure-placeholder">
+        <div class="figure-label">Gambar 2</div>
+        <div class="figure-title">Piutang Pajak Neto dan Total Pencairan melalui Tindakan Penegakan Hukum Tahun 2020–2024</div>
+        <div style="font-size:12px;color:var(--text-faint);margin-top:4px;">Sumber: Piutang Neto dari LK DJP Audited; Total Enforcement dari LAKIN DJP 2020–2024</div>
+      </div>
+
+      <p>Di tengah tantangan struktural tersebut, Coretax hadir sebagai transformasi paling ambisius dalam sejarah administrasi perpajakan Indonesia. Melalui PMK 81/2024, sistem ini mengintegrasikan dua puluh satu proses bisnis perpajakan ke dalam satu ekosistem digital, dengan salah satu instrumen inovasinya adalah Deposit Pajak — yang secara resmi didefinisikan sebagai "pembayaran pajak yang belum merujuk pada kewajiban pajak tertentu" (PMK 81/2024, Pasal 1 angka 112).</p>
+      <p>Kemungkinan ini menarik, namun belum terealisasi secara penuh. Deposit pajak belum secara formal diakui sebagai instrumen penagihan pajak. Pemanfaatannya dalam konteks penagihan aktif menghadapi ketidakjelasan hukum yang serius: apakah pemotongan saldo deposit dalam rangka penyelesaian tunggakan pajak termasuk dalam kategori tindakan penagihan paksa yang tunduk pada seluruh prosedur UU PPSP?</p>
+
+      <h2>1.2 Rumusan Masalah</h2>
+      <div class="rq-box">
+        <div class="rq-label">Rumusan Masalah Penelitian</div>
+        <div class="rq-text">Sejauh mana deposit pajak dalam sistem Coretax dapat secara konseptual dimanfaatkan sebagai instrumen pendukung penyelesaian kewajiban dalam proses penagihan pajak, dan apa saja prasyarat hukum serta prosedural yang harus dipenuhi agar pemanfaatan tersebut tidak menimbulkan risiko cacat formil?</div>
+      </div>
+
+      <h2>1.3 Tujuan Penulisan</h2>
+      <p>Pertama, mengidentifikasi secara sistematis karakteristik dan tantangan dalam proses penagihan pajak konvensional yang relevan bagi pertanyaan penelitian ini. Kedua, mengevaluasi kompatibilitas konseptual deposit pajak dengan kerangka hukum dan administratif penagihan pajak yang berlaku, dari empat perspektif: legal, administratif, kepatuhan, dan tata kelola. Ketiga, mengidentifikasi prasyarat hukum dan prosedural yang diperlukan beserta skenario pemanfaatan yang paling realistis.</p>
+
+      <h2>1.4 Manfaat Penulisan</h2>
+      <p>Secara praktis, penelitian ini diharapkan dapat memberikan referensi konseptual bagi DJP dan Kementerian Keuangan dalam mengevaluasi kebijakan terkait deposit pajak dan modernisasi penagihan, dengan mengidentifikasi secara spesifik di mana ketidakjelasan hukum berada. Secara akademis, penelitian ini berkontribusi sebagai kajian konseptual awal yang memetakan lanskap masalah — menyediakan fondasi bagi studi empiris dan studi hukum yang lebih mendalam.</p>
+
+      <h2>1.5 Metodologi</h2>
+      <p>Penelitian ini merupakan evaluasi konseptual berbasis studi kepustakaan. Sumber data utama mencakup regulasi primer (UU KUP, UU PPSP, PMK 61/2023, PMK 81/2024, PER-10/PJ/2024) serta literatur akademik dan dokumen resmi lembaga internasional. Analisis dilakukan melalui: analisis komparatif regulasi, evaluasi proses bisnis, dan komparasi benchmark internasional.</p>
+
+      <h2>1.6 Batasan Penulisan</h2>
+      <p>Penelitian ini tidak merancang ulang sistem Coretax secara teknis, tidak melakukan studi empiris terhadap perilaku Wajib Pajak, dan tidak mengajukan revisi Undang-Undang sebagai rekomendasi utama. Yang dievaluasi adalah kompatibilitas konseptual deposit pajak dengan dimensi prosedural tertentu dari proses penagihan.</p>
+    </div>
+  </section>
+
+  <!-- BAB 2 -->
+  <section class="content-section" id="bab2">
+    <div class="sec-eyebrow">Bagian 2</div>
+    <div class="sec-title">Tinjauan Regulasi &amp; Literatur</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <h2>2.1 Kerangka Teoritis</h2>
+      <p>Evaluasi konseptual dalam penelitian ini berpijak pada dua kerangka teoritis yang saling melengkapi.</p>
+      <p><strong>Teori kepatuhan pajak</strong> — khususnya dikotomi antara <em>voluntary compliance</em> dan <em>enforced compliance</em>. Allingham dan Sandmo (1972) meletakkan fondasi analitik untuk memahami kepatuhan sebagai kalkulasi rasional atas risiko deteksi. Kirchler (2007) mengidentifikasi dua jalur: jalur <em>enforced</em> (kepatuhan karena tekanan), dan jalur <em>voluntary</em> (kepatuhan karena kepercayaan terhadap sistem).</p>
+      <div class="pull-quote">
+        <p>Evaluasi tentang apakah deposit dapat menjadi instrumen pendukung penagihan adalah evaluasi tentang apakah instrumen yang dirancang untuk mendukung voluntary compliance dapat diperluas ke ranah enforced compliance tanpa kehilangan validitas hukum dan operasionalnya.</p>
+      </div>
+      <p><strong>Kerangka Tax Administration 3.0 (OECD, 2020)</strong> — konsep <em>compliance by design</em> mengajukan prinsip bahwa kepatuhan pajak yang optimal terjadi ketika pemenuhan kewajiban perpajakan diintegrasikan secara mulus ke dalam proses ekonomi yang sudah dilakukan Wajib Pajak. Deposit pajak adalah perwujudan prinsip ini dalam konteks Indonesia.</p>
+
+      <h2>2.2 Penagihan Pajak: Konsep dan Kerangka Hukum</h2>
+      <p>Penagihan pajak merupakan instrumen terakhir yang dimiliki negara untuk mengamankan penerimaan dari Wajib Pajak yang tidak memenuhi kewajibannya secara sukarela. Kerangka hukumnya: UU PPSP (UU No. 19/1997 jo. UU No. 19/2000). UU PPSP memiliki dua karakteristik yang mendefinisikan seluruh rezim penagihan: kekuatan eksekutorial yang sangat besar, dan syarat prosedural yang sangat ketat.</p>
+      <p>Alur penagihan berjenjang dan bertenggat ketat: Surat Teguran diterbitkan pada hari ketujuh → Surat Paksa diterbitkan dua puluh satu hari kemudian, wajib dibacakan secara fisik oleh Jurusita → dua hari kerja kemudian dapat diterbitkan Surat Perintah Melaksanakan Penyitaan (PMK 61/2023, Pasal 5).</p>
+      <div class="pull-quote">
+        <p>Rigiditas prosedur adalah harga yang secara sengaja ditetapkan pembuat undang-undang sebagai konsekuensi dari kekuatan eksekutorial yang dimiliki penagihan pajak.</p>
+      </div>
+
+      <h2>2.3 Deposit Pajak sebagai Instrumen Baru dalam Coretax</h2>
+      <p>Deposit Pajak didefinisikan dalam Pasal 1 angka 112 PMK 81/2024 sebagai <em>"pembayaran pajak yang belum merujuk pada kewajiban pajak tertentu."</em> Instrumen ini bekerja layaknya dompet digital perpajakan: Wajib Pajak dapat menyetorkan dana lebih awal tanpa harus mengalokasikannya ke kewajiban tertentu.</p>
+      <p>Penggunaan saldo deposit ditempuh melalui dua jalur:</p>
+      <ul style="margin:12px 0 20px 20px;font-size:17px;font-family:var(--font);line-height:1.85;color:var(--text);">
+        <li style="margin-bottom:8px;"><strong>Jalur 1:</strong> Pemindahbukuan berdasarkan permohonan Wajib Pajak (PMK 81/2024, Pasal 108–109) — sepenuhnya sukarela, berada di luar rezim paksa UU PPSP.</li>
+        <li><strong>Jalur 2:</strong> Pemindahbukuan Secara Jabatan (PMK 81/2024, Pasal 110) — DJP memiliki kewenangan sepihak, termasuk sebagai tindak lanjut penyitaan oleh Jurusita (Pasal 110 huruf f PER-10/PJ/2024).</li>
+      </ul>
+      <p>Perbedaan antara dua jalur ini menjadi titik sentral dalam keseluruhan evaluasi kompatibilitas penelitian ini.</p>
+
+      <h2>2.4 Modernisasi Administrasi Perpajakan</h2>
+      <p>Coretax melalui PMK 81/2024 mengintegrasikan dua puluh satu proses bisnis perpajakan ke dalam satu ekosistem digital. Pergeseran paradigma ini selaras dengan prinsip Tax Administration 3.0 OECD (2020). Namun implementasi fase awal menunjukkan bahwa transformasi paradigma tidak pernah berlangsung tanpa gesekan — DJP menerbitkan KT-02/2025 yang secara resmi menyampaikan permohonan maaf atas kendala layanan sistem.</p>
+
+      <h2>2.5 Referensi Komparatif Internasional</h2>
+      <p><strong>Singapura (IRAS):</strong> Mengembangkan ekosistem pembayaran pajak digital berbasis PayNow dan eGIRO dengan prinsip <em>real-time settlement</em> — setiap pembayaran langsung memutakhirkan saldo akun pajak, sehingga sistem tidak keliru menginisiasi penagihan terhadap Wajib Pajak yang sudah memiliki dana.</p>
+      <p><strong>Australia (ATO):</strong> Memfasilitasi Wajib Pajak dengan tunggakan untuk mengatur rencana cicilan pembayaran secara mandiri melalui portal digital — <em>self-service resolution</em> sebagai lapisan pertama penyelesaian tunggakan.</p>
+      <p>Kedua referensi konvergen pada satu prinsip OECD (2020): upaya terbaik dalam penagihan bukanlah eksekusi yang lebih efisien, melainkan pencegahan tunggakan sebelum terjadi melalui desain sistem yang memfasilitasi kepatuhan sejak awal.</p>
+    </div>
+  </section>
+
+  <!-- BAB 3.1 -->
+  <section class="content-section" id="bab3a">
+    <div class="sec-eyebrow">Bagian 3.1</div>
+    <div class="sec-title">Kondisi Eksisting Penagihan Konvensional</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <p>Sebelum mengevaluasi apakah deposit pajak dapat dimanfaatkan sebagai instrumen pendukung penagihan, perlu dipahami terlebih dahulu karakteristik proses penagihan pajak yang berlaku saat ini. Perlu dicatat sejak awal bahwa tinggi atau rendahnya keberhasilan penagihan pajak dipengaruhi oleh berbagai faktor yang berada di luar kendali prosedur hukum — termasuk kemampuan bayar Wajib Pajak, kondisi arus kas, pengelolaan keuangan, kondisi ekonomi, dan ketersediaan aset yang dapat dieksekusi.</p>
+
+      <h2>Tiga Karakteristik Prosedural Relevan</h2>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">1</div>
+        <div class="gap-title">Tidak ada mekanisme pencegahan dini</div>
+      </div>
+      <div class="gap-body">Alur penagihan konvensional sepenuhnya bersifat reaktif: tindakan pertama DJP adalah menerbitkan Surat Teguran pada hari ketujuh setelah utang terbukti tidak dibayar. Tidak ada tahapan sebelumnya yang memeriksa apakah Wajib Pajak memiliki sumber daya yang dapat digunakan sebelum proses penagihan formal dimulai.</div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">2</div>
+        <div class="gap-title">Ketergantungan fisik pada Jurusita Pajak (tidak dapat dilewati)</div>
+      </div>
+      <div class="gap-body">Pasal 10 UU PPSP menetapkan bahwa Surat Paksa harus diberitahukan dengan cara dibacakan secara langsung oleh Jurusita Pajak kepada Penanggung Pajak. Setiap mekanisme pemotongan saldo deposit yang tidak mengikuti prosedur ini menghadapi risiko cacat formil yang serius.</div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">3</div>
+        <div class="gap-title">Risiko daluwarsa hak tagih</div>
+      </div>
+      <div class="gap-body">Pasal 22 UU PPSP menetapkan daluwarsa penagihan selama lima tahun. Herianto (2024) mencatat bahwa batas daluwarsa ini menjadi salah satu faktor prosedural yang mempengaruhi dinamika penagihan utang pajak secara keseluruhan.</div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="figure-placeholder">
+        <div class="figure-label">Gambar 3</div>
+        <div class="figure-title">Rincian Pencairan PKM: Pemeriksaan vs Penagihan Tahun 2023–2024 (Rp Triliun)</div>
+        <div style="font-size:12px;color:var(--text-faint);margin-top:4px;">Sumber: Laporan Kinerja DJP 2023 dan 2024</div>
+      </div>
+
+      <div class="figure-placeholder">
+        <div class="figure-label">Gambar 4</div>
+        <div class="figure-title">Structural Break dalam Pelaporan Kinerja DJP: Perubahan Nomenklatur IKU</div>
+        <div style="font-size:12px;color:var(--text-faint);margin-top:4px;">Sumber: Analisis berdasarkan LAKIN DJP 2020–2024</div>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;">
+      <div style="font-size:12px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Tabel 1 — Rasio Pencairan Penagihan terhadap Piutang Pajak Neto</div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tahun</th>
+              <th>Pencairan Penagihan (Rp T)</th>
+              <th>Piutang Neto (Rp T)</th>
+              <th>Rasio</th>
+              <th>Δ Rasio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2023</td>
+              <td>12,97</td>
+              <td>33,81</td>
+              <td>38,36%</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>2024</strong></td>
+              <td><strong>14,71</strong></td>
+              <td><strong>35,25</strong></td>
+              <td><strong>41,73%</strong></td>
+              <td><strong>+3,37 pp</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:12px;color:var(--text-faint);margin-top:6px;">Sumber: Piutang Neto dari LK DJP Audited; Pencairan Penagihan dari LAKIN DJP (Sub-komponen PKM Penagihan).</div>
+    </div>
+
+    <div class="prose" style="margin-top:20px;">
+      <p>Pencairan penagihan sebesar 38–42% dari piutang neto dalam satu tahun menggambarkan hasil dari seluruh rangkaian prosedur penagihan aktif yang memerlukan waktu minimal 30 hari hanya untuk sampai pada tahap penyitaan. Dalam perspektif inilah deposit pajak menjadi relevan untuk dievaluasi: sebagai instrumen yang berpotensi memperluas jalur penyelesaian kewajiban di luar yang sudah ada.</p>
+    </div>
+  </section>
+
+  <!-- BAB 3.2 -->
+  <section class="content-section" id="bab3b">
+    <div class="sec-eyebrow">Bagian 3.2</div>
+    <div class="sec-title">Gap Analysis</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <p>Teridentifikasi lima gap prioritas yang tersebar dalam tiga lapisan berbeda. Kelima gap ini membentuk satu rantai kausal di mana gap yang lebih hilir tidak dapat diselesaikan tanpa terlebih dahulu menyelesaikan gap yang lebih hulu.</p>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">1</div>
+        <div class="gap-title">Disharmoni PMK 81/2024 dengan prosedur UU PPSP</div>
+      </div>
+      <div class="gap-body">Pasal 110 PMK 81/2024 mengatur Pemindahbukuan Secara Jabatan sebagai tindak lanjut penyitaan oleh Jurusita. Namun penyitaan yang sah mensyaratkan Surat Paksa yang sah — yang mensyaratkan pembacaan fisik oleh Jurusita (Pasal 10 UU PPSP). PMK 81/2024 tidak dapat mengenyampingkan prosedur UU PPSP berdasarkan asas <em>lex superior derogat legi inferiori</em>.</div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">2</div>
+        <div class="gap-title">Kekosongan konsep "sita aset internal"</div>
+      </div>
+      <div class="gap-body">UU PPSP dan PMK 61/2023 hanya mengenal satu model penyitaan aset finansial: pemblokiran rekening di Lembaga Jasa Keuangan (aset eksternal). Tidak ada ketentuan yang mengatur tata cara penyitaan atas saldo yang sudah berada di dalam sistem DJP sendiri.</div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">3</div>
+        <div class="gap-title">Kekosongan mekanisme persetujuan WP untuk konteks penagihan aktif</div>
+      </div>
+      <div class="gap-body">PMK 81/2024 mengatur dua bentuk persetujuan elektronik Wajib Pajak, namun keduanya tidak mencakup skenario penagihan aktif. Tidak ada klausul yang secara eksplisit mengatur persetujuan atas pendebetan saldo deposit ketika terdapat tunggakan yang jatuh tempo.</div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">4</div>
+        <div class="gap-title">Ketiadaan mekanisme pencegahan dini berbasis saldo deposit</div>
+      </div>
+      <div class="gap-body">Modul penagihan dan modul deposit dalam Coretax belum memiliki alur integrasi informasi real-time yang memungkinkan sistem memeriksa ketersediaan saldo sebelum Surat Teguran diterbitkan. Sistem juga tidak mendukung pemotongan parsial: ketika tunggakan melebihi saldo deposit, sistem tidak dapat melakukan deduct sebagian.</div>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-header">
+        <div class="gap-num">5</div>
+        <div class="gap-title">Ketiadaan procedural safeguard atas pemotongan deposit</div>
+      </div>
+      <div class="gap-body">Tidak ada ketentuan yang mewajibkan DJP memberikan notifikasi kepada Wajib Pajak sebelum pemotongan saldo deposit. Tidak ada pula mekanisme keberatan internal yang proporsional — jalur yang tersedia hanya gugatan ke Pengadilan Pajak, yang tidak proporsional untuk permasalahan yang mungkin bersifat teknis.</div>
+    </div>
+  </section>
+
+  <!-- BAB 3.3 -->
+  <section class="content-section" id="bab3c">
+    <div class="sec-eyebrow">Bagian 3.3</div>
+    <div class="sec-title">Root Cause Analysis</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <p>Analisis terhadap kelima gap menunjukkan bahwa mereka tidak berasal dari satu sumber tunggal, melainkan dari tiga lapisan kondisi yang berbeda secara fundamental. OECD (2020) mencatat bahwa inovasi teknis dalam administrasi perpajakan hampir selalu bergerak lebih cepat dari kapasitas sistem legislatif untuk menyesuaikan diri.</p>
+    </div>
+
+    <div class="root-card">
+      <div class="root-label">Akar Pertama</div>
+      <div class="root-title">Legislative Lag</div>
+      <div class="root-body">UU PPSP diterbitkan pada 1997 dan diubah terakhir pada 2000 — dalam lingkungan yang sepenuhnya berbeda dari ekosistem digital saat ini. Konsep bahwa Wajib Pajak akan menyimpan saldo "pembayaran pajak yang belum dirujuk ke kewajiban tertentu" di dalam sistem DJP sendiri adalah konsep yang tidak eksis pada saat UU PPSP dirancang. Legislative lag memerlukan pembaruan di level undang-undang — sebuah proses yang tidak dapat diselesaikan dalam jangka pendek.</div>
+    </div>
+
+    <div class="root-card">
+      <div class="root-label">Akar Kedua</div>
+      <div class="root-title">Design Gap</div>
+      <div class="root-body">PMK 81/2024 adalah regulasi modernisasi pembayaran dan administrasi perpajakan — fokus desainnya adalah pada kemudahan Wajib Pajak dalam memenuhi kewajiban, bukan pada penanganan tunggakan. Implikasi deposit pajak terhadap penagihan aktif tampaknya bukan agenda desain utama saat regulasi ini disusun. PMK 81/2024 adalah kemajuan besar dalam modernisasi, namun setiap desain memiliki aspek yang tidak sepenuhnya diselesaikan. Design gap dapat ditempuh melalui pengembangan regulasi turunan dalam kewenangan Kemenkeu dan DJP — dalam jangka menengah.</div>
+    </div>
+
+    <div class="root-card">
+      <div class="root-label">Akar Ketiga</div>
+      <div class="root-title">Governance Lag</div>
+      <div class="root-body">Ketika sistem digital baru diaktifkan, pertanyaan "bagaimana cara kerjanya?" hampir selalu terjawab lebih dahulu daripada "dengan safeguard apa?" Coretax dirancang untuk mengotomatisasi sebanyak mungkin proses administratif, namun standar audit trail, mekanisme notifikasi kepada Wajib Pajak, dan governance layer belum ditetapkan secara eksplisit untuk konteks penagihan. Governance lag memerlukan pengembangan SOP — secara teoritis dapat dikerjakan paling cepat dari ketiga lapisan tersebut.</div>
+    </div>
+  </section>
+
+  <!-- BAB 3.4 -->
+  <section class="content-section" id="bab3d">
+    <div class="sec-eyebrow">Bagian 3.4</div>
+    <div class="sec-title">Evaluasi Kompatibilitas</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <p>Evaluasi kompatibilitas dilakukan dari empat perspektif yang saling melengkapi — legal, administratif, compliance, dan governance — sebelum dirangkum dalam penilaian per skenario menggunakan tiga kategori.</p>
+      <p>Tiga kategori penilaian: <span class="compat-compatible">Compatible</span> · <span class="compat-conditional">Conditionally Compatible</span> · <span class="compat-notyet">Not Yet Compatible</span></p>
+    </div>
+
+    <div style="font-size:12px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin:24px 0 12px;">Tabel 2 — Compatibility Assessment: Lima Skenario</div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Skenario</th>
+            <th>Deskripsi</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Skenario 1</strong></td>
+            <td>Auto-offset restitusi ke utang pajak</td>
+            <td><span class="compat-compatible">✓ Compatible</span></td>
+          </tr>
+          <tr>
+            <td><strong>Skenario 2</strong></td>
+            <td>Pemindahbukuan atas permohonan WP</td>
+            <td><span class="compat-compatible">✓ Compatible</span></td>
+          </tr>
+          <tr>
+            <td><strong>Skenario 3</strong></td>
+            <td>Deposit sebagai checkpoint preventif sebelum ST</td>
+            <td><span class="compat-conditional">~ Conditionally Compatible</span></td>
+          </tr>
+          <tr>
+            <td><strong>Skenario 4</strong></td>
+            <td>Pemindahbukuan Secara Jabatan tanpa consent</td>
+            <td><span class="compat-notyet">✗ Not Yet Compatible</span></td>
+          </tr>
+          <tr>
+            <td><strong>Skenario 5</strong></td>
+            <td>Pemindahbukuan Secara Jabatan dengan consent (standing instruction)</td>
+            <td><span class="compat-conditional">~ Conditionally Compatible</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose" style="margin-top:28px;">
+      <h2>Skenario 1 &amp; 2 — Compatible</h2>
+      <p>Auto-offset restitusi ke utang pajak memiliki landasan tegas dari Pasal 11 ayat (1a) UU KUP dan PMK 81/2024 Pasal 154. Tidak ada prosedur UU PPSP yang terlibat. Pemindahbukuan atas permohonan Wajib Pajak berada sepenuhnya di luar rezim paksa. Batasan skenario ini bukan pada kompatibilitas hukumnya, melainkan pada jangkauannya: hanya efektif untuk Wajib Pajak yang kooperatif.</p>
+
+      <h2>Skenario 3 — Conditionally Compatible</h2>
+      <p>Secara konseptual tidak memerlukan perubahan undang-undang — hanya memerlukan integrasi alur informasi antar modul Coretax dan pengembangan protokol penawaran kepada Wajib Pajak. Kompatibilitasnya bersifat kondisional karena bergantung pada dua prasyarat yang belum terpenuhi: integrasi real-time antar modul, dan protokol penawaran berbasis persetujuan.</p>
+
+      <h2>Skenario 4 — Not Yet Compatible</h2>
+      <p>Pemotongan deposit secara sepihak tanpa prosedur Surat Paksa yang sah secara langsung bertentangan dengan Pasal 10 UU PPSP. PMK 81/2024 tidak dapat mengenyampingkan ketentuan UU PPSP. Risiko cacat formil dan gugatan sangat signifikan berdasarkan Pasal 23 ayat (2) UU KUP, Pasal 37 ayat (1) UU PPSP, dan Pasal 23 UU Pengadilan Pajak.</p>
+
+      <h2>Skenario 5 — Conditionally Compatible</h2>
+      <p>Jika Wajib Pajak memberikan persetujuan awal yang secara eksplisit mengizinkan pendebetan saldo deposit, pemotongan tersebut berpotensi dikonstruksikan sebagai Pemindahbukuan atas Permohonan Wajib Pajak yang diberikan di muka. Dengan konstruksi ini, mekanisme berpotensi berada di luar rezim paksa UU PPSP. Perlu ditekankan bahwa konstruksi hukum ini bersifat konseptual dan belum diuji dalam praktik maupun yurisprudensi perpajakan Indonesia.</p>
+
+      <h2>Kompatibilitas: Legal, Administratif, Governance</h2>
+      <p>Dari perspektif legal, area yang sudah harmonis adalah Skenario 1 dan 2. Area ambigu: status kepemilikan saldo deposit (apakah masih "harta milik WP" atau sudah "dikuasakan kepada DJP") adalah akar konseptual dari seluruh ketidakjelasan prosedural. Dari perspektif governance, ketiadaan standar audit trail yang jelas melemahkan posisi DJP sendiri dalam sengketa — kepastian hukum adalah prasyarat yang dibutuhkan kedua belah pihak.</p>
+    </div>
+  </section>
+
+  <!-- BAB 3.5 -->
+  <section class="content-section" id="bab3e">
+    <div class="sec-eyebrow">Bagian 3.5</div>
+    <div class="sec-title">Analisis Skenario Kebijakan</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <p>Berdasarkan compatibility assessment, terdapat tiga posisi kebijakan keseluruhan yang dapat diambil terkait peran deposit dalam penagihan. Skenario A–C menggambarkan posisi kebijakan keseluruhan, berbeda dari Skenario 1–5 di bagian sebelumnya yang menilai kompatibilitas setiap mekanisme pemanfaatan.</p>
+    </div>
+
+    <div style="font-size:12px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 14px;">Tabel 3 — Scenario Analysis Matrix</div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Skenario</th>
+            <th>Posisi</th>
+            <th>Perubahan Diperlukan</th>
+            <th>Risiko Legal</th>
+            <th>Horizon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>A</strong></td>
+            <td>Deposit sebagai Fasilitas Administrasi Biasa</td>
+            <td>Tidak ada</td>
+            <td>Tidak ada</td>
+            <td>Status Quo</td>
+          </tr>
+          <tr style="background:var(--accent-light);">
+            <td><strong>B ★</strong></td>
+            <td>Deposit sebagai Instrumen Pendukung Terbatas</td>
+            <td>PMK / Perdirjen</td>
+            <td>Rendah</td>
+            <td>Jangka Menengah</td>
+          </tr>
+          <tr>
+            <td><strong>C</strong></td>
+            <td>Deposit sebagai Instrumen Terintegrasi</td>
+            <td>Revisi UU PPSP</td>
+            <td>Tinggi</td>
+            <td>Jangka Panjang</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="scenario-card" style="margin-top:20px;">
+      <div class="scenario-header">
+        <div>
+          <div class="scenario-id">Skenario A</div>
+          <div class="scenario-title">Deposit sebagai Fasilitas Administrasi Biasa</div>
+        </div>
+        <span class="compat-compatible">Baseline</span>
+      </div>
+      <div class="scenario-body">Deposit pajak dipertahankan semata-mata dalam posisinya saat ini: instrumen pembayaran sukarela yang berfungsi berdasarkan inisiatif Wajib Pajak. Menawarkan kepastian hukum penuh — tidak ada konflik norma, tidak ada risiko gugatan terkait deposit. Namun tidak menghasilkan efisiensi prosedural apapun dari keberadaan deposit.</div>
+    </div>
+
+    <div class="scenario-card" style="border-color:var(--accent);border-width:2px;">
+      <div class="scenario-header">
+        <div>
+          <div class="scenario-id">Skenario B ★ <span style="font-size:11px;color:var(--green);font-weight:600;">(Direkomendasikan)</span></div>
+          <div class="scenario-title">Deposit sebagai Instrumen Pendukung Terbatas</div>
+        </div>
+        <span class="compat-conditional">Jangka Menengah</span>
+      </div>
+      <div class="scenario-body">Mengembangkan fungsi deposit secara bertahap melalui dua langkah saling melengkapi: (1) penambahan mekanisme consent eksplisit dalam onboarding Coretax; (2) pengembangan titik cek saldo deposit sebelum Surat Teguran diterbitkan, yang beroperasi sebagai penawaran kepada Wajib Pajak — bukan pemaksaan. Kunci: seluruh eksekusi pemotongan tetap berbasis permohonan Wajib Pajak. Dapat ditempuh melalui PMK atau Perdirjen tanpa revisi undang-undang.</div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <div>
+          <div class="scenario-id">Skenario C</div>
+          <div class="scenario-title">Deposit sebagai Instrumen Terintegrasi dalam Penagihan</div>
+        </div>
+        <span class="compat-notyet">Jangka Panjang</span>
+      </div>
+      <div class="scenario-body">Sistem secara otomatis memotong saldo deposit ketika tunggakan jatuh tempo, berdasarkan consent yang sudah diberikan di muka (standing instruction). Potensi efisiensi prosedural terbesar, namun mensyaratkan harmonisasi UU PPSP — sebuah proses legislatif yang tidak dapat diselesaikan dalam jangka pendek. Skenario C adalah orientasi jangka panjang, bukan agenda implementasi yang segera realistis.</div>
+    </div>
+
+    <div class="pull-quote" style="margin-top:20px;">
+      <p>Skenario B merupakan titik yang paling seimbang untuk dipertimbangkan dalam jangka menengah: feasible tanpa revisi UU, risiko legal rendah, dan menghasilkan nilai tambah yang terukur melalui mekanisme pencegahan dini.</p>
+    </div>
+  </section>
+
+  <!-- BAB 4 -->
+  <section class="content-section" id="bab4">
+    <div class="sec-eyebrow">Bagian 4</div>
+    <div class="sec-title">Rekomendasi Konseptual</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <p>Yang dapat dihasilkan dari evaluasi konseptual ini adalah identifikasi atas langkah-langkah yang dapat dipertimbangkan — disusun berdasarkan urgensi dan kompleksitas — sebagai referensi bagi pihak-pihak yang memiliki kewenangan untuk menentukan arah kebijakan.</p>
+    </div>
+
+    <div style="font-size:12px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 14px;">Tabel 4 — Kerangka Rekomendasi Konseptual</div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Kode</th>
+            <th>Horizon</th>
+            <th>Tipe</th>
+            <th>Instrumen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>RC-1</strong></td><td><span class="rec-horizon horizon-pendek">Jangka Pendek</span></td><td>Potential Policy Consideration</td><td>PMK / Perdirjen</td></tr>
+          <tr><td><strong>RC-2</strong></td><td><span class="rec-horizon horizon-pendek">Jangka Pendek</span></td><td>Conceptual Improvement</td><td>SOP Internal</td></tr>
+          <tr><td><strong>RC-3</strong></td><td><span class="rec-horizon horizon-menengah">Jangka Menengah</span></td><td>Indicative Recommendation</td><td>PMK / Perdirjen</td></tr>
+          <tr><td><strong>RC-4</strong></td><td><span class="rec-horizon horizon-menengah">Jangka Menengah</span></td><td>Conceptual Improvement</td><td>Teknis Sistem</td></tr>
+          <tr><td><strong>RC-5</strong></td><td><span class="rec-horizon horizon-menengah">Jangka Menengah</span></td><td>Potential Policy Consideration</td><td>PMK / Perdirjen</td></tr>
+          <tr><td><strong>RC-6</strong></td><td><span class="rec-horizon horizon-panjang">Jangka Panjang</span></td><td>Possible Future Evaluation</td><td>UU</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:8px;">Jangka Pendek</div>
+
+      <div class="rec-card">
+        <div class="rec-header">
+          <span class="rec-code">RC-1</span>
+          <span class="rec-horizon horizon-pendek">Jangka Pendek</span>
+          <span class="rec-type">Potential Policy Consideration</span>
+        </div>
+        <div class="rec-title">Mekanisme Consent Eksplisit untuk Konteks Penagihan</div>
+        <div class="rec-body">Pengembangan klausul persetujuan elektronik yang secara eksplisit mencakup skenario penagihan aktif dalam proses onboarding Coretax. Substansi minimal: definisi kondisi pemicu, hak atas notifikasi sebelum eksekusi, mekanisme pencabutan consent, dan jalur keberatan yang tersedia. RC-1 dan klarifikasi status hukum deposit sebaiknya dipertimbangkan sebagai dua langkah yang berjalan bersamaan.</div>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-header">
+          <span class="rec-code">RC-2</span>
+          <span class="rec-horizon horizon-pendek">Jangka Pendek</span>
+          <span class="rec-type">Conceptual Improvement</span>
+        </div>
+        <div class="rec-title">Standarisasi Audit Trail Transaksi Deposit terkait Penagihan</div>
+        <div class="rec-body">Pengembangan standar pencatatan minimum untuk setiap transaksi deposit yang berkaitan dengan penagihan. Ini bukan hanya keperluan akuntabilitas eksternal — ia adalah perlindungan institusional bagi DJP sendiri dalam sengketa. Dapat ditindaklanjuti melalui SOP internal tanpa perubahan regulasi.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:8px;">Jangka Menengah</div>
+
+      <div class="rec-card">
+        <div class="rec-header">
+          <span class="rec-code">RC-3</span>
+          <span class="rec-horizon horizon-menengah">Jangka Menengah</span>
+          <span class="rec-type">Indicative Recommendation</span>
+        </div>
+        <div class="rec-title">Titik Cek Saldo Deposit sebagai Mekanisme Preventif Sukarela</div>
+        <div class="rec-body">Pengembangan titik verifikasi saldo deposit dalam alur penagihan, ditempatkan sebelum Surat Teguran diterbitkan, yang beroperasi sebagai mekanisme penawaran berbasis informasi — bukan pemaksaan. Jika Wajib Pajak merespons dan melakukan pemindahbukuan, Surat Teguran tidak perlu diterbitkan; jika tidak merespons, alur UU PPSP berjalan sebagaimana biasa. Serupa dengan praktik yang diidentifikasi ADB (2024) dan OECD (2020).</div>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-header">
+          <span class="rec-code">RC-4</span>
+          <span class="rec-horizon horizon-menengah">Jangka Menengah</span>
+          <span class="rec-type">Conceptual Improvement</span>
+        </div>
+        <div class="rec-title">Kapabilitas Pemotongan Parsial Saldo Deposit</div>
+        <div class="rec-body">Ketidakmampuan sistem untuk melakukan pemotongan parsial saldo deposit merupakan batasan operasional yang layak dievaluasi. Kapabilitas ini akan meningkatkan efektivitas deposit secara signifikan tanpa memerlukan perubahan regulasi apapun.</div>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-header">
+          <span class="rec-code">RC-5</span>
+          <span class="rec-horizon horizon-menengah">Jangka Menengah</span>
+          <span class="rec-type">Potential Policy Consideration</span>
+        </div>
+        <div class="rec-title">Compliance Framework Peralihan Fungsi Deposit</div>
+        <div class="rec-body">Pengembangan kerangka kepatuhan yang mendefinisikan secara eksplisit kondisi-kondisi di mana deposit pajak berperan sebagai instrumen pendukung penagihan — berbeda dari penggunaannya sebagai instrumen pembayaran sukarela sehari-hari.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:8px;">Jangka Panjang</div>
+
+      <div class="rec-card">
+        <div class="rec-header">
+          <span class="rec-code">RC-6</span>
+          <span class="rec-horizon horizon-panjang">Jangka Panjang</span>
+          <span class="rec-type">Possible Future Evaluation</span>
+        </div>
+        <div class="rec-title">Harmonisasi UU PPSP dengan Ekosistem Administrasi Perpajakan Digital</div>
+        <div class="rec-body">Sebagai possible future evaluation — dan secara tegas bukan rekomendasi segera — evaluasi menyeluruh terhadap harmonisasi UU PPSP dengan ekosistem digital. Pertanyaan fundamental: apakah pemberitahuan elektronik melalui portal Coretax dapat diakui setara dengan pembacaan Surat Paksa secara fisik? Bagaimana merumuskan secara eksplisit tata cara penanganan saldo internal dalam konteks penagihan?</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;padding:16px 20px;border:1px solid var(--border);border-radius:8px;background:var(--bg);">
+      <div style="font-size:12px;font-style:italic;color:var(--text-muted);line-height:1.65;">Seluruh rekomendasi RC-1 hingga RC-6 perlu dibaca dalam bingkai yang konsisten: ia adalah hasil evaluasi konseptual yang mengidentifikasi langkah-langkah yang dapat dipertimbangkan, bukan instruksi implementasi atau kepastian arah kebijakan. Apakah langkah-langkah tersebut layak secara kelembagaan dan politis, sepenuhnya merupakan pertimbangan pihak yang berwenang.</div>
+    </div>
+  </section>
+
+  <!-- BAB 5 -->
+  <section class="content-section" id="bab5">
+    <div class="sec-eyebrow">Bagian 5</div>
+    <div class="sec-title">Penutup</div>
+    <div class="sec-divider"></div>
+    <div class="prose">
+      <h2>5.1 Kesimpulan</h2>
+      <p>Penelitian ini berangkat dari satu observasi sederhana namun mengandung kompleksitas yang tidak kecil: ada jarak antara apa yang secara teknis dapat dilakukan sistem Coretax terhadap saldo Deposit Pajak, dan apa yang secara hukum diperbolehkan untuk dilakukan dalam konteks penagihan pajak aktif.</p>
+      <p>Setelah melalui analisis berlapis — identifikasi karakteristik dan tantangan penagihan konvensional, pemetaan lima gap prioritas, identifikasi tiga akar masalah, evaluasi kompatibilitas dari empat perspektif, hingga analisis tiga skenario posisi deposit — penelitian ini dapat memberikan jawaban yang bernuansa:</p>
+      <div class="pull-quote">
+        <p>Kompatibilitas deposit pajak sebagai instrumen pendukung penagihan bersifat parsial dan kondisional — bergantung pada skenario yang dimaksud dan prasyarat yang terpenuhi.</p>
+      </div>
+      <p>Dalam dua skenario yang sudah memiliki landasan hukum yang kuat (Skenario 1 dan 2), deposit pajak sudah berfungsi sebagai instrumen yang sah tanpa memerlukan perubahan regulasi. Dalam dua skenario yang bersifat conditionally compatible (Skenario 3 dan 5), potensi yang lebih luas dapat diwujudkan melalui pengembangan regulasi di level PMK atau Perdirjen. Dan dalam satu skenario not yet compatible (Skenario 4), terdapat konflik norma langsung dengan UU PPSP berdasarkan asas hierarki peraturan perundang-undangan.</p>
+      <p>Temuan tentang mengapa gap-gap tersebut ada mengarah pada tiga akar masalah yang berbeda secara fundamental: <strong>Legislative lag</strong> (UU PPSP 1997/2000 tidak mengantisipasi saldo WP di dalam sistem otoritas pajak itu sendiri); <strong>Design gap</strong> (PMK 81/2024 tidak mengintegrasikan secara penuh implikasi deposit terhadap penagihan aktif); dan <strong>Governance lag</strong> (fitur baru Coretax diaktifkan dengan kecepatan yang melampaui pembangunan standar audit trail).</p>
+      <div class="pull-quote">
+        <p>Pada akhirnya, yang terpenting adalah pergeseran pertanyaan: dari "apakah deposit pajak dapat dimanfaatkan dalam penagihan?" menjadi "dalam kondisi apa, dengan prasyarat apa, dan melalui skenario mana hal itu dapat dilakukan secara sah dan efektif?"</p>
+      </div>
+
+      <h2>5.2 Keterbatasan Penelitian</h2>
+      <p>Penelitian ini adalah evaluasi konseptual berbasis analisis regulasi dan proses bisnis — bukan studi empiris. Prasyarat yang diidentifikasi dirumuskan berdasarkan analisis teks regulasi, komparasi proses bisnis, dan telaah literatur; belum melalui verifikasi lapangan maupun validasi dari pemangku kepentingan yang berwenang. Skenario yang disusun adalah gambaran kemungkinan konseptual, bukan proyeksi berbasis data.</p>
+
+      <h2>5.3 Saran untuk Penelitian Lanjutan</h2>
+      <p>Penelitian ini membuka setidaknya tiga jalur penelitian lanjutan:</p>
+      <p><strong>Pertama:</strong> Studi hukum mendalam tentang konstruksi mekanisme consent dalam konteks hukum administrasi perpajakan Indonesia — apakah kerangka hukum perdata dapat diadaptasi ke dalam ranah hukum administrasi perpajakan untuk menopang konstruksi standing instruction.</p>
+      <p><strong>Kedua:</strong> Studi empiris tentang perilaku Wajib Pajak dalam penggunaan deposit pajak — faktor-faktor yang mendorong atau menghambat keputusan pengisian, pemertahanan, dan pemberian consent atas saldo deposit.</p>
+      <p><strong>Ketiga:</strong> Evaluasi komparatif mendalam tentang bagaimana negara-negara yang memiliki instrumen serupa menyelesaikan ketegangan antara otomatisasi sistem digital dengan persyaratan due process dalam penagihan.</p>
+    </div>
+  </section>
+
+  <!-- DAFTAR PUSTAKA -->
+  <section class="content-section" id="dafpus">
+    <div class="sec-eyebrow">Referensi</div>
+    <div class="sec-title">Daftar Pustaka</div>
+    <div class="sec-divider"></div>
+
+    <div class="ref-group">
+      <div class="ref-group-label">Regulasi Primer</div>
+      <div class="ref-item">Undang-Undang Nomor 6 Tahun 1983 tentang Ketentuan Umum dan Tata Cara Perpajakan sebagaimana telah beberapa kali diubah terakhir dengan UU No. 7 Tahun 2021 tentang Harmonisasi Peraturan Perpajakan.</div>
+      <div class="ref-item">Undang-Undang Nomor 12 Tahun 2011 tentang Pembentukan Peraturan Perundang-undangan sebagaimana telah beberapa kali diubah terakhir dengan UU No. 13 Tahun 2022.</div>
+      <div class="ref-item">Undang-Undang Nomor 14 Tahun 2002 tentang Pengadilan Pajak.</div>
+      <div class="ref-item">Undang-Undang Nomor 19 Tahun 1997 tentang Penagihan Pajak dengan Surat Paksa sebagaimana telah diubah dengan UU No. 19 Tahun 2000.</div>
+      <div class="ref-item">Undang-Undang Nomor 30 Tahun 2014 tentang Administrasi Pemerintahan.</div>
+      <div class="ref-item">Peraturan Menteri Keuangan Nomor 61/PMK.03/2023 tentang Tata Cara Pelaksanaan Penagihan Pajak atas Jumlah Pajak yang Masih Harus Dibayar.</div>
+      <div class="ref-item">Peraturan Menteri Keuangan Nomor 81 Tahun 2024 tentang Ketentuan Perpajakan dalam rangka Pelaksanaan Sistem Inti Administrasi Perpajakan.</div>
+      <div class="ref-item">Peraturan Direktur Jenderal Pajak Nomor PER-10/PJ/2024 tentang Tata Cara Pembayaran dan Penyetoran Pajak.</div>
+    </div>
+
+    <div class="ref-group">
+      <div class="ref-group-label">Literatur</div>
+      <div class="ref-item">Allingham, M. G., &amp; Sandmo, A. (1972). Income tax evasion: A theoretical analysis. <em>Journal of Public Economics</em>, 1(3–4), 323–338.</div>
+      <div class="ref-item">Asian Development Bank (ADB). (2024). Digital transformation of revenue administration in Singapore. Asian Development Bank.</div>
+      <div class="ref-item">Direktorat Jenderal Pajak (DJP). (2024). Coretax kurangi beban administrasi pajak. <em>pajak.go.id</em>.</div>
+      <div class="ref-item">Direktorat Jenderal Pajak (DJP). (2025). Deposit pajak minimalkan sanksi pajak. <em>pajak.go.id</em>.</div>
+      <div class="ref-item">Direktorat Jenderal Pajak (DJP). (2025). Surat keterangan KT-02/2025: Penyampaian permohonan maaf atas kendala layanan sistem. DJP.</div>
+      <div class="ref-item">Herianto. (2024). Institutional effectiveness of tax debt collection in increasing state revenue. <em>Injurity: Indonesian Journal of Research and Educational Review</em>.</div>
+      <div class="ref-item">Kirchler, E. (2007). <em>The economic psychology of tax behaviour</em>. Cambridge University Press.</div>
+      <div class="ref-item">Maisyura, D., et al. (2025). Analysis of the core tax digitalization innovation system for the world of taxation. <em>AMAR Journal</em>.</div>
+      <div class="ref-item">OECD. (2020). Tax administration 3.0: The digital transformation of tax administration. OECD Publishing, Paris.</div>
+      <div class="ref-item">Ortax. (2023). Proses bisnis dalam core tax system Indonesia. <em>ortax.org</em>.</div>
+      <div class="ref-item">Setyastrini, N. L. P., et al. (2025). Tax deposit system to improve tax compliance. <em>Atlantis Press</em>.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const main = document.getElementById('main');
+  main.scrollTop = 0;
+  event.currentTarget.classList.add('active');
+  updateProgress();
+}
+
+const main = document.getElementById('main');
+const bar = document.getElementById('progress-bar');
+main.addEventListener('scroll', updateProgress);
+function updateProgress() {
+  const s = main.scrollTop;
+  const h = main.scrollHeight - main.clientHeight;
+  bar.style.transform = 'scaleX(' + (h > 0 ? s/h : 0) + ')';
+}
+</script>
+</body>
+</html>
