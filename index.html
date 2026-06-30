@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deposit Pajak & Penagihan — OKM 1 | Dio Nanda Pratama Hidayat</title>
+<meta name="description" content="Evaluasi Konseptual Pemanfaatan Deposit Pajak sebagai Instrumen Pendukung Penagihan Pajak dalam Konteks Modernisasi Administrasi Perpajakan">
+<meta property="og:title" content="Deposit Pajak & Penagihan — OKM 1">
+<meta property="og:description" content="Evaluasi Konseptual Pemanfaatan Deposit Pajak sebagai Instrumen Pendukung Penagihan Pajak. DJP · Kementerian Keuangan RI · 2025">
+<meta property="og:type" content="article">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ═══════════════ DESIGN TOKENS ═══════════════ */
+:root {
+  --navy:      #0F2744;
+  --navy-mid:  #1C3A5C;
+  --navy-lgt:  #2A5080;
+  --teal:      #028090;
+  --teal-mid:  #01A5B8;
+  --teal-lt:   #E0F4F7;
+  --seafoam:   #00A896;
+  --amber:     #D97706;
+  --amber-lt:  #FEF3C7;
+  --red:       #DC2626;
+  --red-lt:    #FEE2E2;
+  --green:     #16A34A;
+  --green-lt:  #DCFCE7;
+  --gray-900:  #111827;
+  --gray-700:  #374151;
+  --gray-600:  #4B5563;
+  --gray-500:  #6B7280;
+  --gray-400:  #9CA3AF;
+  --gray-300:  #D1D5DB;
+  --gray-200:  #E5E7EB;
+  --gray-100:  #F3F4F6;
+  --gray-50:   #F4F6F9;
+  --white:     #FFFFFF;
+  --r-sm:4px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-2xl:20px; --r-pill:999px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.09), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 28px rgba(0,0,0,.11), 0 4px 8px rgba(0,0,0,.07);
+  --tr: 180ms cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;color:var(--gray-900);background:var(--white);line-height:1.6;overflow-x:hidden}
+img,canvas{max-width:100%;display:block}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+summary{cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+
+/* ═══════════════ TYPOGRAPHY ═══════════════ */
+.t-h1{font-size:clamp(24px,4vw,38px);font-weight:500;line-height:1.15;font-family:Georgia,serif}
+.t-h2{font-size:clamp(19px,3vw,28px);font-weight:500;line-height:1.2;font-family:Georgia,serif}
+.t-h3{font-size:clamp(16px,2.2vw,20px);font-weight:500;line-height:1.3}
+.t-h4{font-size:16px;font-weight:600;color:var(--navy)}
+.t-body{font-size:15px;line-height:1.7;color:var(--gray-700)}
+.t-body-sm{font-size:14px;line-height:1.65;color:var(--gray-600)}
+.t-small{font-size:13px;color:var(--gray-500);line-height:1.5}
+.t-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500)}
+.t-stat{font-size:clamp(34px,5.5vw,52px);font-weight:500;font-family:Georgia,serif;line-height:1}
+.t-mono{font-family:'SF Mono','Fira Code',monospace;font-size:12px}
+.t-white{color:var(--white)}
+.t-navy{color:var(--navy)}
+.t-teal{color:var(--teal)}
+.t-muted{color:var(--gray-500)}
+
+/* ═══════════════ LAYOUT ═══════════════ */
+.container{max-width:1100px;margin:0 auto;padding:0 28px}
+.container-sm{max-width:780px;margin:0 auto;padding:0 28px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.flex{display:flex;align-items:center;gap:8px}
+.flex-between{display:flex;align-items:center;justify-content:space-between}
+.flex-center{display:flex;align-items:center;justify-content:center}
+.flex-wrap{flex-wrap:wrap}
+.gap-4{gap:4px} .gap-8{gap:8px} .gap-12{gap:12px} .gap-16{gap:16px}
+.mb-4{margin-bottom:4px} .mb-8{margin-bottom:8px} .mb-12{margin-bottom:12px}
+.mb-16{margin-bottom:16px} .mb-24{margin-bottom:24px} .mb-32{margin-bottom:32px}
+.mb-40{margin-bottom:40px} .mt-8{margin-top:8px} .mt-12{margin-top:12px}
+.mt-16{margin-top:16px} .mt-24{margin-top:24px} .mt-32{margin-top:32px}
+
+/* ═══════════════ SECTIONS ═══════════════ */
+.page{padding:88px 0;position:relative}
+.page--dark{background:var(--navy);color:var(--white)}
+.page--navy{background:var(--navy);color:var(--white)}
+.page--gray{background:var(--gray-50);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
+.page--white{background:var(--white)}
+.section-kicker{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;display:block}
+.section-kicker--light{color:var(--teal-mid)}
+.section-title{margin-bottom:14px}
+.section-sub{font-size:16px;line-height:1.6;color:var(--gray-500);margin-bottom:44px;max-width:580px}
+.section-sub--light{color:rgba(255,255,255,.55)}
+
+/* ═══════════════ PROGRESS BAR ═══════════════ */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--teal);width:0;z-index:500;transition:width 60ms linear;pointer-events:none}
+
+/* ═══════════════ TOP BAR ═══════════════ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:400;
+  height:52px;background:rgba(15,39,68,.96);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;padding:0 28px;
+  transform:translateY(-100%);transition:transform 280ms ease;
+}
+.topbar.visible{transform:translateY(0)}
+.topbar-logo{font-size:13px;font-weight:600;color:var(--white);letter-spacing:-.01em}
+.topbar-logo span{color:var(--teal)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:20px}
+.topbar-author{font-size:11px;color:rgba(255,255,255,.45)}
+.btn-topbar{
+  font-size:11px;font-weight:500;padding:5px 14px;
+  border:1px solid rgba(2,128,144,.5);border-radius:var(--r-pill);
+  color:var(--teal);background:none;transition:var(--tr);
+}
+.btn-topbar:hover{background:var(--teal);color:var(--white);border-color:var(--teal)}
+
+/* ═══════════════ SIDE DOT NAV — FIXED CR-01 + MN-01 ═══════════════ */
+.side-nav{
+  position:fixed;right:22px;top:50%;transform:translateY(-50%);
+  z-index:300;display:flex;flex-direction:column;gap:11px;
+  opacity:0;transition:opacity 300ms;
+}
+.side-nav.visible{opacity:1}
+.side-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(15,39,68,.25);border:1.5px solid rgba(15,39,68,.2);
+  transition:all 200ms;position:relative;cursor:pointer;
+  box-shadow:0 0 0 2px rgba(255,255,255,.5);
+}
+.side-dot.active{background:var(--teal);border-color:var(--teal);transform:scale(1.45);box-shadow:0 0 0 2px rgba(2,128,144,.25)}
+.side-dot:hover{background:var(--teal-mid);border-color:var(--teal-mid)}
+.side-dot::after{
+  content:attr(data-label);
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  background:var(--navy);color:var(--white);
+  font-size:11px;font-weight:500;white-space:nowrap;padding:4px 9px;
+  border-radius:var(--r-sm);opacity:0;pointer-events:none;
+  transition:opacity 150ms;box-shadow:var(--shadow-sm);
+}
+.side-dot:hover::after{opacity:1}
+/* MN-01 FIX: visible on light sections */
+.side-nav.on-light .side-dot{background:rgba(15,39,68,.2);border-color:rgba(15,39,68,.25);box-shadow:0 0 0 2px rgba(255,255,255,.8)}
+.side-nav.on-light .side-dot.active{background:var(--teal);border-color:var(--teal);box-shadow:0 0 0 2px rgba(2,128,144,.2)}
+
+/* ═══════════════ BACK TO TOP (OP-01) ═══════════════ */
+.back-top{
+  position:fixed;bottom:28px;right:22px;z-index:300;
+  width:36px;height:36px;border-radius:50%;
+  background:var(--navy);color:var(--white);
+  font-size:14px;display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-md);opacity:0;transform:translateY(8px);
+  transition:all 250ms;pointer-events:none;border:1px solid rgba(255,255,255,.1);
+}
+.back-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-top:hover{background:var(--teal)}
+
+/* ═══════════════ REVEAL ═══════════════ */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 380ms ease,transform 380ms cubic-bezier(.22,.68,0,1.2)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:100ms}
+.reveal-delay-2{transition-delay:200ms}
+.reveal-delay-3{transition-delay:300ms}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation-duration:.01ms!important}}
+
+/* ═══════════════ BADGES ═══════════════ */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--r-pill);white-space:nowrap}
+.badge-teal{background:var(--teal-lt);color:var(--teal)}
+.badge-green{background:var(--green-lt);color:#15803D}
+.badge-amber{background:var(--amber-lt);color:#B45309}
+.badge-red{background:var(--red-lt);color:#B91C1C}
+.badge-navy{background:var(--navy);color:var(--white)}
+.badge-gray{background:var(--gray-100);color:var(--gray-700)}
+
+/* ═══════════════ BUTTONS ═══════════════ */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--teal);color:var(--white);
+  font-size:14px;font-weight:500;padding:12px 28px;
+  border:none;border-radius:var(--r-pill);
+  transition:var(--tr);cursor:pointer;
+}
+.btn-primary:hover{background:var(--teal-mid);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;color:var(--gray-500);
+  font-size:13px;font-weight:500;padding:8px 18px;
+  border:1px solid var(--gray-300);border-radius:var(--r-pill);
+  transition:var(--tr);cursor:pointer;
+}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal)}
+.btn-expand{
+  background:none;border:none;font-size:12px;font-weight:600;
+  color:var(--teal);display:inline-flex;align-items:center;gap:5px;
+  padding:0;transition:var(--tr);margin-top:10px;cursor:pointer;
+}
+.btn-expand:hover{opacity:.7}
+.btn-expand .icon{transition:transform 200ms;display:inline-block;font-size:10px}
+.btn-expand.open .icon{transform:rotate(180deg)}
+
+/* ═══════════════ CARDS ═══════════════ */
+.card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--r-xl);padding:24px;box-shadow:var(--shadow-sm)}
+/* VR-G03 FIX: accent top border signals "key metric" card, consistent with World Bank-style dashboards */
+.card-stat{background:var(--white);border:1px solid var(--gray-200);border-top:3px solid var(--navy);border-radius:var(--r-xl);padding:22px 26px;text-align:center;box-shadow:var(--shadow-sm)}
+.card-stat.accent-teal{border-top-color:var(--teal)}
+.card-stat .stat-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:10px;display:block}
+.card-stat .stat-value{font-size:clamp(30px,4.5vw,44px);font-weight:500;font-family:Georgia,serif;color:var(--navy);line-height:1}
+.card-stat .stat-unit{font-size:13px;color:var(--gray-500);margin-top:5px}
+.card-stat .stat-delta{font-size:12px;margin-top:6px;font-weight:500}
+.card-stat .stat-delta.up{color:var(--green)}
+.card-stat .stat-delta.neutral{color:var(--gray-400)}
+
+/* ═══════════════ PAGE 00 — LANDING ═══════════════ */
+#landing{
+  min-height:100vh;background:var(--navy);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 28px;position:relative;overflow:hidden;
+}
+/* VR-G02 FIX: radial glow ambient light behind headline */
+#landing::after{
+  content:'';position:absolute;top:32%;left:50%;
+  transform:translate(-50%,-50%);
+  width:680px;height:440px;
+  background:radial-gradient(ellipse,rgba(2,128,144,.14) 0%,rgba(2,128,144,.05) 42%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+#landing > *{position:relative;z-index:1}
+/* CR-02 FIX + VR-L02 FIX: subtle static tracks with soft blur */
+.landing-tracks{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.track{position:absolute;height:1px;left:0;right:0;filter:blur(.4px)}
+.track-a{top:38%;background:linear-gradient(to right,transparent,var(--teal) 20%,var(--teal) 80%,transparent);opacity:.45}
+.track-b{top:64%;background:linear-gradient(to right,transparent,var(--amber) 20%,var(--amber) 80%,transparent);opacity:.22}
+/* VR-L01 FIX: eyebrow desaturated so headline em remains sole focal accent */
+.landing-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(255,255,255,.12);border-radius:var(--r-pill);
+  padding:6px 18px;font-size:11px;font-weight:500;letter-spacing:.02em;
+  color:rgba(255,255,255,.4);margin-bottom:32px;
+  animation:fadeUp .6s ease .2s both;
+}
+.landing-headline{
+  font-size:clamp(30px,5.5vw,54px);font-weight:500;
+  font-family:Georgia,serif;color:var(--white);
+  line-height:1.12;max-width:720px;letter-spacing:-.01em;
+  animation:fadeUp .65s ease .4s both;
+}
+.landing-headline em{color:var(--teal);font-style:normal}
+.landing-sub{
+  font-size:17px;color:rgba(255,255,255,.5);
+  margin-top:18px;max-width:480px;line-height:1.6;
+  animation:fadeUp .65s ease .6s both;
+}
+.landing-cta{margin-top:40px;animation:fadeUp .65s ease .8s both}
+/* VR-L03 FIX: larger, more premium CTA for the single most important action */
+.landing-cta .btn-primary{padding:15px 36px;font-size:15px;font-weight:600;letter-spacing:.01em}
+.landing-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.25);letter-spacing:.08em;
+  animation:float 2.2s ease-in-out infinite;font-size:13px;z-index:1;
+}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ═══════════════ PAGE 01 — PARADOX ═══════════════ */
+#paradox{background:var(--navy);color:var(--white);padding:80px 0 0;position:relative;overflow:hidden}
+/* VR-G01 FIX: subtle radial depth treatment on dark section */
+#paradox::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 75% 45% at 15% 0%,rgba(2,128,144,.07) 0%,transparent 55%),
+             radial-gradient(ellipse 55% 40% at 85% 100%,rgba(255,255,255,.025) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
+#paradox > *{position:relative;z-index:1}
+.paradox-header{text-align:center;padding:0 28px 52px}
+.paradox-panels{
+  display:grid;grid-template-columns:1fr 56px 1fr;
+  max-width:1100px;margin:0 auto;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.panel-left,.panel-right{padding:44px 36px}
+/* VR-H03 FIX: divider widened from 1px to 56px so the vertical label reads as intentional */
+.panel-divider{background:rgba(255,255,255,.025);display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid rgba(255,255,255,.07);border-right:1px solid rgba(255,255,255,.07)}
+.panel-divider-inner{writing-mode:vertical-rl;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.18);padding:16px 0}
+.panel-overline{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:20px;display:block}
+/* VR-H01 FIX: separator between the two sliders for visual breathing room */
+.slider-group{margin-bottom:22px}
+.slider-group:first-of-type{border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:22px}
+.slider-group label{font-size:12px;color:rgba(255,255,255,.45);display:block;margin-bottom:7px}
+.slider-output{font-size:24px;font-weight:500;font-family:Georgia,serif;color:var(--white);margin-bottom:9px;letter-spacing:-.02em}
+input[type=range]{width:100%;-webkit-appearance:none;height:2px;background:rgba(255,255,255,.12);border-radius:1px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--teal);cursor:pointer;transition:transform 150ms}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+.situation-result{
+  margin-top:22px;padding:16px 18px;
+  background:rgba(2,128,144,.1);border:1px solid rgba(2,128,144,.2);
+  border-radius:var(--r-md);font-size:13px;color:rgba(255,255,255,.65);
+  line-height:1.6;min-height:64px;transition:border-color 250ms,background 250ms;
+}
+/* Proc steps */
+.proc-steps{display:flex;flex-direction:column;gap:0}
+.proc-step{
+  display:flex;gap:16px;padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  opacity:0;transform:translateX(14px);transition:all 380ms ease;
+}
+.proc-step:last-child{border-bottom:none}
+.proc-step.visible{opacity:1;transform:none}
+.proc-step--critical .step-num{background:var(--red)}
+.step-num{
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);
+  font-size:12px;font-weight:700;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.step-body{flex:1;padding-top:4px}
+.step-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:2px}
+.step-meta{font-size:11px;color:rgba(255,255,255,.35)}
+.step-note{font-size:11px;color:var(--amber);margin-top:3px}
+.idle-badge{
+  margin-top:18px;padding:11px 15px;
+  background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.2);
+  border-radius:var(--r-md);font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;
+}
+.idle-badge strong{color:#f87171}
+.comparison-bar{
+  background:#08192e;border-top:1px solid rgba(255,255,255,.05);
+  padding:32px 28px;
+  display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;
+  position:relative;z-index:1;
+}
+.comp-side{text-align:center}
+.comp-overline{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:8px;display:block}
+.comp-value{font-size:clamp(38px,7vw,62px);font-weight:500;font-family:Georgia,serif;line-height:1;letter-spacing:-.02em}
+.comp-value--teal{color:var(--teal)}
+.comp-value--warn{color:var(--amber)}
+/* VR-H02 FIX: more visible caption */
+.comp-caption{font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;letter-spacing:.02em}
+.comp-vs{font-size:20px;font-weight:300;color:rgba(255,255,255,.12)}
+
+/* ═══════════════ PAGE 02 — CONTEXT ═══════════════ */
+.definition-block{
+  background:var(--gray-50);border-left:4px solid var(--teal);
+  border-radius:0 var(--r-xl) var(--r-xl) 0;padding:22px 26px;margin-bottom:28px;
+}
+.definition-quote{font-size:17px;font-style:italic;color:var(--navy);margin-bottom:8px;line-height:1.5;font-family:Georgia,serif}
+.definition-source{font-size:11px;color:var(--gray-400);font-family:monospace}
+.definition-analogy{font-size:14px;color:var(--teal);margin-top:10px;font-weight:600}
+.mini-timeline{padding:22px 0 8px}
+.tl-track{display:flex;align-items:center;position:relative;margin-bottom:10px}
+.tl-end{text-align:center;flex-shrink:0}
+.tl-year{font-size:15px;font-weight:700;color:var(--navy);display:block}
+.tl-name{font-size:11px;color:var(--gray-400)}
+.tl-bar{flex:1;margin:0 18px;position:relative}
+.tl-bar-line{height:3px;background:linear-gradient(to right,var(--gray-300) 55%,var(--teal));border-radius:2px}
+.tl-midlabel{
+  position:absolute;top:-24px;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:700;color:var(--amber);white-space:nowrap;
+  background:var(--white);padding:0 8px;
+}
+.tl-caption{font-size:12px;color:var(--gray-400);font-style:italic}
+/* KJS tabs */
+.kjs-tabs{display:flex;border:1px solid var(--gray-200);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px}
+.kjs-tab{flex:1;padding:10px 8px;border:none;background:none;font-size:12px;font-weight:500;color:var(--gray-500);cursor:pointer;border-right:1px solid var(--gray-200);transition:var(--tr)}
+.kjs-tab:last-child{border-right:none}
+.kjs-tab.active{background:var(--teal);color:var(--white)}
+.kjs-panel{display:none;padding:18px 20px;background:var(--gray-50);border-radius:var(--r-md)}
+.kjs-panel.active{display:block}
+.kjs-panel h3{font-size:15px;font-weight:500;color:var(--navy);margin-bottom:6px}
+.kjs-panel p{font-size:14px;color:var(--gray-600);line-height:1.6}
+.kjs-meta{font-size:11px;font-family:monospace;color:var(--teal);margin-top:8px}
+/* Mode toggle */
+.mode-toggle-btns{display:flex;border:1px solid var(--gray-200);border-radius:var(--r-pill);overflow:hidden;margin-bottom:18px;width:fit-content}
+.mode-btn{padding:8px 20px;border:none;background:none;font-size:12px;font-weight:500;color:var(--gray-500);cursor:pointer;transition:var(--tr)}
+.mode-btn.active{background:var(--navy);color:var(--white)}
+.mode-panel{display:none}
+.mode-panel.active{display:block}
+.mode-badge{display:inline-block;font-size:12px;font-weight:600;margin-bottom:14px}
+.mode-details{margin-top:4px}
+.mode-details dt{font-size:10px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.mode-details dd{font-size:14px;color:var(--navy);margin-bottom:12px;font-weight:500}
+.mode-insight{margin-top:18px;padding:13px 17px;background:var(--navy);color:rgba(255,255,255,.75);border-radius:var(--r-md);font-size:13px;line-height:1.6}
+
+/* ═══════════════ PAGE 03 — GAPS ═══════════════ */
+/* MJ-06 FIX: Column headers with causal arrows */
+.gap-layer-headers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-bottom:4px;position:relative}
+.gap-layer-headers::before,.gap-layer-headers::after{
+  content:'→';position:absolute;top:50%;transform:translateY(-50%);
+  font-size:18px;color:var(--gray-300);z-index:2;
+}
+.gap-layer-headers::before{left:calc(33.33% - 12px)}
+.gap-layer-headers::after{left:calc(66.66% - 12px)}
+.col-header{
+  padding:10px 14px;text-align:center;
+  font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  border-radius:var(--r-xl) var(--r-xl) 0 0;
+}
+/* MJ-06 FIX + VR-B01 FIX: column headers with causal arrows;
+   color hierarchy now follows argumentative weight (navy=foundational → gray=consequence)
+   rather than bright teal stealing attention from the less-critical Hilir column */
+.col-hulu{background:var(--navy);color:var(--white)}
+.col-tengah{background:var(--gray-300);color:var(--gray-700)}
+.col-hilir{background:var(--gray-100);color:var(--gray-500)}
+
+/* CR-04 FIX: Gap grid using explicit areas, mobile-safe */
+.gap-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:12px;
+}
+.gap-card{
+  background:var(--white);border:1px solid var(--gray-200);
+  border-radius:0 0 var(--r-xl) var(--r-xl);padding:20px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow var(--tr),border-color var(--tr);
+}
+/* MJ-05 FIX: visual feedback when open */
+.gap-card.is-open{border-color:var(--navy);box-shadow:var(--shadow-md)}
+.gap-card:hover{box-shadow:var(--shadow-md)}
+.gap-card--hulu1{grid-column:1;grid-row:1}
+.gap-card--hulu2{grid-column:1;grid-row:2}
+.gap-card--tengah{grid-column:2;grid-row:1/3}
+.gap-card--hilir1{grid-column:3;grid-row:1}
+.gap-card--hilir2{grid-column:3;grid-row:2}
+.gap-badge-inline{font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--r-pill);margin-bottom:10px;display:inline-block}
+.gap-card-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px;line-height:1.4}
+.gap-card-body{font-size:13px;color:var(--gray-600);display:none;margin-top:10px;line-height:1.6}
+.gap-card-body.open{display:block}
+.gap-card-reg{font-size:11px;color:var(--teal);font-family:monospace;margin-top:8px}
+.insight-banner{
+  margin-top:40px;padding:18px 26px;
+  background:var(--navy);border-radius:var(--r-xl);
+  font-size:14px;line-height:1.65;color:rgba(255,255,255,.8);
+  border-left:3px solid var(--teal);
+}
+
+/* ═══════════════ PAGE 04 — EVIDENCE ═══════════════ */
+.kpi-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:44px}
+/* MJ-04 FIX: taller chart containers */
+.chart-container{height:290px;position:relative}
+.chart-fig{margin-bottom:0}
+.chart-fig figcaption{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:10px}
+.chart-source{font-size:11px;color:var(--gray-400);margin-top:10px;font-style:italic}
+.chart-legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:10px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-600)}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.factors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.factor-card{padding:18px;background:var(--gray-50);border-radius:var(--r-lg);border:1px solid var(--gray-200)}
+.factor-icon{font-size:22px;margin-bottom:10px}
+.factor-card h4{font-size:13px;font-weight:600;margin-bottom:5px;color:var(--navy)}
+.factor-card p{font-size:13px;color:var(--gray-500);line-height:1.55}
+.factor-cite{font-size:11px;color:var(--teal);margin-top:6px;font-family:monospace}
+.relevance-bridge{
+  margin-top:40px;padding:22px 26px;
+  background:var(--navy);border-radius:var(--r-xl);
+  border-left:3px solid var(--teal);
+  font-size:14px;color:rgba(255,255,255,.72);line-height:1.7;
+}
+
+/* ═══════════════ PAGE 05 — MECHANISMS ═══════════════ */
+.score-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.score-badge{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:var(--r-pill);font-size:13px;font-weight:500}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filter-btn{
+  padding:6px 16px;border:1px solid var(--gray-300);
+  border-radius:var(--r-pill);background:none;
+  font-size:12px;font-weight:500;color:var(--gray-600);
+  cursor:pointer;transition:var(--tr);
+}
+/* MN-07 FIX: bolder active state */
+.filter-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-lt);font-weight:700}
+.filter-btn:hover:not(.active){border-color:var(--gray-400);color:var(--gray-800)}
+/* MN-04 FIX: scroll hint on table wrapper */
+.table-wrap{
+  overflow-x:auto;border-radius:var(--r-xl);border:1px solid var(--gray-200);
+  position:relative;
+}
+.table-wrap::after{
+  content:'';position:absolute;right:0;top:0;bottom:0;width:40px;
+  background:linear-gradient(to right,transparent,rgba(255,255,255,.95));
+  pointer-events:none;border-radius:0 var(--r-xl) var(--r-xl) 0;
+  display:none;
+}
+@media(max-width:900px){.table-wrap::after{display:block}}
+.compat-table{width:100%;border-collapse:collapse;min-width:580px}
+.compat-table th{
+  background:var(--navy);color:var(--white);
+  font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  padding:13px 14px;text-align:center;
+}
+.compat-table th:first-child{text-align:left;min-width:230px}
+/* MN-05 FIX: min-width on status column */
+.compat-table th:last-child{min-width:110px}
+.compat-table td{
+  padding:13px 14px;border-bottom:1px solid var(--gray-100);
+  font-size:13px;text-align:center;vertical-align:middle;
+}
+.compat-table td:first-child{text-align:left;color:var(--gray-700)}
+.compat-table tr:last-child td{border-bottom:none}
+.compat-table tr{transition:background 150ms}
+.compat-table tr:hover{background:var(--gray-50)}
+.compat-table tr.hidden{display:none}
+.cell-c{background:var(--green-lt);color:#15803D;font-weight:700;border-radius:4px;display:inline-block;width:28px;height:24px;line-height:24px;text-align:center}
+.cell-a{background:var(--amber-lt);color:#B45309;font-weight:700;border-radius:4px;display:inline-block;width:28px;height:24px;line-height:24px;text-align:center}
+.cell-x{background:var(--red-lt);color:#B91C1C;font-weight:700;border-radius:4px;display:inline-block;width:28px;height:24px;line-height:24px;text-align:center}
+.status-pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:var(--r-pill);white-space:nowrap}
+.pill-c{background:var(--green-lt);color:#15803D}
+.pill-a{background:var(--amber-lt);color:#B45309}
+.pill-x{background:var(--red-lt);color:#B91C1C}
+.m4-alert{
+  margin-top:22px;padding:18px 22px;
+  background:#fff5f5;border:1px solid rgba(220,38,38,.2);
+  border-radius:var(--r-xl);border-left:3px solid var(--red);display:none;
+}
+.m4-alert.visible{display:block}
+.m4-alert-title{font-size:14px;font-weight:700;color:var(--red);margin-bottom:6px}
+.m4-alert-desc{font-size:13px;color:var(--gray-700);line-height:1.55}
+.m4-pasal-list{margin-top:12px;display:none}
+.m4-pasal-list.open{display:block}
+.m4-pasal-list li{
+  font-size:13px;color:var(--gray-700);padding:8px 0;
+  border-top:1px solid rgba(220,38,38,.1);line-height:1.5;
+}
+.bottom-insight{
+  margin-top:24px;padding:18px 24px;
+  background:var(--gray-50);border-radius:var(--r-lg);
+  font-size:14px;color:var(--gray-600);font-style:italic;
+  border-left:3px solid var(--gray-300);line-height:1.65;
+}
+
+/* ═══════════════ PAGE 06 — ROOT CAUSE ═══════════════ */
+.layer-stack{display:flex;flex-direction:column;gap:4px;margin-bottom:28px}
+.layer{
+  padding:26px 30px;border-radius:var(--r-xl);
+  cursor:pointer;transition:var(--tr);border:1px solid transparent;
+}
+.layer:hover{box-shadow:var(--shadow-md)}
+.layer--green{background:var(--green-lt);border-color:rgba(22,163,74,.15)}
+.layer--amber{background:var(--amber-lt);border-color:rgba(217,119,6,.15)}
+.layer--red{background:var(--red-lt);border-color:rgba(220,38,38,.15)}
+.layer-stripe{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.layer-horizon-badge{font-size:10px;font-weight:700;padding:3px 11px;border-radius:var(--r-pill)}
+.layer--green .layer-horizon-badge{background:var(--green);color:var(--white)}
+.layer--amber .layer-horizon-badge{background:var(--amber);color:var(--white)}
+.layer--red .layer-horizon-badge{background:var(--red);color:var(--white)}
+.layer-name{font-size:19px;font-weight:500;font-family:Georgia,serif;margin-bottom:7px}
+.layer--green .layer-name{color:#15803D}
+.layer--amber .layer-name{color:#B45309}
+.layer--red .layer-name{color:#B91C1C}
+.layer-example{font-size:14px;color:var(--gray-700);line-height:1.6}
+.layer-detail{
+  margin-top:14px;padding-top:14px;
+  border-top:1px solid rgba(0,0,0,.07);
+  display:none;
+}
+.layer-detail.open{display:block}
+.layer-detail p{font-size:14px;color:var(--gray-600);line-height:1.65}
+.layer-instrument{font-size:12px;color:var(--teal);margin-top:10px;font-family:monospace;font-weight:500}
+.intervention-footer{
+  padding:22px 26px;background:var(--navy);border-radius:var(--r-xl);
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.intervention-blocks{display:flex;gap:5px}
+.int-block{width:44px;height:13px;border-radius:3px}
+.int-block--g{background:var(--green)}
+.int-block--a{background:var(--amber)}
+.int-block--r{background:var(--red)}
+.int-label{font-size:13px;color:rgba(255,255,255,.5)}
+.int-label strong{color:var(--white)}
+.int-arrow{font-size:16px;color:var(--teal);margin-left:auto}
+
+/* ═══════════════ PAGE 07 — SCENARIOS ═══════════════ */
+.context-bar{
+  padding:15px 22px;background:var(--gray-100);
+  border-radius:var(--r-md);border-left:3px solid var(--gray-300);
+  font-size:13px;color:var(--gray-500);margin-bottom:36px;font-style:italic;line-height:1.6;
+}
+.scenario-panels{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:32px}
+.scenario-card{border:1px solid var(--gray-200);border-radius:var(--r-2xl);overflow:hidden;box-shadow:var(--shadow-sm)}
+.scenario-card--rec{border-color:var(--teal);box-shadow:0 0 0 2px rgba(2,128,144,.12),var(--shadow-sm)}
+.scenario-header{padding:17px 22px;border-bottom:1px solid rgba(0,0,0,.05)}
+.scenario-header--rec{background:var(--teal)}
+.scenario-header--neutral{background:var(--gray-100)}
+.scenario-badge{font-size:11px;font-weight:700;color:var(--white);letter-spacing:.04em}
+.scenario-badge--neutral{color:var(--gray-600)}
+.scenario-title{padding:18px 22px 0;font-size:15px;font-weight:600;color:var(--navy);line-height:1.4}
+.scenario-dims{padding:14px 22px 22px}
+.dim-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--gray-100);font-size:13px}
+.dim-row:last-child{border-bottom:none}
+.dim-key{color:var(--gray-500)}
+.dim-val{font-weight:600;color:var(--navy)}
+.dim-green{color:var(--green)}
+.dim-red{color:var(--red)}
+.dim-amber{color:var(--amber)}
+.why-row{display:flex;gap:14px;flex-wrap:wrap}
+.why-bubble{
+  flex:1;min-width:180px;padding:15px 20px;
+  background:var(--white);border:1px solid var(--gray-200);
+  border-radius:var(--r-xl);font-size:14px;color:var(--gray-600);
+  box-shadow:var(--shadow-sm);line-height:1.55;
+}
+.why-bubble strong{color:var(--navy);display:block;margin-bottom:3px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-family:inherit}
+.scenario-quote{
+  margin-top:28px;padding:22px 28px;
+  background:var(--navy);border-radius:var(--r-xl);
+  font-size:15px;font-style:italic;color:rgba(255,255,255,.7);
+  line-height:1.75;border-left:3px solid var(--teal);
+}
+
+/* ═══════════════ PAGE 08 — RECOMMENDATIONS ═══════════════ */
+.swimlane{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.phase-col{}
+.phase-header{
+  padding:11px 16px;margin-bottom:14px;text-align:center;
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+  font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+}
+.phase-header--p{background:var(--teal);color:var(--white)}
+.phase-header--m{background:var(--amber);color:var(--white)}
+.phase-header--l{background:var(--red);color:var(--white)}
+.rc-card{
+  background:var(--white);border:1px solid var(--gray-200);
+  border-radius:var(--r-xl);padding:18px;margin-bottom:14px;
+  box-shadow:var(--shadow-sm);transition:all 220ms;
+}
+.rc-card:hover{box-shadow:var(--shadow-md)}
+.rc-card.dimmed{opacity:.3;transform:scale(.99)}
+.rc-card.highlighted{border-color:var(--teal);box-shadow:0 0 0 2px rgba(2,128,144,.12)}
+.rc-card.dependent{border-color:var(--amber);box-shadow:0 0 0 2px rgba(217,119,6,.12)}
+.rc-header{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.rc-code{font-size:11px;font-weight:700;padding:3px 9px;border-radius:var(--r-pill);background:var(--navy);color:var(--white)}
+.rc-inst{font-size:10px;font-weight:500;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em}
+.rc-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:5px}
+.rc-card p{font-size:13px;color:var(--gray-500);line-height:1.55}
+.rc-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-100)}
+.rc-detail.open{display:block}
+.rc-detail p{font-size:13px;color:var(--gray-600);line-height:1.6}
+.rc-prereq{margin-top:8px;font-size:11px;color:#B45309;font-family:monospace;font-weight:600}
+.rc-type-badge{margin-top:8px;font-size:10px;font-weight:500;padding:2px 9px;border-radius:var(--r-pill);background:var(--gray-100);color:var(--gray-600);display:inline-block}
+.dep-note{
+  margin-top:26px;padding:17px 22px;
+  background:var(--navy);border-radius:var(--r-md);
+  font-size:13px;color:rgba(255,255,255,.75);
+  display:flex;align-items:flex-start;gap:12px;line-height:1.6;
+}
+
+/* ═══════════════ PAGE 09 — CLOSING ═══════════════ */
+#closing{background:var(--navy);padding:88px 0;position:relative;overflow:hidden}
+#closing::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 45% at 85% 0%,rgba(2,128,144,.07) 0%,transparent 55%),
+             radial-gradient(ellipse 55% 40% at 10% 100%,rgba(255,255,255,.02) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
+#closing .container{position:relative;z-index:1}
+.takeaway-stack{display:flex;flex-direction:column;gap:4px;margin-bottom:44px}
+.takeaway-card{
+  background:#132038;border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--r-2xl);padding:30px 34px;
+  display:flex;align-items:flex-start;gap:26px;
+  transition:var(--tr);
+}
+.takeaway-card:hover{background:#172844;border-color:rgba(255,255,255,.1)}
+/* VR-B02 FIX: the concluding takeaway carries slightly more visual weight than the first two */
+.takeaway-card--final{border-left:3px solid var(--teal);padding-left:31px}
+/* MN-03 FIX: full opacity number */
+.takeaway-num{
+  font-size:44px;font-weight:400;font-family:Georgia,serif;
+  color:var(--teal);flex-shrink:0;line-height:1;
+  min-width:58px;opacity:1;
+}
+.takeaway-body{flex:1;padding-top:4px}
+.takeaway-title{font-size:18px;font-weight:500;color:var(--white);margin-bottom:10px;font-family:Georgia,serif;line-height:1.3}
+/* MJ-07 FIX: higher contrast takeaway text */
+.takeaway-text{font-size:14px;color:rgba(255,255,255,.75);line-height:1.7}
+.takeaway-mini{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.mini-block{padding:5px 13px;border-radius:var(--r-md);font-size:11px;font-weight:500}
+.mini-block-g{background:var(--green-lt);color:#15803D}
+.mini-block-a{background:var(--amber-lt);color:#B45309}
+.mini-block-r{background:var(--red-lt);color:#B91C1C}
+.final-quote{
+  padding:30px 34px;border-top:1px solid rgba(255,255,255,.06);
+  margin-top:36px;font-size:16px;font-style:italic;
+  color:rgba(255,255,255,.6);line-height:1.8;text-align:center;
+}
+/* MN-08 FIX: cite with separator */
+.final-quote cite{
+  display:block;margin-top:16px;font-style:normal;
+  font-size:12px;color:var(--teal);
+  padding-top:14px;border-top:1px solid rgba(255,255,255,.08);
+  width:fit-content;margin-left:auto;margin-right:auto;
+}
+
+/* ═══════════════ PAGE 10 — ABOUT ═══════════════ */
+#about{background:var(--gray-50)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.about-dl dt{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--gray-400);margin-bottom:3px}
+.about-dl dd{font-size:14px;color:var(--navy);margin-bottom:16px;line-height:1.6}
+.disclaimer{margin-top:22px;padding:13px 18px;background:var(--amber-lt);border-radius:var(--r-md);font-size:12px;color:#B45309;line-height:1.55;border-left:3px solid var(--amber)}
+.ref-group{border:1px solid var(--gray-200);border-radius:var(--r-md);margin-bottom:10px;overflow:hidden;background:var(--white)}
+.ref-group summary{
+  padding:13px 18px;font-size:13px;font-weight:500;
+  background:var(--white);color:var(--navy);
+  display:flex;justify-content:space-between;align-items:center;transition:background var(--tr);
+}
+.ref-group summary:hover{background:var(--gray-50)}
+.ref-group summary::after{content:"▾";color:var(--gray-400);font-size:12px;transition:transform 200ms}
+.ref-group[open] summary::after{transform:rotate(180deg)}
+.ref-group[open] summary{border-bottom:1px solid var(--gray-200)}
+.ref-list{padding:8px 18px 14px;background:var(--gray-50)}
+.ref-list li{font-size:13px;color:var(--gray-600);padding:7px 0;border-bottom:1px solid var(--gray-200);line-height:1.6}
+.ref-list li:last-child{border-bottom:none}
+/* CR-03: download CTA with placeholder link */
+.download-cta{text-align:center;margin-top:28px;padding:34px;background:var(--navy);border-radius:var(--r-2xl)}
+.download-cta p{font-size:13px;color:rgba(255,255,255,.4);margin-top:12px;line-height:1.5}
+.btn-download{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--teal);color:var(--white);
+  font-size:14px;font-weight:600;padding:13px 30px;
+  border:none;border-radius:var(--r-pill);
+  transition:var(--tr);cursor:pointer;text-decoration:none;
+}
+.btn-download:hover{background:var(--teal-mid);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+
+/* ═══════════════ FOOTER ═══════════════ */
+.site-footer{background:#070f1d;padding:30px 28px;text-align:center;font-size:12px;color:rgba(255,255,255,.2);line-height:1.7}
+.site-footer a{color:var(--teal)}
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media(max-width:900px){
+  /* VR-R01 FIX: show the conclusion (comparison bar) before the detail panels on mobile,
+     since users can no longer see both side by side */
+  #paradox{display:flex;flex-direction:column}
+  .paradox-header{order:1}
+  .comparison-bar{order:2}
+  .paradox-panels{order:3;grid-template-columns:1fr}
+  .panel-divider{display:none}
+  .panel-right{border-top:1px solid rgba(255,255,255,.07)}
+  /* CR-04: mobile gap grid auto-flow */
+  .gap-grid{
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+  }
+  .gap-card--hulu1,.gap-card--hulu2,.gap-card--tengah,.gap-card--hilir1,.gap-card--hilir2{
+    grid-column:auto;grid-row:auto;
+    border-radius:var(--r-lg);
+  }
+  .gap-layer-headers{grid-template-columns:1fr;gap:4px}
+  .gap-layer-headers::before,.gap-layer-headers::after{display:none}
+  .col-header{border-radius:var(--r-md)}
+  .kpi-strip{grid-template-columns:1fr}
+  .scenario-panels{grid-template-columns:1fr}
+  .swimlane{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .factors-grid{grid-template-columns:1fr}
+  .grid-2{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+  .side-nav{display:none}
+}
+@media(max-width:600px){
+  .topbar-author{display:none}
+  .page{padding:68px 0}
+  .takeaway-card{flex-direction:column;gap:14px;padding:24px}
+  .takeaway-num{font-size:36px}
+  .comparison-bar{gap:24px;padding:26px 20px}
+  .paradox-panels{border-top:none}
+  /* VR-R04 FIX: full-width, more generous touch target for the landing CTA */
+  .landing-cta .btn-primary{padding:16px 0;font-size:15px;width:100%;max-width:280px;justify-content:center}
+  /* VR-R03 FIX: minimum readable sizes for small mono/label text on phones */
+  .rc-inst{font-size:11px}
+  .gap-card-reg,.chart-source{font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+
+<!-- Back to Top (OP-01) -->
+<button class="back-top" id="back-top" onclick="goToSection('#landing')" aria-label="Kembali ke atas">↑</button>
+
+<!-- Top Bar -->
+<header class="topbar" id="topbar" role="banner">
+  <div class="topbar-logo">Deposit Pajak <span>&</span> Penagihan</div>
+  <div class="topbar-right">
+    <span class="topbar-author">Dio Nanda Pratama Hidayat · OKM 1 · DJP</span>
+    <button class="btn-topbar" onclick="goToSection('#about')">Tentang</button>
+  </div>
+</header>
+
+<!-- Side Dot Nav — CR-01 FIXED: renamed function to goToSection -->
+<nav class="side-nav" id="side-nav" aria-label="Navigasi section">
+  <button class="side-dot" data-target="landing"         data-label="Pembuka"       onclick="goToSection('#landing')"></button>
+  <button class="side-dot" data-target="paradox"         data-label="Paradoks"       onclick="goToSection('#paradox')"></button>
+  <button class="side-dot" data-target="context"         data-label="Deposit Pajak" onclick="goToSection('#context')"></button>
+  <button class="side-dot" data-target="problem"         data-label="Lima Gap"      onclick="goToSection('#problem')"></button>
+  <button class="side-dot" data-target="evidence"        data-label="Data"          onclick="goToSection('#evidence')"></button>
+  <button class="side-dot" data-target="mechanisms"      data-label="Mekanisme"     onclick="goToSection('#mechanisms')"></button>
+  <button class="side-dot" data-target="rootcause"       data-label="Akar Masalah"  onclick="goToSection('#rootcause')"></button>
+  <button class="side-dot" data-target="scenarios"       data-label="Skenario"      onclick="goToSection('#scenarios')"></button>
+  <button class="side-dot" data-target="recommendations" data-label="Rekomendasi"   onclick="goToSection('#recommendations')"></button>
+  <button class="side-dot" data-target="closing"         data-label="Penutup"       onclick="goToSection('#closing')"></button>
+</nav>
+
+<!-- ═══════════════ PAGE 00 — LANDING ═══════════════ -->
+<section id="landing">
+  <!-- CR-02 FIXED: static tracks, no broken step animation -->
+  <div class="landing-tracks" aria-hidden="true">
+    <div class="track track-a"></div>
+    <div class="track track-b"></div>
+  </div>
+  <div class="landing-eyebrow">
+    OKM 1 · Subdirektorat Pengembangan Penegakan Hukum · DJP
+  </div>
+  <h1 class="landing-headline">
+    Dana sudah ada di <em>dalam sistem DJP</em>.<br>
+    Tapi DJP tidak bisa menyentuhnya.
+  </h1>
+  <p class="landing-sub">Bagaimana mungkin — dan apa yang harus berubah?</p>
+  <div class="landing-cta">
+    <a href="#paradox" class="btn-primary" onclick="event.preventDefault();goToSection('#paradox')">Temukan jawabannya ↓</a>
+  </div>
+  <div class="landing-scroll" aria-hidden="true">scroll ↓</div>
+</section>
+
+<!-- ═══════════════ PAGE 01 — PARADOX ═══════════════ -->
+<section id="paradox" class="page--navy">
+  <div class="paradox-header">
+    <span class="section-kicker section-kicker--light">Paradoks</span>
+    <h2 class="t-h1 t-white reveal">Dana Sudah Ada. Hukum Belum Siap Memanfaatkannya.</h2>
+    <p class="section-sub section-sub--light" style="margin:14px auto 0;text-align:center">Satu kasus konkret yang merangkum seluruh persoalan penelitian ini</p>
+  </div>
+
+  <div class="paradox-panels">
+    <!-- Left Panel -->
+    <div class="panel-left reveal">
+      <span class="panel-overline">Situasi Wajib Pajak</span>
+      <div class="slider-group">
+        <label for="slider-tunggakan">Tunggakan pajak</label>
+        <p class="slider-output" id="out-tunggakan">Rp10 juta</p>
+        <input type="range" id="slider-tunggakan" min="1" max="500" value="10"
+               aria-label="Nilai tunggakan dalam juta rupiah">
+      </div>
+      <div class="slider-group">
+        <label for="slider-saldo">Saldo Deposit Pajak (dalam sistem DJP)</label>
+        <p class="slider-output" id="out-saldo">Rp12 juta</p>
+        <input type="range" id="slider-saldo" min="1" max="600" value="12"
+               aria-label="Nilai saldo deposit dalam juta rupiah">
+      </div>
+      <div class="situation-result" id="situation-result" aria-live="polite">
+        Kelebihan saldo Rp2 juta — secara teknis cukup untuk lunas, tapi tidak ada yang bisa melakukannya tanpa izin hukum.
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="panel-divider" aria-hidden="true">
+      <div class="panel-divider-inner">Gap Konseptual</div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="panel-right reveal reveal-delay-1">
+      <span class="panel-overline">Prosedur Hukum — UU PPSP</span>
+      <ol class="proc-steps" aria-label="Tahapan prosedur penagihan">
+        <li class="proc-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Surat Teguran</div>
+            <div class="step-meta">7 hari kerja · Dasar: UU PPSP</div>
+          </div>
+        </li>
+        <li class="proc-step proc-step--critical">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Surat Paksa</div>
+            <div class="step-meta">21 hari kerja</div>
+            <div class="step-note">Jurusita Pajak — tatap muka langsung · Pasal 10 UU PPSP</div>
+          </div>
+        </li>
+        <li class="proc-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">SPMP</div>
+            <div class="step-meta">2 hari kerja · PMK 61/2023</div>
+          </div>
+        </li>
+        <li class="proc-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Sita aset eksternal</div>
+            <div class="step-meta">Di lembaga keuangan · setelah semua tahap</div>
+          </div>
+        </li>
+      </ol>
+      <div class="idle-badge">
+        Saldo deposit dalam sistem DJP: <strong>tetap idle</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Bar -->
+  <div class="comparison-bar">
+    <div class="comp-side">
+      <div class="comp-value comp-value--teal">Detik</div>
+      <div class="comp-caption">Kapabilitas teknis Coretax</div>
+    </div>
+    <div class="comp-vs">vs</div>
+    <div class="comp-side">
+      <div class="comp-value comp-value--warn">30+ hari</div>
+      <div class="comp-caption">Prosedur hukum minimum UU PPSP</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 02 — CONTEXT ═══════════════ -->
+<!-- MJ-01 FIX: restructured for better breathing room, timeline separated -->
+<section id="context" class="page page--white">
+  <div class="container">
+    <span class="section-kicker">Konteks</span>
+    <h2 class="t-h1 section-title reveal">Apa Itu Deposit Pajak?</h2>
+    <p class="section-sub">Instrumen baru Coretax yang lahir 1 Januari 2025 — dan cara kerjanya</p>
+
+    <!-- Definition + Mini Timeline in full width first -->
+    <div class="reveal mb-32">
+      <div class="definition-block">
+        <p class="definition-quote">"Dana pra-setor yang belum dialokasikan ke kewajiban perpajakan tertentu"</p>
+        <p class="definition-source">Pasal 1 angka 112 PMK No. 81 Tahun 2024</p>
+        <p class="definition-analogy">Seperti e-wallet perpajakan — setor dulu, tentukan tujuan belakangan.</p>
+      </div>
+      <div class="mini-timeline">
+        <div class="tl-track">
+          <div class="tl-end">
+            <span class="tl-year">1997/2000</span>
+            <span class="tl-name">UU PPSP</span>
+          </div>
+          <div class="tl-bar" style="flex:1;margin:0 20px">
+            <div class="tl-bar-line"></div>
+            <div class="tl-midlabel">← 25 tahun →</div>
+          </div>
+          <div class="tl-end">
+            <span class="tl-year">Jan 2025</span>
+            <span class="tl-name">Coretax</span>
+          </div>
+        </div>
+        <p class="tl-caption">Legislative Lag — jarak ini yang menjadi akar masalah struktural</p>
+      </div>
+    </div>
+
+    <!-- KJS + Mode side by side -->
+    <div class="grid-2 reveal reveal-delay-1">
+      <div>
+        <p class="t-label mb-12">Cara Mengisi (KAP 411618)</p>
+        <div class="kjs-tabs" role="tablist">
+          <button class="kjs-tab active" role="tab" onclick="switchKJS(0)" aria-selected="true">KJS 100</button>
+          <button class="kjs-tab" role="tab" onclick="switchKJS(1)" aria-selected="false">KJS 200</button>
+          <button class="kjs-tab" role="tab" onclick="switchKJS(2)" aria-selected="false">KJS 300</button>
+        </div>
+        <div id="kjs-0" class="kjs-panel active">
+          <h3>Pengisian Saldo Umum</h3>
+          <p>Setor dana tanpa peruntukan spesifik — seperti top-up saldo e-wallet perpajakan.</p>
+          <p class="kjs-meta">KAP 411618 · KJS 100</p>
+        </div>
+        <div id="kjs-1" class="kjs-panel">
+          <h3>Estimasi Kekurangan Bayar</h3>
+          <p>Antisipasi kekurangan pembayaran di muka sebelum masa pajak berakhir.</p>
+          <p class="kjs-meta">KAP 411618 · KJS 200</p>
+        </div>
+        <div id="kjs-2" class="kjs-panel">
+          <h3>Pelunasan Tagihan Tertentu</h3>
+          <p>Lunasi tagihan atau ketetapan pajak yang spesifik secara langsung.</p>
+          <p class="kjs-meta">KAP 411618 · KJS 300</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="t-label mb-12">Cara Menggunakan</p>
+        <div class="mode-toggle-btns" role="group" aria-label="Mode penggunaan deposit pajak">
+          <button class="mode-btn active" onclick="switchMode('permohonan')" aria-pressed="true">PBK atas Permohonan WP</button>
+          <button class="mode-btn" onclick="switchMode('jabatan')" aria-pressed="false">PBK Secara Jabatan</button>
+        </div>
+        <div id="mode-permohonan" class="mode-panel active">
+          <span class="mode-badge badge badge-green">✅ Compatible</span>
+          <dl class="mode-details">
+            <dt>Inisiator</dt><dd>Wajib Pajak</dd>
+            <dt>Dasar</dt><dd>Pasal 108–109 PMK 81/2024</dd>
+            <dt>Rezim</dt><dd>Di luar UU PPSP</dd>
+          </dl>
+        </div>
+        <div id="mode-jabatan" class="mode-panel">
+          <span class="mode-badge badge badge-amber">⚠️ Kondisional</span>
+          <dl class="mode-details">
+            <dt>Inisiator</dt><dd>DJP</dd>
+            <dt>Dasar</dt><dd>Pasal 110 PMK 81/2024</dd>
+            <dt>Rezim</dt><dd>Harus via prosedur UU PPSP</dd>
+          </dl>
+        </div>
+        <div class="mode-insight">
+          Perbedaan satu kata — "permohonan" vs "jabatan" — menentukan seluruh rezim hukum yang berlaku.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 03 — FIVE GAPS ═══════════════ -->
+<section id="problem" class="page page--gray">
+  <div class="container">
+    <span class="section-kicker">Permasalahan</span>
+    <h2 class="t-h1 section-title reveal">Lima Kesenjangan, Satu Rantai</h2>
+    <p class="section-sub">Masalah hilir tak bisa selesai sebelum hulu ditangani — urutan adalah kewajiban struktural</p>
+
+    <!-- MJ-06 FIX: column headers with causal arrows via CSS -->
+    <div class="gap-layer-headers reveal">
+      <div class="col-header col-hulu">🔴 Hulu — Regulasi</div>
+      <div class="col-header col-tengah">🟡 Tengah — Desain</div>
+      <div class="col-header col-hilir">🔵 Hilir — Sistem & TK</div>
+    </div>
+
+    <!-- CR-04 FIX: explicit grid area classes, CSS handles mobile auto-flow -->
+    <div class="gap-grid reveal reveal-delay-1">
+      <article class="gap-card gap-card--hulu1" data-gap="1">
+        <div class="flex mb-8">
+          <span class="gap-badge-inline badge badge-red">Gap 1</span>
+          <span class="t-label" style="color:var(--red)">Hulu</span>
+        </div>
+        <h3 class="gap-card-title">Disharmoni PMK 81/2024 vs Prosedur UU PPSP</h3>
+        <div class="gap-card-body" id="gap-body-1">
+          <p>PMK 81/2024 mengatur Pemindahbukuan Secara Jabatan sebagai tindak lanjut penyitaan. Namun keabsahan penyitaan mensyaratkan Surat Paksa yang sah — yang harus dibacakan langsung oleh Jurusita. PMK tidak dapat mengesampingkan kewajiban UU.</p>
+          <p class="gap-card-reg">Pasal 110 PMK 81/2024 vs Pasal 10 UU PPSP</p>
+        </div>
+        <button class="btn-expand" onclick="toggleGap(1,this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+      </article>
+
+      <article class="gap-card gap-card--tengah" data-gap="3">
+        <div class="flex mb-8">
+          <span class="gap-badge-inline badge badge-amber">Gap 3</span>
+          <span class="t-label" style="color:var(--amber)">Tengah</span>
+        </div>
+        <h3 class="gap-card-title">Kekosongan Mekanisme Consent WP dalam Penagihan Aktif</h3>
+        <div class="gap-card-body" id="gap-body-3">
+          <p>PMK 81/2024 belum mengatur mekanisme persetujuan WP yang dirancang khusus untuk konteks penagihan aktif. Consent saat ini hanya untuk konteks pembayaran sukarela, bukan penyelesaian tunggakan.</p>
+          <p class="gap-card-reg">PMK 81/2024 Pasal 108–110</p>
+        </div>
+        <button class="btn-expand" onclick="toggleGap(3,this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+      </article>
+
+      <article class="gap-card gap-card--hilir1" data-gap="4">
+        <div class="flex mb-8">
+          <span class="gap-badge-inline badge badge-teal">Gap 4</span>
+          <span class="t-label" style="color:var(--teal)">Hilir</span>
+        </div>
+        <h3 class="gap-card-title">Modul Penagihan & Deposit Belum Terintegrasi Real-Time</h3>
+        <div class="gap-card-body" id="gap-body-4">
+          <p>Modul penagihan Coretax tidak dapat mengakses atau memverifikasi saldo Deposit Pajak secara real-time. Sistem belum mendukung pemotongan parsial. Dua modul berjalan sejajar tanpa koneksi.</p>
+          <p class="gap-card-reg">Infrastruktur Coretax</p>
+        </div>
+        <button class="btn-expand" onclick="toggleGap(4,this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+      </article>
+
+      <article class="gap-card gap-card--hulu2" data-gap="2">
+        <div class="flex mb-8">
+          <span class="gap-badge-inline badge badge-red">Gap 2</span>
+          <span class="t-label" style="color:var(--red)">Hulu</span>
+        </div>
+        <h3 class="gap-card-title">Kekosongan Konsep Penyitaan Aset Internal DJP</h3>
+        <div class="gap-card-body" id="gap-body-2">
+          <p>UU PPSP dan PMK 61/2023 hanya mengenal penyitaan aset di lembaga keuangan eksternal. Tidak ada ketentuan tentang penyitaan atau penggunaan saldo yang sudah berada di dalam sistem DJP sendiri.</p>
+          <p class="gap-card-reg">UU PPSP, PMK 61/2023</p>
+        </div>
+        <button class="btn-expand" onclick="toggleGap(2,this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+      </article>
+
+      <!-- Gap 3 placeholder (tengah spans 2 rows, so gap 3 already placed above) -->
+
+      <article class="gap-card gap-card--hilir2" data-gap="5">
+        <div class="flex mb-8">
+          <span class="gap-badge-inline badge badge-teal">Gap 5</span>
+          <span class="t-label" style="color:var(--teal)">Hilir</span>
+        </div>
+        <h3 class="gap-card-title">Belum Ada Procedural Safeguard Pra-Pendebetan</h3>
+        <div class="gap-card-body" id="gap-body-5">
+          <p>Tidak ada kewajiban pemberitahuan kepada WP sebelum saldo didebet. Belum tersedia saluran keberatan administratif yang proporsional. Kondisi ini menempatkan WP dalam posisi tidak setara secara administratif.</p>
+          <p class="gap-card-reg">PMK 81/2024 (ketiadaan ketentuan)</p>
+        </div>
+        <button class="btn-expand" onclick="toggleGap(5,this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+      </article>
+    </div>
+
+    <div class="insight-banner reveal mt-24">
+      Tidak bisa memperbaiki Gap 4 sebelum menyelesaikan Gap 1 dan 2. Urutan bukan pilihan — ini kewajiban struktural yang mengikuti hierarki hukum.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 04 — EVIDENCE ═══════════════ -->
+<section id="evidence" class="page page--white">
+  <div class="container">
+    <span class="section-kicker">Data</span>
+    <h2 class="t-h1 section-title reveal">Skala & Konteks Masalah</h2>
+    <p class="section-sub">Penagihan bekerja dan meningkat — tapi dibatasi prosedur, bukan kapabilitas teknis</p>
+
+    <!-- MJ-04 FIX: taller chart containers via CSS (.chart-container: 290px) -->
+    <div class="kpi-strip reveal">
+      <div class="card-stat">
+        <span class="stat-label">Piutang Neto DJP</span>
+        <p class="stat-value" data-count-to="35">0</p>
+        <p class="stat-unit">Rp Triliun · 2024</p>
+        <p class="stat-delta neutral">Rp28–35 T stabil 2020–2024</p>
+      </div>
+      <div class="card-stat accent-teal">
+        <span class="stat-label">Rasio Pencairan 2024</span>
+        <p class="stat-value t-teal" data-count-to-decimal="41.73">0%</p>
+        <p class="stat-unit">vs piutang neto</p>
+        <p class="stat-delta up">▲ +3,37 pp dari 2023</p>
+      </div>
+      <div class="card-stat">
+        <span class="stat-label">Pencairan Penagihan</span>
+        <p class="stat-value" data-count-to-decimal="14.71">0</p>
+        <p class="stat-unit">Rp Triliun · 2024</p>
+        <p class="stat-delta up">▲ +13,4% nominal vs 2023</p>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal reveal-delay-1">
+      <figure class="card chart-fig">
+        <figcaption class="t-h4">Pencairan Penagihan 2023 vs 2024</figcaption>
+        <div class="chart-legend mt-8 mb-12">
+          <span class="legend-item"><span class="legend-dot" style="background:var(--navy)"></span>2023 — Rp12,97 T</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--teal)"></span>2024 — Rp14,71 T</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-pencairan" role="img"
+                  aria-label="Bar chart: pencairan penagihan 2023 Rp12,97 T vs 2024 Rp14,71 T naik 13,4 persen.">
+          </canvas>
+        </div>
+        <p class="chart-source">Sumber: Lapkip DJP 2023–2024</p>
+      </figure>
+
+      <figure class="card chart-fig">
+        <figcaption class="t-h4">Komponen Piutang DJP 2020–2024</figcaption>
+        <div class="chart-legend mt-8 mb-12">
+          <span class="legend-item"><span class="legend-dot" style="background:var(--navy)"></span>Piutang Bruto</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--teal)"></span>Piutang Neto</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--gray-300)"></span>Penyisihan</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-piutang" role="img"
+                  aria-label="Line chart tren piutang bruto 68-75 T, piutang neto 28-35 T, penyisihan 37-40 T dari 2020 hingga 2024.">
+          </canvas>
+        </div>
+        <p class="chart-source">Sumber: LK DJP Audited 2020–2024</p>
+      </figure>
+    </div>
+
+    <div class="factors-grid reveal reveal-delay-2">
+      <div class="factor-card">
+        <div class="factor-icon">🏭</div>
+        <h4>Kemampuan Bayar WP</h4>
+        <p>Dipengaruhi kondisi likuiditas dan arus kas pelaku usaha</p>
+        <p class="factor-cite">OECD, 2014; Herianto, 2024</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">📉</div>
+        <h4>Kondisi Perekonomian</h4>
+        <p>Fluktuasi makroekonomi memengaruhi kapasitas pembayaran pajak</p>
+        <p class="factor-cite">IMF, 2016</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">⚖️</div>
+        <h4>Sengketa Pajak & Likuiditas</h4>
+        <p>Piutang tinggi bukan semata indikator kinerja DJP</p>
+        <p class="factor-cite">IMF, 2016; OECD, 2014</p>
+      </div>
+    </div>
+
+    <div class="relevance-bridge reveal">
+      Dalam konteks inilah Deposit Pajak menjadi relevan — dana yang sudah berada dalam ekosistem DJP, tersedia lebih awal dalam proses penagihan, tapi belum bisa dimanfaatkan karena ketidaksesuaian kerangka hukum.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 05 — MECHANISMS ═══════════════ -->
+<section id="mechanisms" class="page page--gray">
+  <div class="container">
+    <span class="section-kicker">Analisis Kompatibilitas</span>
+    <h2 class="t-h1 section-title reveal">Dua Sudah Bisa. Dua Butuh Syarat. Satu Belum Boleh.</h2>
+
+    <div class="score-strip reveal">
+      <span class="score-badge" style="background:var(--green-lt);color:#15803D">✅ 2 Compatible</span>
+      <span class="score-badge" style="background:var(--amber-lt);color:#B45309">⚠️ 2 Conditionally Compatible</span>
+      <span class="score-badge" style="background:var(--red-lt);color:#B91C1C">❌ 1 Not Yet Compatible</span>
+    </div>
+
+    <!-- MN-07 FIX: bolder active state via CSS (.filter-btn.active font-weight:700) -->
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" onclick="filterMech('all')" data-filter="all">Semua (5)</button>
+      <button class="filter-btn" onclick="filterMech('compatible')" data-filter="compatible">Compatible (2)</button>
+      <button class="filter-btn" onclick="filterMech('conditional')" data-filter="conditional">Conditionally (2)</button>
+      <button class="filter-btn" onclick="filterMech('not-yet')" data-filter="not-yet">Not Yet (1)</button>
+    </div>
+
+    <!-- MN-04 FIX: scroll hint via CSS ::after on .table-wrap -->
+    <div class="table-wrap reveal reveal-delay-1">
+      <table class="compat-table" id="compat-table" role="grid">
+        <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">
+          Penilaian kompatibilitas lima mekanisme Deposit Pajak dari empat perspektif
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Mekanisme</th>
+            <th scope="col">Legal</th>
+            <th scope="col">Admin</th>
+            <th scope="col">Compliance</th>
+            <th scope="col">Governance</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-status="compatible">
+            <td>M1 — Auto-offset restitusi → utang pajak</td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="status-pill pill-c">Compatible</span></td>
+          </tr>
+          <tr data-status="compatible">
+            <td>M2 — PBK atas permohonan Wajib Pajak</td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="status-pill pill-c">Compatible</span></td>
+          </tr>
+          <tr data-status="conditional">
+            <td>M3 — Checkpoint preventif sebelum Surat Teguran</td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="status-pill pill-a">Conditionally</span></td>
+          </tr>
+          <tr data-status="not-yet" style="background:#fff5f5">
+            <td style="color:var(--red);font-weight:600">M4 — PBK Jabatan tanpa consent</td>
+            <td><span class="cell-x">❌</span></td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="cell-x">❌</span></td>
+            <td><span class="cell-x">❌</span></td>
+            <td><span class="status-pill pill-x">Not Yet</span></td>
+          </tr>
+          <tr data-status="conditional">
+            <td>M5 — PBK Jabatan + standing instruction</td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="cell-c">✅</span></td>
+            <td><span class="cell-a">⚠️</span></td>
+            <td><span class="status-pill pill-a">Conditionally</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="m4-alert" id="m4-alert">
+      <p class="m4-alert-title">⚠️ M4 berpotensi digugat berdasarkan tiga pasal</p>
+      <p class="m4-alert-desc">Pemindahbukuan Secara Jabatan tanpa prosedur UU PPSP yang sah membuka risiko gugatan formal yang dapat diajukan Wajib Pajak.</p>
+      <button class="btn-expand" onclick="toggleM4Pasal()" id="m4-pasal-btn">
+        Lihat pasal-pasalnya <span class="icon">▾</span>
+      </button>
+      <ul class="m4-pasal-list" id="m4-pasal-list">
+        <li><strong>Pasal 23(2) UU KUP</strong> — gugatan atas penagihan yang tidak sesuai prosedur</li>
+        <li><strong>Pasal 37(1) UU PPSP</strong> — gugatan pelaksanaan penagihan</li>
+        <li><strong>Pasal 23 UU Pengadilan Pajak</strong></li>
+      </ul>
+    </div>
+
+    <div class="bottom-insight reveal">
+      Kompatibilitas bukan biner — bergantung pada mekanisme, dasar hukum, dan prasyarat yang terpenuhi.
+      Pertanyaan yang tepat: <em>mekanisme mana, dengan prasyarat apa?</em>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 06 — ROOT CAUSE ═══════════════ -->
+<section id="rootcause" class="page page--white">
+  <div class="container">
+    <span class="section-kicker">Akar Masalah</span>
+    <h2 class="t-h1 section-title reveal">Tiga Lapisan, Tiga Instrumen Berbeda</h2>
+    <p class="section-sub">Setiap lapisan membutuhkan intervensi yang berbeda — dan urutan tidak bisa dibalik</p>
+
+    <div class="layer-stack reveal">
+      <!-- Legislative Lag (hardest — shown top, red) -->
+      <div class="layer layer--red">
+        <div class="layer-stripe">
+          <!-- MN-06 FIX: changed from "Lapisan Teratas" to "Lapisan Pertama" -->
+          <span class="t-label" style="color:#B91C1C">Lapisan Terdalam · Paling Kompleks</span>
+          <span class="layer-horizon-badge">Jangka Panjang · Perubahan UU</span>
+        </div>
+        <h3 class="layer-name">Legislative Lag</h3>
+        <p class="layer-example">UU PPSP lahir 1997/2000 — tidak mengantisipasi konsep dana pra-setor dalam sistem DJP. Gap 25 tahun antara UU dan Coretax.</p>
+        <button class="btn-expand" onclick="toggleLayer(this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+        <div class="layer-detail">
+          <p>Undang-Undang Penagihan dengan Surat Paksa lahir di era administrasi manual. Prosedur Jurusita tatap muka, penyitaan aset eksternal — semua dirancang tanpa membayangkan ekosistem digital yang terintegrasi. Satu-satunya solusi struktural adalah harmonisasi undang-undang.</p>
+          <p class="layer-instrument">Instrumen: Reformasi UU PPSP (RC-6)</p>
+        </div>
+      </div>
+
+      <!-- Design Gap (medium) -->
+      <div class="layer layer--amber">
+        <div class="layer-stripe">
+          <span class="t-label" style="color:#B45309">Lapisan Tengah</span>
+          <span class="layer-horizon-badge">Jangka Menengah · PMK / Perdirjen</span>
+        </div>
+        <h3 class="layer-name">Design Gap</h3>
+        <p class="layer-example">PMK 81/2024 dirancang untuk modernisasi pembayaran — bukan untuk penyelesaian tunggakan. Masih terdapat ruang pengembangan.</p>
+        <button class="btn-expand" onclick="toggleLayer(this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+        <div class="layer-detail">
+          <p>Implikasi penggunaan Deposit Pajak dalam penagihan aktif belum menjadi fokus utama PMK 81/2024. Ini bukan kekurangan — ini adalah ruang pengembangan yang dapat diatasi melalui penyempurnaan regulasi pelaksana dalam kewenangan Kementerian Keuangan dan DJP.</p>
+          <p class="layer-instrument">Instrumen: PMK / Perdirjen (RC-1, RC-3, RC-5)</p>
+        </div>
+      </div>
+
+      <!-- Governance Lag (easiest — shown bottom, green) -->
+      <div class="layer layer--green">
+        <div class="layer-stripe">
+          <!-- MN-06 FIX: "Lapisan Pertama — Mulai dari Sini" instead of "Lapisan Teratas" -->
+          <span class="t-label" style="color:#15803D">Lapisan Pertama — Mulai dari Sini ✦</span>
+          <span class="layer-horizon-badge">Jangka Pendek · SOP Internal</span>
+        </div>
+        <h3 class="layer-name">Governance Lag</h3>
+        <p class="layer-example">Kapabilitas Coretax melampaui tata kelola yang mendukungnya. Standar audit trail dan mekanisme pemberitahuan pra-pendebetan belum diatur.</p>
+        <button class="btn-expand" onclick="toggleLayer(this)" aria-expanded="false">Detail <span class="icon">▾</span></button>
+        <div class="layer-detail">
+          <p>Berdasarkan Pasal 10 UU No. 30 Tahun 2014 tentang Administrasi Pemerintahan, asas kepastian hukum mewajibkan setiap tindakan administratif didukung oleh dokumentasi yang memadai. Ketiadaan standar audit trail berpotensi melemahkan akuntabilitas DJP apabila timbul sengketa.</p>
+          <p class="layer-instrument">Instrumen: SOP Internal (RC-2)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="intervention-footer reveal">
+      <div class="intervention-blocks">
+        <div class="int-block int-block--g"></div>
+        <div class="int-block int-block--a"></div>
+        <div class="int-block int-block--r"></div>
+      </div>
+      <div class="int-label"><strong>Urutan intervensi:</strong> Governance → Design → Legislative</div>
+      <div class="int-arrow">↑ Mulai dari lapisan pertama</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 07 — SCENARIOS ═══════════════ -->
+<section id="scenarios" class="page page--gray">
+  <div class="container">
+    <span class="section-kicker">Analisis Skenario</span>
+    <h2 class="t-h1 section-title reveal">Dua Skenario, Satu Pilihan</h2>
+
+    <div class="context-bar reveal">
+      <strong>Titik tolak (kondisi saat ini):</strong> Deposit Pajak sepenuhnya terpisah dari mekanisme penagihan — tidak ada konflik norma, tetapi juga tidak ada efisiensi yang dimanfaatkan.
+    </div>
+
+    <div class="scenario-panels reveal reveal-delay-1">
+      <div class="scenario-card scenario-card--rec">
+        <div class="scenario-header scenario-header--rec">
+          <div class="scenario-badge">⭐ SKENARIO 1 — DIREKOMENDASIKAN</div>
+        </div>
+        <div class="scenario-title">Deposit sebagai Instrumen Pendukung Terbatas</div>
+        <div class="scenario-dims">
+          <div class="dim-row"><span class="dim-key">Perubahan regulasi</span><span class="dim-val">PMK / Perdirjen</span></div>
+          <div class="dim-row"><span class="dim-key">Risiko legal</span><span class="dim-val dim-green">🟢 Rendah</span></div>
+          <div class="dim-row"><span class="dim-key">Manfaat administratif</span><span class="dim-val dim-amber">🟡 Sedang</span></div>
+          <div class="dim-row"><span class="dim-key">Basis penyelesaian</span><span class="dim-val">Consent WP</span></div>
+          <div class="dim-row"><span class="dim-key">Horizon waktu</span><span class="dim-val">Jangka Menengah</span></div>
+        </div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-header scenario-header--neutral">
+          <div class="scenario-badge scenario-badge--neutral">SKENARIO 2 — Aspirasi Jangka Panjang</div>
+        </div>
+        <div class="scenario-title">Deposit sebagai Instrumen Terintegrasi dalam Penagihan</div>
+        <div class="scenario-dims">
+          <div class="dim-row"><span class="dim-key">Perubahan regulasi</span><span class="dim-val">UU PPSP</span></div>
+          <div class="dim-row"><span class="dim-key">Risiko legal</span><span class="dim-val dim-red">🔴 Tinggi</span></div>
+          <div class="dim-row"><span class="dim-key">Manfaat administratif</span><span class="dim-val dim-green">🟢 Tinggi</span></div>
+          <div class="dim-row"><span class="dim-key">Basis penyelesaian</span><span class="dim-val">Standing instruction otomatis</span></div>
+          <div class="dim-row"><span class="dim-key">Horizon waktu</span><span class="dim-val">Jangka Panjang</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-row reveal reveal-delay-2">
+      <div class="why-bubble">
+        <strong>Tanpa Mengubah UU PPSP</strong>
+        Bisa diimplementasikan melalui PMK atau Perdirjen saja
+      </div>
+      <div class="why-bubble">
+        <strong>Risiko Sengketa Rendah</strong>
+        Berbasis persetujuan Wajib Pajak — di luar rezim penagihan paksa
+      </div>
+      <div class="why-bubble">
+        <strong>Efisiensi Nyata</strong>
+        Pencegahan dini sebelum 30 hari prosedur UU PPSP dimulai
+      </div>
+    </div>
+
+    <blockquote class="scenario-quote reveal">
+      "Skenario 1 bukan kompromi. Ia titik temu yang paling seimbang antara kepastian hukum, kemudahan implementasi, dan peningkatan efektivitas administrasi perpajakan."
+    </blockquote>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 08 — RECOMMENDATIONS ═══════════════ -->
+<section id="recommendations" class="page page--white">
+  <div class="container">
+    <span class="section-kicker">Rekomendasi</span>
+    <h2 class="t-h1 section-title reveal">Enam Langkah, Tiga Fase</h2>
+    <p class="section-sub">RC-1 dan RC-2 adalah kunci — semua rekomendasi berikutnya bergantung pada keduanya</p>
+
+    <div class="swimlane reveal reveal-delay-1">
+      <!-- Jangka Pendek -->
+      <div class="phase-col">
+        <div class="phase-header phase-header--p">Jangka Pendek</div>
+        <article class="rc-card" id="rc-1"
+                 data-requires="" data-required-by="rc-3,rc-5"
+                 onmouseenter="highlightRC('rc-1')" onmouseleave="resetRC()"
+                 onfocus="highlightRC('rc-1')" onblur="resetRC()">
+          <div class="rc-header">
+            <span class="rc-code">RC-1</span>
+            <span class="rc-inst">PMK / Perdirjen</span>
+          </div>
+          <h3 class="rc-title">Explicit Consent</h3>
+          <p>Mekanisme persetujuan WP dalam onboarding Coretax</p>
+          <button class="btn-expand" onclick="toggleRC('rc-1')" aria-expanded="false">Detail <span class="icon">▾</span></button>
+          <div class="rc-detail" id="rc-detail-1">
+            <p>Pengembangan mekanisme explicit consent saat onboarding Coretax yang mencakup kondisi pemanfaatan deposit, hak pemberitahuan, mekanisme pencabutan, dan saluran keberatan administratif.</p>
+            <p class="rc-prereq">Prasyarat: —</p>
+            <span class="rc-type-badge">Potential Policy Consideration</span>
+          </div>
+        </article>
+
+        <article class="rc-card" id="rc-2"
+                 data-requires="" data-required-by="rc-4"
+                 onmouseenter="highlightRC('rc-2')" onmouseleave="resetRC()"
+                 onfocus="highlightRC('rc-2')" onblur="resetRC()">
+          <div class="rc-header">
+            <span class="rc-code">RC-2</span>
+            <span class="rc-inst">SOP Internal</span>
+          </div>
+          <h3 class="rc-title">Standar Audit Trail</h3>
+          <p>Pencatatan minimum transaksi deposit terkait penagihan</p>
+          <button class="btn-expand" onclick="toggleRC('rc-2')" aria-expanded="false">Detail <span class="icon">▾</span></button>
+          <div class="rc-detail" id="rc-detail-2">
+            <p>Standardisasi audit trail minimum untuk setiap transaksi deposit yang terkait dengan penagihan. Melindungi DJP dari risiko sengketa dengan dasar pembuktian yang kuat.</p>
+            <p class="rc-prereq">Prasyarat: —</p>
+            <span class="rc-type-badge">Conceptual Improvement</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Jangka Menengah -->
+      <div class="phase-col">
+        <div class="phase-header phase-header--m">Jangka Menengah</div>
+        <article class="rc-card" id="rc-3"
+                 data-requires="rc-1" data-required-by="rc-6"
+                 onmouseenter="highlightRC('rc-3')" onmouseleave="resetRC()"
+                 onfocus="highlightRC('rc-3')" onblur="resetRC()">
+          <div class="rc-header">
+            <span class="rc-code">RC-3</span>
+            <span class="rc-inst">PMK / Perdirjen</span>
+          </div>
+          <h3 class="rc-title">Checkpoint Preventif</h3>
+          <p>Verifikasi saldo deposit sebelum Surat Teguran diterbitkan</p>
+          <button class="btn-expand" onclick="toggleRC('rc-3')" aria-expanded="false">Detail <span class="icon">▾</span></button>
+          <div class="rc-detail" id="rc-detail-3">
+            <p>Titik verifikasi saldo Deposit Pajak sebagai mekanisme preventif sukarela sebelum Surat Teguran diterbitkan. Bersifat informatif dan berbasis opsi WP — bukan pemotongan sepihak.</p>
+            <p class="rc-prereq">Membutuhkan: RC-1 + integrasi sistem real-time</p>
+            <span class="rc-type-badge">Indicative Recommendation</span>
+          </div>
+        </article>
+
+        <article class="rc-card" id="rc-4"
+                 data-requires="rc-2" data-required-by=""
+                 onmouseenter="highlightRC('rc-4')" onmouseleave="resetRC()"
+                 onfocus="highlightRC('rc-4')" onblur="resetRC()">
+          <div class="rc-header">
+            <span class="rc-code">RC-4</span>
+            <span class="rc-inst">Teknis Sistem</span>
+          </div>
+          <h3 class="rc-title">Pemotongan Parsial</h3>
+          <p>Kapabilitas debet sebagian saldo deposit</p>
+          <button class="btn-expand" onclick="toggleRC('rc-4')" aria-expanded="false">Detail <span class="icon">▾</span></button>
+          <div class="rc-detail" id="rc-detail-4">
+            <p>Evaluasi kapabilitas pemotongan parsial saldo Deposit Pajak untuk meningkatkan fleksibilitas pemanfaatan. Tidak membutuhkan perubahan regulasi — hanya pengembangan teknis sistem.</p>
+            <p class="rc-prereq">Membutuhkan: RC-2</p>
+            <span class="rc-type-badge">Conceptual Improvement</span>
+          </div>
+        </article>
+
+        <article class="rc-card" id="rc-5"
+                 data-requires="rc-1,rc-2" data-required-by="rc-6"
+                 onmouseenter="highlightRC('rc-5')" onmouseleave="resetRC()"
+                 onfocus="highlightRC('rc-5')" onblur="resetRC()">
+          <div class="rc-header">
+            <span class="rc-code">RC-5</span>
+            <span class="rc-inst">PMK / Perdirjen</span>
+          </div>
+          <h3 class="rc-title">Compliance Framework</h3>
+          <p>Kerangka yang membedakan deposit sebagai pembayaran vs penagihan</p>
+          <button class="btn-expand" onclick="toggleRC('rc-5')" aria-expanded="false">Detail <span class="icon">▾</span></button>
+          <div class="rc-detail" id="rc-detail-5">
+            <p>Pengembangan compliance framework yang membedakan secara eksplisit fungsi Deposit Pajak sebagai instrumen pembayaran sukarela versus instrumen pendukung penagihan aktif.</p>
+            <p class="rc-prereq">Membutuhkan: RC-1, RC-2</p>
+            <span class="rc-type-badge">Indicative Recommendation</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Jangka Panjang -->
+      <div class="phase-col">
+        <div class="phase-header phase-header--l">Jangka Panjang</div>
+        <article class="rc-card" id="rc-6"
+                 data-requires="rc-3,rc-5" data-required-by=""
+                 onmouseenter="highlightRC('rc-6')" onmouseleave="resetRC()"
+                 onfocus="highlightRC('rc-6')" onblur="resetRC()">
+          <div class="rc-header">
+            <span class="rc-code">RC-6</span>
+            <span class="rc-inst">Undang-Undang</span>
+          </div>
+          <h3 class="rc-title">Harmonisasi UU PPSP</h3>
+          <p>Kajian pembaruan kerangka UU PPSP dengan ekosistem digital</p>
+          <button class="btn-expand" onclick="toggleRC('rc-6')" aria-expanded="false">Detail <span class="icon">▾</span></button>
+          <div class="rc-detail" id="rc-detail-6">
+            <p>Kajian harmonisasi UU PPSP dengan ekosistem administrasi perpajakan digital. Referensi: Pasal 24 Invorderingswet Belanda 1990 yang memisahkan rezim kompensasi saldo internal dari penagihan paksa.</p>
+            <p class="rc-prereq">Membutuhkan: RC-3, RC-5</p>
+            <span class="rc-type-badge">Possible Future Evaluation</span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="dep-note reveal">
+      <span style="font-size:18px;flex-shrink:0">🔑</span>
+      <span>RC-1 (Explicit Consent) dan RC-2 (Audit Trail) adalah prasyarat. Tanpa keduanya, RC-3, RC-4, dan RC-5 tidak dapat berjalan.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 09 — CLOSING ═══════════════ -->
+<section id="closing" class="page page--dark">
+  <div class="container">
+    <span class="section-kicker section-kicker--light">Penutup</span>
+    <h2 class="t-h1 t-white section-title reveal">Tiga Hal yang Perlu Dibawa Pulang</h2>
+
+    <div class="takeaway-stack">
+      <!-- MN-03 FIX: opacity:1 on takeaway-num via CSS -->
+      <!-- MJ-07 FIX: higher contrast takeaway-text via CSS (.75) -->
+      <div class="takeaway-card reveal">
+        <div class="takeaway-num" aria-hidden="true">01</div>
+        <div class="takeaway-body">
+          <h3 class="takeaway-title">Pertanyaannya bukan bisa atau tidak bisa</h3>
+          <p class="takeaway-text">Pertanyaan yang tepat: dalam mekanisme mana, dengan prasyarat apa, dan pada skenario yang mana? Kompatibilitas bersifat parsial dan kondisional.</p>
+          <div class="takeaway-mini">
+            <span class="mini-block mini-block-g">✅ 2 Compatible</span>
+            <span class="mini-block mini-block-a">⚠️ 2 Conditionally</span>
+            <span class="mini-block mini-block-r">❌ 1 Not Yet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="takeaway-card reveal reveal-delay-1">
+        <div class="takeaway-num" aria-hidden="true">02</div>
+        <div class="takeaway-body">
+          <h3 class="takeaway-title">Mulailah dari lapisan yang bisa digerakkan sekarang</h3>
+          <p class="takeaway-text">Governance lag bisa dimulai hari ini, tanpa menunggu perubahan regulasi apapun. Design gap menyusul. Legislative lag adalah agenda jangka panjang.</p>
+          <div class="takeaway-mini">
+            <span class="mini-block mini-block-g">SOP — Sekarang</span>
+            <span class="mini-block mini-block-a">PMK — Menengah</span>
+            <span class="mini-block mini-block-r">UU — Panjang</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="takeaway-card takeaway-card--final reveal reveal-delay-2">
+        <div class="takeaway-num" aria-hidden="true">03</div>
+        <div class="takeaway-body">
+          <h3 class="takeaway-title">Kepastian hukum adalah kebutuhan bersama</h3>
+          <p class="takeaway-text">Tidak hanya untuk melindungi Wajib Pajak — tapi juga melindungi DJP dari risiko sengketa atas tindakan yang dilakukan tanpa dasar hukum yang memadai. Kepastian hukum dan efisiensi administrasi tidak perlu dipertentangkan.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MN-08 FIX: cite has border-top separator via CSS -->
+    <blockquote class="final-quote reveal">
+      "Modernisasi administrasi perpajakan tidak hanya menuntut pembaruan teknologi. Ia juga menuntut kerangka konseptual dan hukum yang mampu mengakomodasi instrumen yang dihasilkannya."
+      <cite>— OKM 1, Dio Nanda Pratama Hidayat, 2025</cite>
+    </blockquote>
+
+    <div class="flex-center mt-32 gap-12" style="flex-wrap:wrap">
+      <button class="btn-secondary" onclick="goToSection('#landing')"
+              style="color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12)">
+        ↑ Kembali ke awal
+      </button>
+      <button class="btn-secondary" onclick="goToSection('#about')"
+              style="color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12)">
+        Tentang penelitian →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PAGE 10 — ABOUT ═══════════════ -->
+<section id="about" class="page page--gray">
+  <div class="container">
+    <span class="section-kicker">Tentang</span>
+    <h2 class="t-h1 section-title reveal">Penelitian & Referensi</h2>
+
+    <div class="about-grid reveal">
+      <div>
+        <h3 class="t-h3 mb-24">Tentang Penelitian</h3>
+        <dl class="about-dl">
+          <dt>Judul</dt>
+          <dd>Evaluasi Konseptual Pemanfaatan Deposit Pajak sebagai Instrumen Pendukung Penagihan Pajak dalam Konteks Modernisasi Administrasi Perpajakan</dd>
+          <dt>Penulis</dt>
+          <dd>Dio Nanda Pratama Hidayat · NPM 4121220161</dd>
+          <dt>Institusi</dt>
+          <dd>Politeknik Keuangan Negara STAN · Sarjana Terapan Manajemen Keuangan Negara</dd>
+          <dt>Unit Magang</dt>
+          <dd>Subdirektorat Pengembangan Penegakan Hukum, Direktorat Transformasi Proses Bisnis, Direktorat Jenderal Pajak, Kementerian Keuangan RI</dd>
+          <dt>Jenis Penelitian</dt>
+          <dd>Penelitian konseptual berbasis studi kepustakaan</dd>
+          <dt>Pendekatan</dt>
+          <dd>Komparatif regulasi · Evaluasi proses bisnis · Benchmarking internasional (Singapura, Australia, Belanda)</dd>
+        </dl>
+        <div class="disclaimer">
+          Temuan ini bersifat konseptual dan tidak mewakili posisi resmi DJP atau Kementerian Keuangan Republik Indonesia.
+        </div>
+      </div>
+
+      <div>
+        <h3 class="t-h3 mb-24">Referensi Kunci</h3>
+        <details class="ref-group">
+          <summary>Regulasi (7)</summary>
+          <ul class="ref-list">
+            <li>UU No. 19 Tahun 1997 jo. UU No. 19 Tahun 2000 tentang Penagihan Pajak dengan Surat Paksa (UU PPSP)</li>
+            <li>UU No. 6 Tahun 1983 jo. UU No. 7 Tahun 2021 tentang Ketentuan Umum dan Tata Cara Perpajakan (UU KUP)</li>
+            <li>UU No. 12 Tahun 2011 jo. UU No. 13 Tahun 2022 tentang Pembentukan Peraturan Perundang-undangan</li>
+            <li>UU No. 30 Tahun 2014 tentang Administrasi Pemerintahan</li>
+            <li>PMK No. 61 Tahun 2023 tentang Tata Cara Penagihan Pajak</li>
+            <li>PMK No. 81 Tahun 2024 tentang Ketentuan Perpajakan dalam Rangka Pelaksanaan ICTS</li>
+            <li>PER-10/PJ/2024 tentang Pembayaran dan Penyetoran Pajak</li>
+          </ul>
+        </details>
+        <details class="ref-group">
+          <summary>Literatur Akademik (6)</summary>
+          <ul class="ref-list">
+            <li>Herianto (2024). Analisis Efektivitas Penagihan Pajak terhadap Pencairan Tunggakan Pajak</li>
+            <li>Setyastrini dkk. (2025). Evaluasi Implementasi Deposit Pajak dalam Coretax</li>
+            <li>Maisyura dkk. (2025). Tantangan Transformasi Digital Administrasi Perpajakan</li>
+            <li>Allingham, M.G. & Sandmo, A. (1972). Income Tax Evasion: A Theoretical Analysis</li>
+            <li>Kirchler, E. (2007). The Economic Psychology of Tax Behaviour</li>
+            <li>OECD (2020). Tax Administration 3.0: The Digital Transformation of Tax Administration</li>
+          </ul>
+        </details>
+        <details class="ref-group">
+          <summary>Referensi Internasional (4)</summary>
+          <ul class="ref-list">
+            <li>OECD (2014). Working Smarter in Tax Debt Management</li>
+            <li>IMF (2016). Tax Administration: Theory and Practice</li>
+            <li>ADB (2024). Digital Tax Administration in Asia</li>
+            <li>Belastingdienst (1990). Invorderingswet 1990, Pasal 24</li>
+          </ul>
+        </details>
+        <details class="ref-group">
+          <summary>Sumber Institusional (4)</summary>
+          <ul class="ref-list">
+            <li>DJP (2024). Laporan Kinerja DJP 2024</li>
+            <li>DJP (2024). Laporan Keuangan DJP 2020–2024 (Audited)</li>
+            <li>DJP (2025). Ketentuan Penggunaan Coretax Administration System</li>
+            <li>DJP (2025). KT-02/2025 — Klarifikasi Implementasi Coretax</li>
+          </ul>
+        </details>
+
+        <!-- CR-03: Download CTA with placeholder link -->
+        <div class="download-cta mt-24">
+          <p class="t-white" style="font-size:15px;font-weight:600">Dokumen Lengkap OKM 1</p>
+          <!--
+            CR-03 INSTRUKSI: Ganti PASTE_LINK_GDRIVE_DI_SINI dengan link Google Drive Anda.
+            Format link: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+            Untuk force download: https://drive.google.com/uc?export=download&id=FILE_ID
+            Pastikan permission: "Anyone with the link can view"
+          -->
+          <a href="PASTE_LINK_GDRIVE_DI_SINI"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="btn-download"
+             style="margin-top:18px">
+            📄 Unduh Dokumen Lengkap
+          </a>
+          <p>Analisis lengkap, tabel kompatibilitas, dan seluruh daftar referensi tersedia dalam dokumen penelitian.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>© 2025 Dio Nanda Pratama Hidayat · OKM 1 · Subdirektorat Pengembangan Penegakan Hukum, DJP</p>
+  <p style="margin-top:5px">Temuan bersifat konseptual — tidak mewakili posisi resmi DJP atau Kementerian Keuangan RI</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════
+   CR-01 FIX: renamed from scrollTo to goToSection
+   to avoid conflict with window.scrollTo native API
+═══════════════════════════════════════════════ */
+function goToSection(selector) {
+  const el = document.querySelector(selector);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ═══════════════════════════════════════════════
+   PROGRESS BAR
+═══════════════════════════════════════════════ */
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  const pct   = total > 0 ? (window.scrollY / total) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
+
+/* ═══════════════════════════════════════════════
+   TOP BAR — show after landing
+═══════════════════════════════════════════════ */
+const topbar  = document.getElementById('topbar');
+const backTop = document.getElementById('back-top');
+window.addEventListener('scroll', () => {
+  const past = window.scrollY > window.innerHeight * 0.55;
+  topbar.classList.toggle('visible', past);
+  backTop.classList.toggle('visible', window.scrollY > 600);
+}, { passive: true });
+
+/* ═══════════════════════════════════════════════
+   SIDE DOT NAV — scroll spy + light/dark awareness
+   MN-01 FIX: toggle .on-light class based on section background
+═══════════════════════════════════════════════ */
+const sideNav  = document.getElementById('side-nav');
+const sideDots = document.querySelectorAll('.side-dot');
+
+const SECTION_IDS = [
+  'landing','paradox','context','problem',
+  'evidence','mechanisms','rootcause','scenarios',
+  'recommendations','closing'
+];
+
+// Sections with light background (need dark dots)
+const LIGHT_SECTIONS = new Set(['context','problem','evidence','mechanisms','rootcause','scenarios','recommendations','about']);
+
+const sectionEls = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const id  = e.target.id;
+    const idx = SECTION_IDS.indexOf(id);
+
+    // Update active dot
+    sideDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+    // Show nav after landing
+    if (id !== 'landing') sideNav.classList.add('visible');
+
+    // MN-01 FIX: switch dot color for visibility on light sections
+    sideNav.classList.toggle('on-light', LIGHT_SECTIONS.has(id));
+  });
+}, { threshold: 0.4 });
+
+sectionEls.forEach(el => navObserver.observe(el));
+
+/* ═══════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════ */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ═══════════════════════════════════════════════
+   PAGE 01 — SLIDERS
+═══════════════════════════════════════════════ */
+const sliderT  = document.getElementById('slider-tunggakan');
+const sliderS  = document.getElementById('slider-saldo');
+const outT     = document.getElementById('out-tunggakan');
+const outS     = document.getElementById('out-saldo');
+const resultEl = document.getElementById('situation-result');
+
+function formatRp(v) {
+  if (v >= 1000) return `Rp${(v / 1000).toFixed(0)} miliar`;
+  return `Rp${v} juta`;
+}
+
+function updateSituation() {
+  const t = parseInt(sliderT.value);
+  const s = parseInt(sliderS.value);
+  outT.textContent = formatRp(t);
+  outS.textContent = formatRp(s);
+  const diff = s - t;
+
+  if (s > t) {
+    resultEl.textContent = `Kelebihan saldo ${formatRp(diff)} — secara teknis cukup untuk lunas, tapi tidak ada yang bisa melakukannya tanpa izin hukum.`;
+    resultEl.style.borderColor = 'rgba(2,128,144,.35)';
+    resultEl.style.background  = 'rgba(2,128,144,.1)';
+  } else if (s === t) {
+    resultEl.textContent = `Saldo deposit persis cukup melunasi tunggakan — namun prosedur hukum tetap harus dilalui.`;
+    resultEl.style.borderColor = 'rgba(217,119,6,.35)';
+    resultEl.style.background  = 'rgba(217,119,6,.08)';
+  } else {
+    resultEl.textContent = `Saldo deposit kurang ${formatRp(Math.abs(diff))} dari tunggakan. Deposit tidak bisa menutup seluruh kewajiban.`;
+    resultEl.style.borderColor = 'rgba(220,38,38,.25)';
+    resultEl.style.background  = 'rgba(220,38,38,.07)';
+  }
+}
+
+sliderT.addEventListener('input', updateSituation);
+sliderS.addEventListener('input', updateSituation);
+updateSituation();
+
+// Proc steps stagger on paradox enter
+const paradoxEl  = document.getElementById('paradox');
+const procSteps  = document.querySelectorAll('.proc-step');
+let staggerDone  = false;
+
+const paradoxObs = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting && !staggerDone) {
+    staggerDone = true;
+    procSteps.forEach((s, i) => setTimeout(() => s.classList.add('visible'), 200 + i * 240));
+    paradoxObs.unobserve(paradoxEl);
+  }
+}, { threshold: 0.25 });
+if (paradoxEl) paradoxObs.observe(paradoxEl);
+
+/* ═══════════════════════════════════════════════
+   PAGE 02 — KJS TABS & MODE TOGGLE
+═══════════════════════════════════════════════ */
+function switchKJS(idx) {
+  document.querySelectorAll('.kjs-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+    t.setAttribute('aria-selected', i === idx);
+  });
+  document.querySelectorAll('.kjs-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+}
+
+function switchMode(mode) {
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    const isThis = b.getAttribute('onclick').includes(`'${mode}'`);
+    b.classList.toggle('active', isThis);
+    b.setAttribute('aria-pressed', isThis);
+  });
+  document.getElementById('mode-permohonan').classList.toggle('active', mode === 'permohonan');
+  document.getElementById('mode-jabatan').classList.toggle('active', mode === 'jabatan');
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE 03 — GAP CARDS
+   MJ-05 FIX: toggle .is-open on card for visual feedback
+═══════════════════════════════════════════════ */
+function toggleGap(n, btn) {
+  const body = document.getElementById('gap-body-' + n);
+  const card = body.closest('.gap-card');
+  const isOpen = body.classList.contains('open');
+
+  body.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', !isOpen);
+  // MJ-05 FIX: add .is-open to card container for border/shadow feedback
+  card.classList.toggle('is-open', !isOpen);
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE 04 — COUNTER ANIMATION
+═══════════════════════════════════════════════ */
+function animateCount(el, target, isDecimal, duration) {
+  let start = null;
+  const run = ts => {
+    if (!start) start = ts;
+    const p    = Math.min((ts - start) / duration, 1);
+    const ease = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+    if (isDecimal) {
+      el.textContent = (ease * target).toFixed(2) + '%';
+    } else {
+      el.textContent = Math.round(ease * target);
+    }
+    if (p < 1) requestAnimationFrame(run);
+    else {
+      // OP-05: micro-celebration on completion
+      el.style.transition = 'color 300ms';
+      const origColor = el.style.color || '';
+      el.style.color = 'var(--teal)';
+      setTimeout(() => { el.style.color = origColor; }, 600);
+    }
+  };
+  requestAnimationFrame(run);
+}
+
+const evidenceEl = document.getElementById('evidence');
+let countersDone = false;
+
+const kpiObs = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting && !countersDone) {
+    countersDone = true;
+    document.querySelectorAll('[data-count-to]').forEach((el, i) => {
+      setTimeout(() => animateCount(el, parseFloat(el.getAttribute('data-count-to')), false, 900), i * 120);
+    });
+    document.querySelectorAll('[data-count-to-decimal]').forEach((el, i) => {
+      setTimeout(() => animateCount(el, parseFloat(el.getAttribute('data-count-to-decimal')), true, 1000), i * 120);
+    });
+    kpiObs.unobserve(evidenceEl);
+  }
+}, { threshold: 0.25 });
+if (evidenceEl) kpiObs.observe(evidenceEl);
+
+/* ═══════════════════════════════════════════════
+   PAGE 04 — CHARTS (lazy, on viewport entry)
+═══════════════════════════════════════════════ */
+let chartsInited = false;
+
+const chartObs = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting && !chartsInited) {
+    chartsInited = true;
+    initCharts();
+    chartObs.unobserve(evidenceEl);
+  }
+}, { threshold: 0.15 });
+if (evidenceEl) chartObs.observe(evidenceEl);
+
+function initCharts() {
+  Chart.defaults.font   = { family: "-apple-system,'Segoe UI',system-ui,sans-serif", size: 11 };
+  Chart.defaults.color  = '#6B7280';
+
+  /* MJ-04 FIX: chart containers are 290px via CSS, giving charts more breathing room */
+
+  // Bar Chart — Pencairan
+  new Chart(document.getElementById('chart-pencairan'), {
+    type: 'bar',
+    data: {
+      labels: ['2023', '2024'],
+      datasets: [{
+        label: 'Pencairan Penagihan (Rp T)',
+        data: [12.97, 14.71],
+        backgroundColor: ['rgba(15,39,68,.82)', 'rgba(2,128,144,.88)'],
+        borderRadius: 5,
+        borderSkipped: false,
+        maxBarThickness: 64,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `Rp${ctx.parsed.y.toFixed(2)} Triliun`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          min: 11,
+          grid: { color: 'rgba(0,0,0,.04)', drawBorder: false },
+          ticks: { callback: v => 'Rp' + v + ' T', maxTicksLimit: 5 }
+        },
+        x: { grid: { display: false } }
+      },
+      animation: { duration: 1100, easing: 'easeOutQuart' }
+    }
+  });
+
+  // Line Chart — Piutang
+  new Chart(document.getElementById('chart-piutang'), {
+    type: 'line',
+    data: {
+      labels: ['2020', '2021', '2022', '2023', '2024'],
+      datasets: [
+        {
+          label: 'Piutang Bruto',
+          data: [68, 69, 70, 72, 75],
+          borderColor: '#0F2744', borderWidth: 2.5,
+          tension: 0.35, pointBackgroundColor: '#0F2744',
+          pointRadius: 4, pointHoverRadius: 6, fill: false
+        },
+        {
+          label: 'Piutang Neto',
+          data: [28, 29, 30, 33.81, 35.25],
+          borderColor: '#028090', borderWidth: 2.5,
+          tension: 0.35, pointBackgroundColor: '#028090',
+          pointRadius: 4, pointHoverRadius: 6, fill: false
+        },
+        {
+          label: 'Penyisihan',
+          data: [38, 38, 38, 39, 40],
+          borderColor: '#D1D5DB', borderWidth: 2,
+          tension: 0.35, pointBackgroundColor: '#D1D5DB',
+          pointRadius: 3, pointHoverRadius: 5, fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: Rp${ctx.parsed.y} T`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          min: 20,
+          grid: { color: 'rgba(0,0,0,.04)', drawBorder: false },
+          ticks: { callback: v => 'Rp' + v + ' T', maxTicksLimit: 5 }
+        },
+        x: { grid: { display: false } }
+      },
+      animation: { duration: 1300, easing: 'easeOutQuart' }
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE 05 — MECHANISM FILTER
+   MN-07 FIX: bolder active via CSS (font-weight:700)
+═══════════════════════════════════════════════ */
+function filterMech(filter) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-filter') === filter);
+  });
+  document.querySelectorAll('#compat-table tbody tr').forEach(row => {
+    const status = row.getAttribute('data-status');
+    const show =
+      filter === 'all' ||
+      (filter === 'compatible'  && status === 'compatible')  ||
+      (filter === 'conditional' && status === 'conditional') ||
+      (filter === 'not-yet'     && status === 'not-yet');
+    row.classList.toggle('hidden', !show);
+  });
+}
+
+/* M4 alert — auto-show when mechanisms section enters view */
+const mechEl  = document.getElementById('mechanisms');
+let m4Shown   = false;
+
+const mechObs = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting && !m4Shown) {
+    m4Shown = true;
+    setTimeout(() => {
+      const el = document.getElementById('m4-alert');
+      if (el) el.classList.add('visible');
+    }, 1800);
+    mechObs.unobserve(mechEl);
+  }
+}, { threshold: 0.45 });
+if (mechEl) mechObs.observe(mechEl);
+
+function toggleM4Pasal() {
+  const list = document.getElementById('m4-pasal-list');
+  const btn  = document.getElementById('m4-pasal-btn');
+  const open = list.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.querySelector('.icon').textContent = open ? '▴' : '▾';
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE 06 — LAYER EXPAND
+═══════════════════════════════════════════════ */
+function toggleLayer(btn) {
+  const detail = btn.nextElementSibling;
+  const open   = detail.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open);
+  btn.querySelector('.icon').textContent = open ? '▴' : '▾';
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE 08 — RC DEPENDENCY HIGHLIGHT
+   OP-02 FIX: added onfocus/onblur in HTML for keyboard nav
+═══════════════════════════════════════════════ */
+function highlightRC(activeId) {
+  const card       = document.getElementById(activeId);
+  if (!card) return;
+  const requires   = (card.dataset.requires   || '').split(',').filter(Boolean);
+  const requiredBy = (card.dataset.requiredBy || '').split(',').filter(Boolean);
+
+  document.querySelectorAll('.rc-card').forEach(c => {
+    c.classList.remove('highlighted', 'dependent', 'dimmed');
+    if (c.id === activeId) {
+      c.classList.add('highlighted');
+    } else if (requires.includes(c.id) || requiredBy.includes(c.id)) {
+      c.classList.add('dependent');
+    } else {
+      c.classList.add('dimmed');
+    }
+  });
+}
+
+function resetRC() {
+  document.querySelectorAll('.rc-card').forEach(c =>
+    c.classList.remove('highlighted', 'dependent', 'dimmed')
+  );
+}
+
+function toggleRC(id) {
+  const num    = id.replace('rc-', '');
+  const detail = document.getElementById('rc-detail-' + num);
+  const card   = document.getElementById(id);
+  const btn    = card.querySelector('.btn-expand');
+  const open   = detail.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open);
+}
+</script>
+</body>
+</html>
